@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.awesome.web.dao.UserMapper">
+<!-- type为实体类User，包名已经配置，可以直接写类名 -->
+<resultMap type="com.awesome.web.domain.User" id="userMap">
+    <id property="uid" column="uid"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <collection property="roles" ofType="com.awesome.web.domain.Role">
+        <id property="role_id" column="id"/>
+        <result property="role_name" column="name"/>
+        <collection property="resources" ofType="com.awesome.web.domain.Resource">
+            <id property="resources_id" column="id"/>
+            <result property="resources_name" column="name"/>
+            <result property="resources_url" column="url"/>
+        </collection>
+    </collection>
+</resultMap>
+<select id="findByUsername" parameterType="string" resultMap="userMap">
+	SELECT u.*,
+      ro.id role_id, ro.name role_name,
+      re.id resource_id,re.name resource_name, re.url resource_url FROM user u
+    inner join user_role ur on ur.user_id= u.uid
+    inner join role ro on ro.id=ur.role_id
+    inner join role_resource rr on rr.role_id=ro.id
+    inner join resource re  on rr.resource_id=re.id
+    WHERE username=#{username}
+</select>
+</mapper>
