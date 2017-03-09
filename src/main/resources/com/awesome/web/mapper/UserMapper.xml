@@ -10,9 +10,9 @@
         <id column="role_id" property="id"/>
         <result column="role_name" property="name"/>
         <collection property="resources" ofType="com.awesome.web.domain.Resource">
-            <id column="resources_id" property="id"/>
-            <result column="resources_name" property="name"/>
-            <result column="resources_url" property="url"/>
+            <id column="resource_id" property="id"/>
+            <result column="resource_name" property="name"/>
+            <result column="resource_url" property="url"/>
         </collection>
     </collection>
 </resultMap>
