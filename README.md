@@ -3,3 +3,4 @@
 
 1、spring-boot+mybatis，基于shiro 的RBAC权限管理的框架
   jdk版本为1.8，可以在pom.xml中修改成1.7版本编译运行
+2、初始化sql文件在 src/main/resources/sql/awesome.sql
