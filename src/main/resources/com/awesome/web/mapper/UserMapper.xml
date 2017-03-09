@@ -3,19 +3,20 @@
 <mapper namespace="com.awesome.web.dao.UserMapper">
 <!-- type为实体类User，包名已经配置，可以直接写类名 -->
 <resultMap type="com.awesome.web.domain.User" id="userMap">
-    <id property="uid" column="uid"/>
-    <result property="username" column="username"/>
-    <result property="password" column="password"/>
+    <id  column="uid" property="uid"/>
+    <result column="username" property="username"/>
+    <result column="password" property="password"/>
     <collection property="roles" ofType="com.awesome.web.domain.Role">
-        <id property="role_id" column="id"/>
-        <result property="role_name" column="name"/>
+        <id column="role_id" property="id"/>
+        <result column="role_name" property="name"/>
         <collection property="resources" ofType="com.awesome.web.domain.Resource">
-            <id property="resources_id" column="id"/>
-            <result property="resources_name" column="name"/>
-            <result property="resources_url" column="url"/>
+            <id column="resources_id" property="id"/>
+            <result column="resources_name" property="name"/>
+            <result column="resources_url" property="url"/>
         </collection>
     </collection>
 </resultMap>
+
 <select id="findByUsername" parameterType="string" resultMap="userMap">
 	SELECT u.*,
       ro.id role_id, ro.name role_name,
