@@ -18,7 +18,7 @@
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;"> --移动模块</a></dd>
                     <dd><a href="javascript:;"> --后台模版</a></dd>
-                    <dd><a href="javascript:;"> --电商平台</a></dd>
+                    <dd><a href="javascript:;"> --xxxxx</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
@@ -29,7 +29,7 @@
                     <dd><a href="javascript:;">权限管理</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="logout">退出</a></li>
+            <li class="layui-nav-item"><a href="${contextPath}/logout">退出</a></li>
         </ul>
     </div>
 </div>
