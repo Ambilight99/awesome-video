@@ -27,6 +27,8 @@
                     <dd><a href="${contextPath}/user/list">用户管理</a></dd>
                     <dd><a href="javascript:;">角色管理</a></dd>
                     <dd><a href="javascript:;">权限管理</a></dd>
+                    <dd><a href="${contextPath}/upload/view">文件上传</a></dd>
+                    <dd><a href="${contextPath}/upload/videoShow">视频播放</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="${contextPath}/logout">退出</a></li>

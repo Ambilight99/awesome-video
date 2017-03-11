@@ -3,6 +3,8 @@ package com.awesome.web.controller.base;
 import com.alibaba.fastjson.JSON;
 import com.awesome.web.domain.User;
 import com.awesome.web.service.UserService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
