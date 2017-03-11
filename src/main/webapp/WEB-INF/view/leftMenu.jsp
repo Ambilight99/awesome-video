@@ -18,7 +18,7 @@
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;"> --移动模块</a></dd>
                     <dd><a href="javascript:;"> --后台模版</a></dd>
-                    <dd><a href="javascript:;"> --222xxxxx</a></dd>
+                    <dd><a href="javascript:;"> --888xxxxx</a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item">
