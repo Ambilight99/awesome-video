@@ -1,4 +1,4 @@
-package com.awesome.web.domain;
+package com.awesome.web.domain.base;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,16 +10,19 @@ import java.util.Set;
  * @create 2017/3/8 14:31
  */
 public class Resource {
-    private int id;
+    private Integer id;
+
     private String name;
+
     private String url;
+
     private Set<Role> roles = new HashSet<>();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -28,7 +31,7 @@ public class Resource {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
     public String getUrl() {
@@ -36,12 +39,12 @@ public class Resource {
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.url = url == null ? null : url.trim();
     }
 
     public Set<Role> getRoles() {
         return roles;
-    }
+}
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;

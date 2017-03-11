@@ -1,6 +1,6 @@
 package com.awesome.web.controller;
 
-import com.awesome.web.domain.User;
+import com.awesome.web.domain.base.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;

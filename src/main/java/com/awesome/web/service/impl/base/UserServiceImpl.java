@@ -1,8 +1,8 @@
-package com.awesome.web.service.impl;
+package com.awesome.web.service.impl.base;
 
-import com.awesome.web.dao.UserMapper;
-import com.awesome.web.domain.User;
-import com.awesome.web.service.UserService;
+import com.awesome.web.dao.base.UserMapper;
+import com.awesome.web.domain.base.User;
+import com.awesome.web.service.base.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

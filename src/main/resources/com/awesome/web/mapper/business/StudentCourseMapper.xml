@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.awesome.web.dao.business.StudentCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.web.domain.StudentCourse" >
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="is_collect" property="isCollect" jdbcType="INTEGER" />
+    <result column="is_join" property="isJoin" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.awesome.web.domain.StudentCourse" >
+    insert into student_course (student_id, course_id, is_collect, 
+      is_join)
+    values (#{studentId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{isCollect,jdbcType=INTEGER}, 
+      #{isJoin,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.awesome.web.domain.StudentCourse" >
+    insert into student_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="isCollect != null" >
+        is_collect,
+      </if>
+      <if test="isJoin != null" >
+        is_join,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="isCollect != null" >
+        #{isCollect,jdbcType=INTEGER},
+      </if>
+      <if test="isJoin != null" >
+        #{isJoin,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

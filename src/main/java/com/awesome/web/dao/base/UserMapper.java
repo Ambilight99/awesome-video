@@ -1,6 +1,6 @@
-package com.awesome.web.dao;
+package com.awesome.web.dao.base;
 
-import com.awesome.web.domain.User;
+import com.awesome.web.domain.base.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -24,4 +24,12 @@ public interface UserMapper {
      */
     @Select("select * from user ")
     List<User> getAll();
+
+    int insertSelective(User record);
+
+    User selectByPrimaryKey(Integer uid);
+
+    int updateByPrimaryKeySelective(User record);
+
+    int updateByPrimaryKey(User record);
 }
