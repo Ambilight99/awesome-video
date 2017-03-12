@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${users}" var="user" >
+            <c:forEach items="${pageInfo.list}" var="user" >
                 <tr>
                     <td><input type="checkbox" name="" lay-skin="primary"></td>
                     <td>${user.uid}</td>
