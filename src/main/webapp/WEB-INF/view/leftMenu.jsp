@@ -9,7 +9,7 @@
     <div class="layui-side-scroll">
         <ul id="menu-ul" class="layui-nav layui-nav-tree" lay-filter="demo" >
             <li v-for="(subItem,index) in items" class="layui-nav-item layui-nav-itemed">
-                <a href="javascript:;">{{subItem.name}}</a>
+                <a v-bind:href="subItem.url">{{subItem.name}}</a>
                 <dl class="layui-nav-child">
                     <dd  v-for="(item, index) in subItem.items" >
                         <a  v-bind:href="item.url">&nbsp;&nbsp;&nbsp;--&nbsp;{{ item.name }}</a>
@@ -54,6 +54,10 @@
                             { name: '文件上传' ,url:"${contextPath}/upload/view"},
                             { name: '视频播放' ,url:"${contextPath}/upload/videoShow"}
                         ]
+                    },
+                    {
+                        name:"退出",
+                        url:"${contextPath}/logout"
                     }
             ]
     };

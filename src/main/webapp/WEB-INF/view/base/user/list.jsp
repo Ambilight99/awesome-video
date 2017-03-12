@@ -17,37 +17,50 @@
 </head>
 <body>
     <%@include file="/WEB-INF/view/leftMenu.jsp" %>
-    <div id="user-list" class="layui-body layui-tab-content site-demo site-demo-body">
+    <div id="user-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body">
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-radius"  href="${contextPath}/user/add">增加</a>
-            <a class="layui-btn layui-btn-radius layui-btn-danger" >删除</a>
+            <%--<a class="layui-btn layui-btn-radius layui-btn-danger" >批量删除</a>--%>
         </div>
         <table class="layui-table">
             <colgroup>
-                <col width="50">
+                <col width="40">
+                <col width="80">
+                <col width="120">
+                <col width="120">
+                <col width="120">
+                <col width="70">
                 <col width="150">
+                <col >
                 <col width="150">
-                <col width="150">
-                <col>
             </colgroup>
             <thead>
             <tr>
                 <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
                 <th>编号</th>
                 <th>用户名</th>
-                <th>密码</th>
+                <th>姓名</th>
+                <th>专业</th>
+                <th>性别</th>
+                <th>手机号</th>
+                <th>邮箱</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${pageInfo.list}" var="user" >
+            <c:forEach items="${pageInfo.list}" var="user" varStatus="idx" >
                 <tr id="tr_${user.uid}">
                     <td><input type="checkbox" name="" lay-skin="primary"></td>
-                    <td>${user.uid}</td>
+                    <td>${idx.index + 1 + (pageInfo.pageNum-1) * pageInfo.pageSize}</td>
                     <td>${user.username}</td>
-                    <td>${user.password}</td>
+                    <td>${user.name}</td>
+                    <td>${user.major}</td>
+                    <td>${user.sex==0?'男':'女'}</td>
+                    <td>${user.mobile}</td>
+                    <td>${user.email}</td>
                     <td>
-                        <a class="layui-btn layui-btn-radius layui-btn-danger" v-on:click="deleteOne('${user.uid}')" >删除</a>
+                        <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-warm" v-on:click="editOne('${user.uid}')" >编辑</a>
+                        <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-danger" v-on:click="deleteOne('${user.uid}')" >删除</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -68,7 +81,7 @@
 
     layui.use(['laypage', 'layer','form'], function(){
         var $ = layui.jquery,
-            form = layui.form()
+            form = layui.form(),
             laypage = layui.laypage,
             layer = layui.layer;
         //全选
@@ -89,7 +102,6 @@
             ,jump: function(obj, first){
                 //得到了当前页，用于向服务端请求对应数据
                 if(!first){
-                    console.log(obj);
                     var param={
                         pageNum:obj.curr,
                         pageSize:10
@@ -108,11 +120,16 @@
 //        },
         // 在 `methods` 对象中定义方法
         methods: {
+            editOne:function(uid){
+                pageInfo.uid=uid;
+                location.href ="${contextPath}/user/edit?"+$.param(pageInfo);
+            },
             deleteOne: function (uid) {
                 deleteUser(uid);
             }
         }
     });
+
 
     /**
      * 删除
@@ -127,7 +144,7 @@
             success:function(data){
                 if(data.status=="success"){
                     layer.msg(data.message,{
-                        time:1500,
+                        time:1000,
                         end:function(){
                             location.reload()
                         }
@@ -136,7 +153,7 @@
                     layer.msg(data.message);
                 }
             }
-        })
+        });
     }
 </script>
 </html>

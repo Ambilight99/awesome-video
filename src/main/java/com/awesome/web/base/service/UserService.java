@@ -37,5 +37,12 @@ public interface UserService {
      * @param id
      * @return
      */
-    int delete(int id);
+    int delete(Integer id);
+
+    /**
+     * 根据id查找用户
+     * @param id
+     * @return
+     */
+    User findById(Integer id);
 }

@@ -37,11 +37,15 @@ public class UserController {
 
     @RequestMapping("/add")
     public String add(ModelMap modelMap){
+        modelMap.put("user",new User());
         return "/base/user/form";
     }
 
     @RequestMapping("/edit")
-    public String edit(ModelMap modelMap){
+    public String edit(ModelMap modelMap,Integer uid,Pager pager){
+        User user = userService.findById(uid);
+        modelMap.put("user",user);
+        modelMap.put("pager",pager);
         return "/base/user/form";
     }
 
@@ -68,8 +72,8 @@ public class UserController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultMessage delete(int id){
-        int count =1;// userService.delete(id);
+    public ResultMessage delete(Integer id){
+        int count = userService.delete(id);
         if(count>0){
             return new ResultMessage(ResultMessage.SUCCESS,"删除成功！");
         }else{

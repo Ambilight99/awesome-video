@@ -1,5 +1,6 @@
 package com.awesome.web.base.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import java.util.Set;
  * @Description 用户
  * @create 2017/3/8 14:29
  */
-public class User {
+public class User implements Serializable{
     private Integer uid;
 
     private String username;

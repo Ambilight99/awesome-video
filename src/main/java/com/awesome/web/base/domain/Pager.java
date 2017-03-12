@@ -2,13 +2,15 @@ package com.awesome.web.base.domain;
 
 import com.github.pagehelper.Page;
 
+import java.io.Serializable;
+
 /**
  * @author adam
  * @ClassName Pager
  * @Description 分页对象
  * @create 2017/3/12 17:19
  */
-public class Pager{
+public class Pager implements Serializable{
     private int pageNum=1;  //默认起始页为1
     private int pageSize=10;//默认每页大小为10
 

@@ -21,47 +21,53 @@
             <legend>用户添加</legend>
         </fieldset>
         <form id="form" class="layui-form" action="">
+            <input type="hidden" name="uid" value="${user.uid}" >
             <div class="layui-form-item">
                 <label class="layui-form-label">账号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    <input type="text" name="username" value="${user.username}"  required  lay-verify="required"
+                           placeholder="请输入账号" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    <input type="password" name="password" value="${user.password}"  required lay-verify="required"
+                           placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">辅助文字</div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    <input type="text" name="name" value="${user.name}" required  lay-verify="required"
+                           placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="mobile" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    <input type="text" name="mobile" value="${user.mobile}" required  lay-verify="required"
+                           placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-block">
-                    <input type="text" name="email" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    <input type="text" name="email" value="${user.email}" required  lay-verify="required"
+                           placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">专业</label>
                 <div class="layui-input-block">
-                    <select name="major" lay-verify="required">
+                    <select name="major" lay-verify="required" value="${user.major}">
                         <option value=""></option>
-                        <option value="理学">理学</option>
-                        <option value="工学">工学</option>
-                        <option value="农学">农学</option>
-                        <option value="医学">医学</option>
-                        <option value="艺术学">艺术学</option>
+                        <option value="理学" ${user.major=='理学'?'selected':''} >理学</option>
+                        <option value="工学" ${user.major=='工学'?'selected':''} >工学</option>
+                        <option value="农学" ${user.major=='农学'?'selected':''} >农学</option>
+                        <option value="医学" ${user.major=='医学'?'selected':''} >医学</option>
+                        <option value="艺术学" ${user.major=='艺术学'?'selected':''} >艺术学</option>
                     </select>
                 </div>
             </div>
@@ -84,20 +90,20 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="sex" value="1" title="男">
-                    <input type="radio" name="sex" value="0" title="女" checked>
+                    <input type="radio" name="sex" value="0" title="男" ${user.sex==0?'checked':''} />
+                    <input type="radio" name="sex" value="1" title="女" ${user.sex!=0?'checked':''} />
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">个人说明</label>
                 <div class="layui-input-block">
-                    <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea name="desc" value="" placeholder="请输入内容" class="layui-textarea"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" v-on:click="submit" >立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <a class="layui-btn" v-on:click="submit" >立即提交</a>
+                    <a class="layui-btn layui-btn-primary"  v-on:click="reset">重置</a>
                 </div>
             </div>
         </form>
@@ -108,9 +114,29 @@
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
 <script>
-    //Demo
-    layui.use('form', function(){
-       layui.form();
+    var pager = {
+        pageNum:"${pager.pageNum}",
+        pageSize:"${pager.pageSize}"
+    }
+
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form()
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //自定义验证规则
+        form.verify({
+            username: function(value){
+                if(value.length < 5){
+                    return '用户名至少得5个字符啊';
+                }
+            }
+            ,password: [/(.+){6,12}$/, '密码必须6到12位']
+            ,content: function(value){
+
+            }
+        });
     });
 
     var form = new Vue({
@@ -120,11 +146,16 @@
 //        },
         // 在 `methods` 对象中定义方法
         methods: {
-        submit: function (event) {
-            formSubmit();
+            submit: function (event) {
+                $(":submit",this).attr("disabled","disabled");
+                formSubmit();
+                $(":submit",this).removeAttr("disabled");
+            }
+            ,reset:function(){
+                document.getElementById("form").reset();
+            }
         }
-    }
-    })
+    });
 
 
     /**
@@ -140,7 +171,13 @@
             },
             success:function(data){
                 if(data.status=="success"){
-                    layer.msg(data.message);
+                    layer.msg(data.message,{
+                        time:1000,
+                        end:function(){
+                            location.href="${contextPath}/user/list?"+$.param(pager);
+                        }
+                    });
+
                 }else{
                     layer.msg(data.message);
                 }

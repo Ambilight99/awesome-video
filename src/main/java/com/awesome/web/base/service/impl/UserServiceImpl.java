@@ -3,7 +3,6 @@ package com.awesome.web.base.service.impl;
 import com.awesome.web.base.dao.UserMapper;
 import com.awesome.web.base.domain.User;
 import com.awesome.web.base.service.UserService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +42,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int delete(int id) {
-        if(id<=0){
+    public int delete(Integer id) {
+        if(id==null || id<=0){
             return 0;
         }else{
             return  userMapper.deleteByPrimaryKey(id);
+        }
+    }
+
+    @Override
+    public User findById(Integer id) {
+        if(id==null || id<=0){
+            return null;
+        }else{
+            return userMapper.selectByPrimaryKey(id);
         }
     }
 }

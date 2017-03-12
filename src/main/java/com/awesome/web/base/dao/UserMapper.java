@@ -27,11 +27,11 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer uid);
+    User selectByPrimaryKey(@Param("uid") Integer uid);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
-    int deleteByPrimaryKey(@Param("uid") int id);
+    int deleteByPrimaryKey(@Param("uid") int uid);
 }

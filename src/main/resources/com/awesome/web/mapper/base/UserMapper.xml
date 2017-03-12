@@ -40,11 +40,11 @@
     SELECT u.*,
     ro.id role_id, ro.name role_name,
     re.id resource_id,re.name resource_name, re.url resource_url FROM user u
-    inner join user_role ur on ur.user_id= u.uid
-    inner join role ro on ro.id=ur.role_id
-    inner join role_resource rr on rr.role_id=ro.id
-    inner join resource re  on rr.resource_id=re.id
-    WHERE username=#{username}
+    left join user_role ur on ur.user_id= u.uid
+    left join role ro on ro.id=ur.role_id
+    left join role_resource rr on rr.role_id=ro.id
+    left join resource re  on rr.resource_id=re.id
+    WHERE u.username=#{username}
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
