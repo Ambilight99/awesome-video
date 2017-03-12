@@ -104,4 +104,37 @@ public class FileUploadUtils {
         }
     }
 
+    /**
+     * 根据当前文件名，返回保存后的文件名
+     * @param fileName
+     * @return
+     */
+    public static String getSaveFileName(String fileName){
+        return getFileName(String.valueOf(System.currentTimeMillis()),getSuffix(fileName));
+    }
+
+    /**
+     * 根据文件名和后缀获取文件全名
+     * @param name
+     * @param suffix
+     * @return
+     */
+    public static String getFileName(String name,String suffix){
+        return name+suffix;
+    }
+
+    /**
+     * 获取后缀
+     * @param fileName
+     * @return
+     */
+    public static String getSuffix(String fileName){
+        int suffixIndex =fileName.indexOf(".");
+        String suffix="";
+        if(suffixIndex != -1){
+            suffix = fileName.substring(fileName.indexOf("."));
+        }
+        return suffix;
+    }
+
 }

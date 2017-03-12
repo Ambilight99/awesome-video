@@ -110,6 +110,7 @@
 
         // 文件上传成功时候触发，给item添加成功class, 用样式标记上传成功。 file：文件对象，    response：服务器返回数据
         uploader.on( 'uploadSuccess', function( file,response) {
+            console.log(response);
             $( '#'+file.id ).addClass('upload-state-done');
             //console.info(response);
             $("#upInfo").html("<font color='red'>"+response._raw+"</font>");

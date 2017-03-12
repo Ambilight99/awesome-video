@@ -4,10 +4,11 @@
     pageContext.setAttribute("contextPath", request.getContextPath());//page域
 %>
 <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css" media="all">
+
 <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
         <ul id="menu-ul" class="layui-nav layui-nav-tree" lay-filter="demo" >
-            <li v-for="(subItem,index) in items" class="layui-nav-item layui-nav-itemed" >
+            <li v-for="(subItem,index) in items" class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">{{subItem.name}}</a>
                 <dl class="layui-nav-child">
                     <dd  v-for="(item, index) in subItem.items" >
