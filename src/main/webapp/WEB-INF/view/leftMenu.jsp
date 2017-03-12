@@ -49,8 +49,8 @@
                         subOpen:true, //子栏目是否展开
                         items: [
                             { name: '用户管理' ,url:"${contextPath}/user/list"},
-                            { name: '角色管理' ,url:"javascript:;"},
-                            { name: '权限管理' ,url:"javascript:;"},
+                            { name: '角色管理' ,url:"${contextPath}/role/list"},
+                            { name: '权限管理' ,url:"${contextPath}/resource/list"},
                             { name: '文件上传' ,url:"${contextPath}/upload/view"},
                             { name: '视频播放' ,url:"${contextPath}/upload/videoShow"}
                         ]
