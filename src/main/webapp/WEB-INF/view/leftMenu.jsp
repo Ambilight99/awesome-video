@@ -7,7 +7,7 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">默认展开</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">选项一</a></dd>
+                    <dd><a href="${contextPath}/courseController/courseList">课程管理</a></dd>
                     <dd><a href="javascript:;">选项二</a></dd>
                     <dd><a href="javascript:;">选项三</a></dd>
                     <dd><a href="javascript:;">跳转项</a></dd>
