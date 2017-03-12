@@ -1,5 +1,10 @@
 package com.awesome.web.business.domain;
 
+/**
+ * 学生课程中间类 fxw
+ * @author lenovo
+ *
+ */
 public class StudentCourse {
     private Integer studentId;
 

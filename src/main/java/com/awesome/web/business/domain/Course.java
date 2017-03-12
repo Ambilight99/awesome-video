@@ -2,9 +2,14 @@ package com.awesome.web.business.domain;
 
 import java.util.Date;
 
+/**
+ * 选课信息类 fxw
+ * @author lenovo
+ *
+ */
 public class Course {
     private Integer id;
-
+    
     private String name;
 
     private String code;
