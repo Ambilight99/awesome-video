@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.awesome.web.dao.business.CourseMapper" >
-  <resultMap id="BaseResultMap" type="com.awesome.web.domain.Course" >
+<mapper namespace="com.awesome.web.business.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.web.business.domain.Course" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
     <result column="video_type" property="videoType" jdbcType="INTEGER" />
     <result column="teacher" property="teacher" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.awesome.web.domain.Course" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.awesome.web.business.domain.Course" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -37,7 +37,7 @@
     delete from course
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.awesome.web.domain.Course" >
+  <insert id="insert" parameterType="com.awesome.web.business.domain.Course" >
     insert into course (id, name, code, 
       profession, remark, credit, 
       status, create_date, update_date, 
@@ -49,7 +49,7 @@
       #{videoUrl,jdbcType=VARCHAR}, #{videoType,jdbcType=INTEGER}, #{teacher,jdbcType=INTEGER}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.awesome.web.domain.Course" >
+  <insert id="insertSelective" parameterType="com.awesome.web.business.domain.Course" >
     insert into course
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -134,7 +134,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.web.domain.Course" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.web.business.domain.Course" >
     update course
     <set >
       <if test="name != null" >
@@ -176,7 +176,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awesome.web.domain.Course" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.awesome.web.business.domain.Course" >
     update course
     set name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
@@ -192,7 +192,7 @@
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.awesome.web.domain.Course" >
+  <update id="updateByPrimaryKey" parameterType="com.awesome.web.business.domain.Course" >
     update course
     set name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},

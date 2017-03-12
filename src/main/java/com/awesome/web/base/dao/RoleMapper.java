@@ -1,6 +1,6 @@
-package com.awesome.web.dao.base;
+package com.awesome.web.base.dao;
 
-import com.awesome.web.domain.base.Role;
+import com.awesome.web.base.domain.Role;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);

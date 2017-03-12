@@ -1,6 +1,6 @@
-package com.awesome.web.dao.base;
+package com.awesome.web.base.dao;
 
-import com.awesome.web.domain.base.RoleResource;
+import com.awesome.web.base.domain.RoleResource;
 
 public interface RoleResourceMapper {
     int insert(RoleResource record);

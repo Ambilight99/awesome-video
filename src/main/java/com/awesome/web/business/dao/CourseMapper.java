@@ -1,6 +1,6 @@
-package com.awesome.web.dao.business;
+package com.awesome.web.business.dao;
 
-import com.awesome.web.domain.Course;
+import com.awesome.web.business.domain.Course;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(Integer id);

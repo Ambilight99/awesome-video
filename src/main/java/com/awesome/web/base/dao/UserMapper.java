@@ -1,6 +1,6 @@
-package com.awesome.web.dao.base;
+package com.awesome.web.base.dao;
 
-import com.awesome.web.domain.base.User;
+import com.awesome.web.base.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

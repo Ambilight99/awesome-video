@@ -1,6 +1,6 @@
-package com.awesome.web.domain.base;
+package com.awesome.web.base.domain;
 
-public class userRole {
+public class UserRole {
     private Integer userId;
 
     private Integer roleId;

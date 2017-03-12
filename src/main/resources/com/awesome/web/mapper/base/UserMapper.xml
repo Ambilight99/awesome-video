@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.awesome.web.dao.base.UserMapper">
-  <resultMap id="BaseResultMap" type="com.awesome.web.domain.base.User">
+<mapper namespace="com.awesome.web.base.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.awesome.web.base.domain.User">
     <id column="uid" jdbcType="INTEGER" property="uid" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -16,14 +16,14 @@
   </resultMap>
 
   <!-- type为实体类User，包名已经配置，可以直接写类名 -->
-  <resultMap id="userMap" type="com.awesome.web.domain.base.User">
+  <resultMap id="userMap" type="com.awesome.web.base.domain.User">
     <id column="uid" property="uid" />
     <result column="username" property="username" />
     <result column="password" property="password" />
-    <collection ofType="com.awesome.web.domain.base.Role" property="roles">
+    <collection ofType="com.awesome.web.base.domain.Role" property="roles">
       <id column="role_id" property="id" />
       <result column="role_name" property="name" />
-      <collection ofType="com.awesome.web.domain.base.Resource" property="resources">
+      <collection ofType="com.awesome.web.base.domain.Resource" property="resources">
         <id column="resource_id" property="id" />
         <result column="resource_name" property="name" />
         <result column="resource_url" property="url" />
@@ -57,7 +57,7 @@
     delete from user
     where uid = #{uid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.awesome.web.domain.base.User">
+  <insert id="insert" parameterType="com.awesome.web.base.domain.User">
     insert into user (uid, username, password, 
       name, mobile, office_phone, 
       email, depart, major, 
@@ -67,7 +67,7 @@
       #{email,jdbcType=VARCHAR}, #{depart,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.awesome.web.domain.base.User">
+  <insert id="insertSelective" parameterType="com.awesome.web.base.domain.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
@@ -140,7 +140,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.web.domain.base.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.awesome.web.base.domain.User">
     update user
     <set>
       <if test="username != null">
@@ -176,7 +176,7 @@
     </set>
     where uid = #{uid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.awesome.web.domain.base.User">
+  <update id="updateByPrimaryKey" parameterType="com.awesome.web.base.domain.User">
     update user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

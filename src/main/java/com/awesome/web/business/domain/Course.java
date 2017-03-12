@@ -1,4 +1,4 @@
-package com.awesome.web.domain;
+package com.awesome.web.business.domain;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
-package com.awesome.web.dao.business;
+package com.awesome.web.business.dao;
 
-import com.awesome.web.domain.StudentCourse;
+import com.awesome.web.business.domain.StudentCourse;
 
 public interface StudentCourseMapper {
     int insert(StudentCourse record);

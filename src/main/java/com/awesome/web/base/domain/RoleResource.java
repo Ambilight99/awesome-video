@@ -1,4 +1,4 @@
-package com.awesome.web.domain.base;
+package com.awesome.web.base.domain;
 
 public class RoleResource {
     private Integer roleId;

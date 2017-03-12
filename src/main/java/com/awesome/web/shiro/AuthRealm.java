@@ -1,9 +1,9 @@
 package com.awesome.web.shiro;
 
-import com.awesome.web.domain.base.Resource;
-import com.awesome.web.domain.base.Role;
-import com.awesome.web.domain.base.User;
-import com.awesome.web.service.base.UserService;
+import com.awesome.web.base.domain.Resource;
+import com.awesome.web.base.domain.Role;
+import com.awesome.web.base.domain.User;
+import com.awesome.web.base.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

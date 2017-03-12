@@ -1,4 +1,4 @@
-package com.awesome.web.controller.base;
+package com.awesome.web.base.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

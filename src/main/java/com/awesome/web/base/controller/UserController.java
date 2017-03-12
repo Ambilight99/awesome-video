@@ -1,8 +1,8 @@
-package com.awesome.web.controller.base;
+package com.awesome.web.base.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.awesome.web.domain.base.User;
-import com.awesome.web.service.base.UserService;
+import com.awesome.web.base.domain.User;
+import com.awesome.web.base.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

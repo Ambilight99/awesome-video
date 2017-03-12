@@ -1,6 +1,6 @@
-package com.awesome.web.service.base;
+package com.awesome.web.base.service;
 
-import com.awesome.web.domain.base.User;
+import com.awesome.web.base.domain.User;
 
 import java.util.List;
 

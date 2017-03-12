@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.awesome.web.dao.business.StudentCourseMapper" >
-  <resultMap id="BaseResultMap" type="com.awesome.web.domain.StudentCourse" >
+<mapper namespace="com.awesome.web.business.dao.StudentCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.awesome.web.business.domain.StudentCourse" >
     <result column="student_id" property="studentId" jdbcType="INTEGER" />
     <result column="course_id" property="courseId" jdbcType="INTEGER" />
     <result column="is_collect" property="isCollect" jdbcType="INTEGER" />
     <result column="is_join" property="isJoin" jdbcType="INTEGER" />
   </resultMap>
-  <insert id="insert" parameterType="com.awesome.web.domain.StudentCourse" >
+  <insert id="insert" parameterType="com.awesome.web.business.domain.StudentCourse" >
     insert into student_course (student_id, course_id, is_collect, 
       is_join)
     values (#{studentId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{isCollect,jdbcType=INTEGER}, 
       #{isJoin,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.awesome.web.domain.StudentCourse" >
+  <insert id="insertSelective" parameterType="com.awesome.web.business.domain.StudentCourse" >
     insert into student_course
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="studentId != null" >
