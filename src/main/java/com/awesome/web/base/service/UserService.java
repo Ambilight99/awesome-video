@@ -24,4 +24,18 @@ public interface UserService {
      * @return
      */
     List<User> getAll();
+
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
+    int saveOrUpdate(User user);
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    int delete(int id);
 }

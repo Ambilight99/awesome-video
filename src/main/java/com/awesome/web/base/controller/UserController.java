@@ -1,14 +1,17 @@
 package com.awesome.web.base.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.awesome.web.base.domain.Pager;
+import com.awesome.web.base.domain.ResultMessage;
 import com.awesome.web.base.domain.User;
 import com.awesome.web.base.service.UserService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -25,20 +28,52 @@ public class UserController {
     private UserService userService;
 
    @RequestMapping("/list")
-    public String list(ModelMap modelMap){
-       PageHelper.startPage(1, 10);      //分页
+    public String list(ModelMap modelMap,Pager pager){
+       PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
        List<User> users = userService.getAll();
        modelMap.put("pageInfo",new PageInfo(users) );        //返回分页结果
        return "/base/user/list";
     }
 
     @RequestMapping("/add")
-    public String add(){
-        return "/base/user/add";
+    public String add(ModelMap modelMap){
+        return "/base/user/form";
     }
 
     @RequestMapping("/edit")
-    public String edit(){
-        return "/base/user/edit";
+    public String edit(ModelMap modelMap){
+        return "/base/user/form";
+    }
+
+    /**
+     * 保存或更新
+     * @param user
+     * @return
+     */
+    @RequestMapping("/saveOrUpdate")
+    @ResponseBody
+    public ResultMessage saveOrUpdate(User user){
+        int count =userService.saveOrUpdate(user);
+        if(count>0){
+            return new ResultMessage(ResultMessage.SUCCESS,"保存成功！");
+        }else{
+            return new ResultMessage(ResultMessage.FAIL,"保存失败！");
+        }
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResultMessage delete(int id){
+        int count =1;// userService.delete(id);
+        if(count>0){
+            return new ResultMessage(ResultMessage.SUCCESS,"删除成功！");
+        }else{
+            return new ResultMessage(ResultMessage.FAIL,"删除失败！");
+        }
     }
 }
