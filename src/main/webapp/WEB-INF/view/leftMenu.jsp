@@ -21,7 +21,6 @@
 
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
-<
 <script>
     layui.use('element', function(){
         var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
