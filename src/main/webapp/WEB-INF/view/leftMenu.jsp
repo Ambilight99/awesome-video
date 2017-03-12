@@ -11,16 +11,9 @@
             <li v-for="(subItem,index) in items" class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">{{subItem.name}}</a>
                 <dl class="layui-nav-child">
-<<<<<<< HEAD
-                    <dd><a href="${contextPath}/courseController/courseList">课程管理</a></dd>
-                    <dd><a href="javascript:;">选项二</a></dd>
-                    <dd><a href="javascript:;">选项三</a></dd>
-                    <dd><a href="javascript:;">跳转项</a></dd>
-=======
                     <dd  v-for="(item, index) in subItem.items" >
                         <a  v-bind:href="item.url">&nbsp;&nbsp;&nbsp;--&nbsp;{{ item.name }}</a>
                     </dd>
->>>>>>> branch 'master' of https://github.com/Ambilight99/awesome.git
                 </dl>
             </li>
         </ul>
@@ -45,7 +38,7 @@
                         url:"javascriot:;",
                         subOpen:true, //子栏目是否展开
                         items: [
-                            { name: '我的课程' ,url:"${contextPath}/user/list"},
+                            { name: '我的课程' ,url:"${contextPath}/courseController/courseList"},
                             { name: '我的收藏' ,url:"javascript:;"},
                             { name: '课程上传' ,url:"javascript:;"}
                         ]
