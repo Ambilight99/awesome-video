@@ -39,7 +39,7 @@
                         subOpen:true, //子栏目是否展开
                         items: [
                             { name: '我的课程' ,url:"${contextPath}/courseController/courseList"},
-                            { name: '我的收藏' ,url:"javascript:;"},
+                            { name: 'fxw的课程管理' ,url:"${contextPath}/course/list"},
                             { name: '课程上传' ,url:"javascript:;"}
                         ]
                     },

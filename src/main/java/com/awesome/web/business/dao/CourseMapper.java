@@ -1,7 +1,12 @@
 package com.awesome.web.business.dao;
 
 import com.awesome.web.business.domain.Course;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
+@Mapper
 public interface CourseMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +21,6 @@ public interface CourseMapper {
     int updateByPrimaryKeyWithBLOBs(Course record);
 
     int updateByPrimaryKey(Course record);
+
+    List<Course> getAll();
 }

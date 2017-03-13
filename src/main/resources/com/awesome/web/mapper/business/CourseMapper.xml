@@ -207,4 +207,8 @@
       teacher = #{teacher,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getAll" resultMap="BaseResultMap" >
+    select * from course order by create_date desc
+  </select>
 </mapper>
