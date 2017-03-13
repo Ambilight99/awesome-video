@@ -22,7 +22,7 @@ public interface UserMapper {
      * 获取所有人员信息
      * @return
      */
-    @Select("select * from user ")
+    @Select("select * from user order by uid ")
     List<User> getAll();
 
     int insertSelective(User record);

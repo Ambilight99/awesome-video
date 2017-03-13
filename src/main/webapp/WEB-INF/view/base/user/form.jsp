@@ -40,7 +40,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" value="${user.name}" required  lay-verify="required"
+                    <input type="text" name="name" value="${user.name}" v-validate:name="{required:true}"  lay-verify="required"
                            placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -94,6 +94,14 @@
                     <input type="radio" name="sex" value="1" title="女" ${user.sex!=0?'checked':''} />
                 </div>
             </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="roleIds" value="1" lay-skin="primary" title="管理员" />
+                    <input type="checkbox" name="roleIds" value="2" lay-skin="primary" title="老师" />
+                    <input type="checkbox" name="roleIds" value="3" lay-skin="primary" title="学生" checked="" />
+                </div>
+            </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">个人说明</label>
                 <div class="layui-input-block">
@@ -114,10 +122,8 @@
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
 <script>
-    var pager = {
-        pageNum:"${pager.pageNum}",
-        pageSize:"${pager.pageSize}"
-    }
+    var pager = ${pager};
+    var user =${user};
 
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form()
@@ -139,11 +145,10 @@
         });
     });
 
+
     var form = new Vue({
         el: '#form',
-//        data: {
-//            name: 'Vue.js'
-//        },
+        //data: user,
         // 在 `methods` 对象中定义方法
         methods: {
             submit: function (event) {

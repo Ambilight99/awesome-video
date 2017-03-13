@@ -1,7 +1,9 @@
 package com.awesome.web.base.dao;
 
 import com.awesome.web.base.domain.Resource;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ResourceMapper {
     int deleteByPrimaryKey(Integer id);
 

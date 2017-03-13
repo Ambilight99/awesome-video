@@ -26,12 +26,13 @@
             <colgroup>
                 <col width="40">
                 <col width="80">
+                <col width="100">
+                <col width="100">
                 <col width="120">
+                <col width="60">
                 <col width="120">
-                <col width="120">
-                <col width="70">
-                <col width="150">
                 <col >
+                <col width="120">
                 <col width="150">
             </colgroup>
             <thead>
@@ -44,6 +45,7 @@
                 <th>性别</th>
                 <th>手机号</th>
                 <th>邮箱</th>
+                <th>角色</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -58,6 +60,14 @@
                     <td>${user.sex==0?'男':'女'}</td>
                     <td>${user.mobile}</td>
                     <td>${user.email}</td>
+                    <td>
+                        <c:forEach items="${user.roles}" var="role" varStatus="roleStatus">
+                            <c:choose>
+                                <c:when test="${roleStatus.index==0}">${role.name}</c:when>
+                                <c:otherwise>、${role.name}</c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </td>
                     <td>
                         <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-warm" v-on:click="editOne('${user.uid}')" >编辑</a>
                         <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-danger" v-on:click="deleteOne('${user.uid}')" >删除</a>

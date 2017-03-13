@@ -1,8 +1,11 @@
 package com.awesome.web.base.service;
 
+import com.awesome.web.base.domain.Role;
 import com.awesome.web.base.domain.User;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author adam
@@ -45,4 +48,18 @@ public interface UserService {
      * @return
      */
     User findById(Integer id);
+
+    /**
+     * 保存用户 及 角色
+     * @param user
+     * @return
+     */
+    int saveOrUpdate(User user, Set<Integer> roleIds);
+
+    /**
+     * 根据用户id获取角色集合
+     * @param uid
+     * @return
+     */
+    Set<Role> getRolesListByUid(Integer uid);
 }

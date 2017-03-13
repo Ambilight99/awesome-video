@@ -1,7 +1,12 @@
 package com.awesome.web.base.dao;
 
 import com.awesome.web.base.domain.Role;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Set;
+
+@Mapper
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +19,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    Set<Role> getRolesListByUid(Integer uid);
 }

@@ -1,12 +1,20 @@
 package com.awesome.web.base.service.impl;
 
+import com.awesome.web.base.dao.RoleMapper;
 import com.awesome.web.base.dao.UserMapper;
+import com.awesome.web.base.dao.UserRoleMapper;
+import com.awesome.web.base.domain.Role;
 import com.awesome.web.base.domain.User;
+import com.awesome.web.base.domain.UserRole;
 import com.awesome.web.base.service.UserService;
+import com.awesome.web.util.CompareUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author adam
@@ -18,6 +26,10 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public User findByUsername(String username) {
@@ -57,5 +69,37 @@ public class UserServiceImpl implements UserService {
         }else{
             return userMapper.selectByPrimaryKey(id);
         }
+    }
+
+    @Transactional
+    @Override
+    public int saveOrUpdate(User user, Set<Integer> roleIds) {
+        if(user==null){
+            return 0;
+        }
+        Integer uid = user.getUid();
+        if(uid==null || uid==0){
+            roleIds.forEach(roleId ->userRoleMapper.insert(new UserRole(uid,roleId)));
+            return userMapper.insertSelective(user);
+        }else{
+            Set<Integer> roleIdsInDb = userRoleMapper.selectRoleIdByUserId(uid);
+            Map<String,Set<Integer>> map =new CompareUtils<Integer>().diffSet(roleIds,roleIdsInDb);
+            Set<Integer> add = map.get("add");
+            Set<Integer> delete = map.get("delete");
+            if(!add.isEmpty()){
+                add.forEach(roleId-> userRoleMapper.insert(new UserRole(uid,roleId)));
+            }
+            if(!delete.isEmpty()){
+                delete.forEach(roleId-> userRoleMapper.delete(new UserRole(uid,roleId)));
+            }
+
+            return userMapper.updateByPrimaryKeySelective(user);
+        }
+    }
+
+    @Override
+    public Set<Role> getRolesListByUid(Integer uid) {
+        Set<Role> roles = roleMapper.getRolesListByUid(uid);
+        return roles;
     }
 }
