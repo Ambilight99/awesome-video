@@ -7,7 +7,7 @@ import java.awt.List;
  * @author lenovo
  *
  */
-public interface courseServiceI {
+public interface CourseServiceI {
 	/**
 	 * 根据老师id获取课程列表信息
 	 * @return
