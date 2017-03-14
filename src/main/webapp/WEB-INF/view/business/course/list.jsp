@@ -38,6 +38,7 @@
             <span style="height:100px">
                 &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
             </span>
+            <a href="${contextPath}/course/edit?id=${course.id}">编辑</a>
         </div>
         </c:forEach>
 

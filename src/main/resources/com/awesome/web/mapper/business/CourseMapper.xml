@@ -223,4 +223,8 @@
   <select id="getAll" resultMap="BaseResultMap" >
     select * from course order by create_date desc
   </select>
+
+  <select id="findById" resultMap="BaseResultMap" >
+    select * from course where id=#{id}
+  </select>
 </mapper>

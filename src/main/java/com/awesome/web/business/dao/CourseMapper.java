@@ -23,4 +23,6 @@ public interface CourseMapper {
     int updateByPrimaryKey(Course record);
 
     List<Course> getAll();
+
+    Course findById(Integer id);
 }

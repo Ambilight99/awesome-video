@@ -40,4 +40,9 @@ public class CourseServiceImpl implements CourseService {
     public int delete(Integer id) {
         return 0;
     }
+
+    @Override
+    public Course findById(Integer id) {
+        return courseMapper.findById(id);
+    }
 }

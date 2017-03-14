@@ -30,4 +30,11 @@ public interface CourseService{
 	 * @return
 	 */
 	int delete(Integer id);
+
+	/**
+	 * 根据id查找课程信息
+	 * @param id
+	 * @return
+	 */
+	Course findById(Integer id);
 }

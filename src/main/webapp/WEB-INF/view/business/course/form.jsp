@@ -69,7 +69,7 @@
         <div>
             <label class="layui-form-label">视频上传</label>
             <div class="layui-input-block">
-                <input type="text" id="videoName" name="videoName" value=""  required  lay-verify="required"
+                <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="required"
                          autocomplete="off" class="layui-input">
                 <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
                        autocomplete="off" class="layui-input">
@@ -89,7 +89,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">课程内容</label>
             <div class="layui-input-block">
-                <textarea name="content" value="${course.content}" placeholder="请输入内容" class="layui-textarea"></textarea>
+                <textarea name="content"  placeholder="请输入内容" class="layui-textarea">${course.content}</textarea>
             </div>
         </div>
         <div class="layui-form-item">

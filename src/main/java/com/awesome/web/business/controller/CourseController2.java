@@ -3,7 +3,6 @@ package com.awesome.web.business.controller;
 import com.alibaba.fastjson.JSON;
 import com.awesome.web.base.domain.Pager;
 import com.awesome.web.base.domain.ResultMessage;
-import com.awesome.web.base.domain.User;
 import com.awesome.web.base.service.UserService;
 import com.awesome.web.business.domain.Course;
 import com.awesome.web.business.service.CourseService;
@@ -56,9 +55,9 @@ public class CourseController2 {
     }
 
     @RequestMapping("/edit")
-    public String edit(ModelMap modelMap,Integer uid,Pager pager){
-        User user = userService.findById(uid);
-        modelMap.put("user", JSON.toJSON(user));
+    public String edit(ModelMap modelMap,Integer id,Pager pager){
+        Course course = courseService.findById(id);
+        modelMap.put("course", JSON.toJSON(course));
         modelMap.put("pager",JSON.toJSON(pager));
         return "/business/course/form";
     }
