@@ -51,7 +51,7 @@ public class CourseController2 {
     @RequestMapping("/add")
     public String add(ModelMap modelMap){
         modelMap.put("course",JSON.toJSON(new Course()));
-        modelMap.put("pager",JSON.toJSON(new Pager()));
+        modelMap.put("pager",JSON.toJSON(new Pager(1,15)));
         return "/business/course/form";
     }
 

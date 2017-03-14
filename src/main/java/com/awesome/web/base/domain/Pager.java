@@ -14,6 +14,14 @@ public class Pager implements Serializable{
     private int pageNum=1;  //默认起始页为1
     private int pageSize=10;//默认每页大小为10
 
+    public Pager() {
+    }
+
+    public Pager(int pageNum, int pageSize) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+    }
+
     public int getPageNum() {
         return pageNum;
     }

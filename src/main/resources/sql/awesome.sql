@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50632
 File Encoding         : 65001
 
-Date: 2017-03-11 12:05:22
+Date: 2017-03-14 22:50:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,17 +28,19 @@ CREATE TABLE `course` (
   `content` text COMMENT '课程内容',
   `credit` int(11) DEFAULT NULL COMMENT '学分',
   `status` int(1) DEFAULT '1' COMMENT '状态 0禁用1启用',
-  `create_date` timestamp NULL DEFAULT COMMENT '创建时间',
-  `update_date` timestamp NULL DEFAULT COMMENT '更新时间',
+  `create_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `video_url` varchar(255) DEFAULT NULL COMMENT '视频路径',
+  `video_name` varchar(255) DEFAULT NULL COMMENT '视频名称',
   `video_type` int(1) DEFAULT NULL COMMENT '视频类型（1、本地上传视频 2、在线视频）',
   `teacher` int(11) DEFAULT NULL COMMENT '所属教师',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of course
 -- ----------------------------
+INSERT INTO `course` VALUES ('1', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-14 22:36:15', '2017-03-14 22:36:15', '1489502123190', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', null, null);
 
 -- ----------------------------
 -- Table structure for resource
@@ -67,13 +69,14 @@ CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', '教师');
-INSERT INTO `role` VALUES ('2', '学生');
+INSERT INTO `role` VALUES ('1', '管理员');
+INSERT INTO `role` VALUES ('2', '教师');
+INSERT INTO `role` VALUES ('3', '学生');
 
 -- ----------------------------
 -- Table structure for role_resource
@@ -130,22 +133,34 @@ CREATE TABLE `user` (
   `major` varchar(32) DEFAULT NULL COMMENT '专业',
   `sex` int(1) DEFAULT '0' COMMENT '姓名 男0女1',
   `status` int(1) DEFAULT '1' COMMENT '状态 0禁用 1启用',
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `index_username` (`username`) USING BTREE COMMENT '用户名唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'root', '123', null, null, null, null, null, null, '0', '1');
-INSERT INTO `user` VALUES ('2', 'admin', '222', null, null, null, null, null, null, '0', '1');
+INSERT INTO `user` VALUES ('1', 'root', '123', null, null, null, null, null, '理学', '0', '1');
+INSERT INTO `user` VALUES ('2', 'admin', '222', '管理员', '18553269860', null, '654316301@qq.com', null, '工学', '0', '1');
+INSERT INTO `user` VALUES ('5', 'fxw', '111', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1');
+INSERT INTO `user` VALUES ('6', 'fxw2', '111111111111111', 'ambilight1111111', '185532698601111', null, '342323@qq.com', null, '医学', '0', '1');
+INSERT INTO `user` VALUES ('7', 'fxw3', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
+INSERT INTO `user` VALUES ('8', 'fxw4', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1');
+INSERT INTO `user` VALUES ('9', 'fxw5', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
+INSERT INTO `user` VALUES ('10', 'fxw6', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
+INSERT INTO `user` VALUES ('11', 'fxw7', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '', '1', '1');
+INSERT INTO `user` VALUES ('12', 'fxw123456', '123456', '', '18522211', null, '342323@qq.com', null, '工学', '1', '1');
+INSERT INTO `user` VALUES ('13', 'fxw9', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
+INSERT INTO `user` VALUES ('14', 'fxw10', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '艺术学', '1', '1');
+INSERT INTO `user` VALUES ('16', 'asfdas', '1231', '1231311', '11', null, '1112', null, '农学', '0', '1');
 
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
-  `user_id` int(11) DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
   KEY `u_fk` (`user_id`),
   KEY `r_fk` (`role_id`),
   CONSTRAINT `r_fk` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
@@ -157,3 +172,7 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('1', '1');
 INSERT INTO `user_role` VALUES ('2', '2');
+INSERT INTO `user_role` VALUES ('5', '1');
+INSERT INTO `user_role` VALUES ('5', '2');
+INSERT INTO `user_role` VALUES ('11', '3');
+INSERT INTO `user_role` VALUES ('12', '2');

@@ -12,6 +12,7 @@ public class ResultMessage {
 
     private String status;
     private String message;
+    private String data;
 
     public ResultMessage(){
         super();
@@ -24,6 +25,12 @@ public class ResultMessage {
     public ResultMessage(String status,String message){
         this.status=status;
         this.message=message;
+    }
+
+    public ResultMessage(String status,String message,String data){
+        this.status=status;
+        this.message=message;
+        this.data=data;
     }
 
     public String getStatus() {
@@ -40,5 +47,13 @@ public class ResultMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

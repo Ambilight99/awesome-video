@@ -14,23 +14,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/global.css"  media="all">
+    <style>
+        .layui-laypage-default{
+            width:100%;
+        }
+    </style>
 </head>
 <body>
     <%@include file="/WEB-INF/view/leftMenu.jsp" %>
     <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body">
-        <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-radius"  href="${contextPath}/course/add">增加</a>
+        <div class="layui-btn-group" style="width:100%">
+            <a class="layui-btn layui-btn-radius"  href="${contextPath}/course/add" about="">增加</a>
             <%--<a class="layui-btn layui-btn-radius layui-btn-danger" >批量删除</a>--%>
         </div>
-            <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
-                <div>
-                    <video width="320" height="240" controls>
-                        <source src="/awesome/upload/video/${course.videoUrl}.mp4" type="video/mp4">
-                        <source src="/awesome/upload/video/${course.videoUrl}.mp4" type="video/ogg">
-                        您的浏览器不支持 HTML5 video 标签。
-                    </video>
-                </div>
-            </c:forEach>
+        <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
+        <div style="float:left; width:30%; height:300px; border:solid 0.1px rosybrown;margin:2px 5px;">
+            <span>${course.name}-${course.createDate}</span>
+            <video style="width:100%; object-fit: fill"  controls>
+                <source src="${contextPath}/upload/video/${course.videoUrl}.mp4" type="video/mp4">
+                <source src="${contextPath}/upload/video/${course.videoUrl}.mp4" type="video/ogg">
+                您的浏览器不支持 HTML5 video 标签。
+            </video>
+            <span style="height:100px">
+                &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
+            </span>
+        </div>
+        </c:forEach>
 
         <div id="pager"></div>
     </div>
@@ -40,10 +49,12 @@
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
 <script>
-    var pageInfo={
-        pages:"${pageInfo.pages}",
-        pageNum:"${pageInfo.pageNum}"
-    };
+    var pageInfo=${pageInfo};
+    <%--var pageInfo={--%>
+        <%--pages:"${pageInfo.pages}",--%>
+        <%--pageNum:"${pageInfo.pageNum}",--%>
+        <%--pageSize:"${pageInfo.pageSize}"--%>
+    <%--};--%>
 
     layui.use(['laypage', 'layer','form'], function(){
         var $ = layui.jquery,
@@ -70,9 +81,9 @@
                 if(!first){
                     var param={
                         pageNum:obj.curr,
-                        pageSize:10
+                        pageSize:pageInfo.pageSize
                     }
-                    location.href="${contextPath}/user/list?"+$.param(param);
+                    location.href="${contextPath}/course/list?"+$.param(param);
                     layer.msg('第 '+ obj.curr +' 页');
                 }
             }

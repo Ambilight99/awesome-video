@@ -11,6 +11,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
     <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
     <result column="video_type" property="videoType" jdbcType="INTEGER" />
     <result column="teacher" property="teacher" jdbcType="INTEGER" />
@@ -19,7 +20,7 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, code, profession, remark, credit, status, create_date, update_date, video_url, 
+    id, name, code, profession, remark, credit, status, create_date, update_date, video_name, video_url,
     video_type, teacher
   </sql>
   <sql id="Blob_Column_List" >
@@ -40,14 +41,14 @@
   <insert id="insert" parameterType="com.awesome.web.business.domain.Course" >
     insert into course (id, name, code, 
       profession, remark, credit, 
-      status, create_date, update_date, 
-      video_url, video_type, teacher, 
-      content)
+      status, create_date, update_date,
+      video_name, video_url, video_type,
+      teacher,  content)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{profession,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{videoUrl,jdbcType=VARCHAR}, #{videoType,jdbcType=INTEGER}, #{teacher,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR})
+     #{videoName,jdbcType=VARCHAR},#{videoUrl,jdbcType=VARCHAR}, #{videoType,jdbcType=INTEGER},
+      #{teacher,jdbcType=INTEGER},  #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.awesome.web.business.domain.Course" >
     insert into course
@@ -78,6 +79,9 @@
       </if>
       <if test="updateDate != null" >
         update_date,
+      </if>
+      <if test="videoName != null" >
+        video_name,
       </if>
       <if test="videoUrl != null" >
         video_url,
@@ -120,6 +124,9 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="videoName != null" >
+        #{videoName,jdbcType=VARCHAR},
+      </if>
       <if test="videoUrl != null" >
         #{videoUrl,jdbcType=VARCHAR},
       </if>
@@ -161,6 +168,9 @@
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="videoName != null" >
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
       <if test="videoUrl != null" >
         video_url = #{videoUrl,jdbcType=VARCHAR},
       </if>
@@ -186,6 +196,7 @@
       status = #{status,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
+      video_name = #{videoName,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       video_type = #{videoType,jdbcType=INTEGER},
       teacher = #{teacher,jdbcType=INTEGER},
@@ -202,6 +213,7 @@
       status = #{status,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
+      video_name = #{videoName,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       video_type = #{videoType,jdbcType=INTEGER},
       teacher = #{teacher,jdbcType=INTEGER}

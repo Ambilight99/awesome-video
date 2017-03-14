@@ -25,14 +25,14 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">账号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" value="${user.username}"  required  lay-verify="required"
+                    <input type="text" name="username" value="${user.username}" lay-verify="username"
                            placeholder="请输入账号" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                    <input type="password" name="password" value="${user.password}"  required lay-verify="required"
+                    <input type="password" name="password" value="${user.password}"  lay-verify="password"
                            placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">辅助文字</div>
@@ -40,21 +40,21 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="name" value="${user.name}" v-validate:name="{required:true}"  lay-verify="required"
+                    <input type="text" name="name" value="${user.name}" lay-verify="name"
                            placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-block">
-                    <input type="text" name="mobile" value="${user.mobile}" required  lay-verify="required"
+                    <input type="text" name="mobile" value="${user.mobile}"  lay-verify="mobile"
                            placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-block">
-                    <input type="text" name="email" value="${user.email}" required  lay-verify="required"
+                    <input type="text" name="email" value="${user.email}" lay-verify="email"
                            placeholder="请输入姓名" autocomplete="off" class="layui-input">
                 </div>
             </div>
@@ -99,18 +99,18 @@
                 <div class="layui-input-block">
                     <input type="checkbox" name="roleIds" value="1" lay-skin="primary" title="管理员" />
                     <input type="checkbox" name="roleIds" value="2" lay-skin="primary" title="老师" />
-                    <input type="checkbox" name="roleIds" value="3" lay-skin="primary" title="学生" checked="" />
+                    <input type="checkbox" name="roleIds" value="3" lay-skin="primary" title="学生" />
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">个人说明</label>
                 <div class="layui-input-block">
-                    <textarea name="desc" value="" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    <textarea name="desc" value="" placeholder="请输入内容" class="layui-textarea" lay-verify="desc" ></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <a class="layui-btn" v-on:click="submit" >立即提交</a>
+                    <a class="layui-btn" lay-submit="" v-on:click="submit" >立即提交</a>
                     <a class="layui-btn layui-btn-primary"  v-on:click="reset">重置</a>
                 </div>
             </div>
@@ -125,12 +125,14 @@
     var pager = ${pager};
     var user =${user};
 
-    layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form()
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate;
+    //选中checkbox
+    var roles = user.roles;
+    for(var i in roles){
+        $(":checkbox[name='roleIds'][value='"+roles[i].id+"']").attr("checked",true);
+    }
 
+    layui.use(['form'], function(){
+        var form = layui.form();
         //自定义验证规则
         form.verify({
             username: function(value){
@@ -145,16 +147,17 @@
         });
     });
 
-
     var form = new Vue({
         el: '#form',
         //data: user,
         // 在 `methods` 对象中定义方法
         methods: {
             submit: function (event) {
-                $(":submit",this).attr("disabled","disabled");
-                formSubmit();
-                $(":submit",this).removeAttr("disabled");
+                setTimeout(function(){
+                   if($(".layui-form-danger").length==0){
+                       formSubmit();
+                    }
+                },100);
             }
             ,reset:function(){
                 document.getElementById("form").reset();
@@ -182,7 +185,6 @@
                             location.href="${contextPath}/user/list?"+$.param(pager);
                         }
                     });
-
                 }else{
                     layer.msg(data.message);
                 }

@@ -26,6 +26,8 @@ public class Course {
 
     private Date updateDate;
 
+    private String videoName;
+
     private String videoUrl;
 
     private Integer videoType;
@@ -104,6 +106,14 @@ public class Course {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
     }
 
     public String getVideoUrl() {

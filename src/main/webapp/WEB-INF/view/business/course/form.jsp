@@ -14,6 +14,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/webuploader-0.1.5/webuploader.css" />
+    <style>
+        .webuploader-pick{
+             background: #1E9FFF;
+             padding:0px 0px;
+        }
+
+    </style>
 </head>
 <body>
 <%@include file="/WEB-INF/view/leftMenu.jsp" %>
@@ -22,18 +29,18 @@
         <legend>课程添加</legend>
     </fieldset>
     <form id="form" class="layui-form" action="">
-        <input type="hidden" name="uid" value="${course.id}" >
+        <input type="hidden" name="id" value="${course.id}" >
         <div class="layui-form-item">
             <label class="layui-form-label">课程名</label>
             <div class="layui-input-block">
-                <input type="text" name="username" value="${course.username}"  required  lay-verify="required"
+                <input type="text" name="name" value="${course.name}"  required  lay-verify="required"
                        placeholder="请输入账号" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">课程代号</label>
             <div class="layui-input-inline">
-                <input type="text" name="code" value="${course.password}"  required lay-verify="required"
+                <input type="text" name="code" value="${course.code}"  required lay-verify="required"
                        placeholder="请输入课程代号" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">辅助文字</div>
@@ -42,7 +49,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">所属专业</label>
             <div class="layui-input-block">
-                <select name="major" lay-verify="required" value="${user.major}">
+                <select name="profession" lay-verify="required" value="${course.profession}">
                     <option value=""></option>
                     <option value="理学" ${course.profession=='理学'?'selected':''} >理学</option>
                     <option value="工学" ${course.profession=='工学'?'selected':''} >工学</option>
@@ -52,21 +59,33 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程简介</label>
+            <div class="layui-input-block">
+                <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required"
+                       placeholder="请输入课程简介" autocomplete="off" class="layui-input">
+            </div>
+        </div>
         <div>
             <label class="layui-form-label">视频上传</label>
             <div class="layui-input-block">
-                <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
+                <input type="text" id="videoName" name="videoName" value=""  required  lay-verify="required"
                          autocomplete="off" class="layui-input">
+                <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="progress layui-input-block " style="display:none">
+                <div class="progress-bar" style="float:left;height:15px;background:mediumblue;width: 0%" ></div>
+                <div style="float:left"></div>
             </div>
             <!--dom结构部分-->
-            <div id="uploader-demo">
-                <!--用来存放item-->
-                <div id="fileList" class="uploader-list"></div>
+            <div class="layui-input-block">
                 <div id="upInfo" ></div>
-                <div id="filePicker">选择文件</div>
-                <input type="button" id="btn" value="开始上传">
+                <a class="layui-btn layui-btn-normal layui-btn-radius" id="filePicker">选择文件</a>
+                <a class="layui-btn layui-btn-normal layui-btn-radius"  id="btn">开始上传</a>
             </div>
         </div>
+        <br/>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">课程内容</label>
             <div class="layui-input-block">
@@ -161,12 +180,6 @@
     // 图片上传demo
     jQuery(function() {
         var $ = jQuery,
-            $list = $('#fileList'),
-            // 优化retina, 在retina下这个值是2
-            ratio = window.devicePixelRatio || 1,
-            // 缩略图大小
-            thumbnailWidth = 100 * ratio,
-            thumbnailHeight = 100 * ratio,
             // Web Uploader实例
             uploader;
         // 初始化Web Uploader
@@ -183,8 +196,8 @@
             //  fileSizeLimit: 1024MB,
             // 选择文件的按钮。可选。
             pick: {
-                id:'#filePicker',  //选择文件的按钮
-                multiple:true     //允许可以同时选择多个图片
+                id:'#filePicker'      //选择文件的按钮
+                //,multiple:true     //允许可以同时选择多个图片
             },
             // 图片质量，只有type为`image/jpeg`的时候才有效。
             quality: 90,
@@ -200,43 +213,25 @@
 
         // 当有文件添加进来的时候，创建img显示缩略图使用
         uploader.on( 'fileQueued', function( file ) {
-            var $li = $(
-                    '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
-                    '<div class="info">' + file.name + '</div>' +
-                    '</div>'
-                ),
-                $img = $li.find('img');
-
-            // $list为容器jQuery实例
-            $list.append( $li );
-
-            // 创建缩略图
-            // 如果为非图片文件，可以不用调用此方法。
-            // thumbnailWidth x thumbnailHeight 为 100 x 100
-            uploader.makeThumb( file, function( error, src ) {
-                if ( error ) {
-                    $img.replaceWith('<span>不能预览</span>');
-                    return;
-                }
-
-                $img.attr( 'src', src );
-            }, thumbnailWidth, thumbnailHeight );
+            $("#videoName").val(file.name);
         });
 
         // 文件上传过程中创建进度条实时显示。    uploadProgress事件：上传过程中触发，携带上传进度。 file文件对象 percentage传输进度 Nuber类型
         uploader.on( 'uploadProgress', function( file, percentage ) {
-            var $li = $( '#'+file.id ),
-                $percent = $li.find('.progress span');
-
-            // 避免重复创建
-            if ( !$percent.length ) {
-                $percent = $('<p class="progress"><span></span></p>')
-                    .appendTo( $li )
-                    .find('span');
+           if($(".progress ").css("display")=="none"){
+               $(".progress ").css("display","block");
+           }
+           if( $(".progress-bar").css("display")=="none"){
+                $(".progress-bar").css("display","block");
             }
 
-            $percent.css( 'width', percentage * 100 + '%' );
+            var percentage=Math.ceil(percentage * 100 );
+            $(".progress-bar").css( 'width',percentage+ '%' ).next().html(percentage+"%");
+            if(percentage==100){
+                $(".progress-bar").next().html("<span style='color:green'>上传成功<span>");
+                $(".progress-bar").hide();
+            }
+
         });
 
         // 文件上传成功时候触发，给item添加成功class, 用样式标记上传成功。 file：文件对象，    response：服务器返回数据
@@ -245,21 +240,17 @@
             $( '#'+file.id ).addClass('upload-state-done');
             //console.info(response);
             var result = JSON.parse(response._raw);
-            $("#upInfo").html("<font color='red'>"+result.status+"</font>");
-            $("#videoUrl").val(result.message);
+            if(result.status == "success"){
+                layer.msg("上传成功！");
+                $("#videoUrl").val(result.message);
+            }else{
+                layer.error("上传失败！");
+            }
         });
 
-        // 文件上传失败                                file:文件对象 ， code：出错代码
+        // 文件上传失败
         uploader.on( 'uploadError', function(file,code) {
-            var $li = $( '#'+file.id ),
-                $error = $li.find('div.error');
-
-            // 避免重复创建
-            if ( !$error.length ) {
-                $error = $('<div class="error"></div>').appendTo( $li );
-            }
-
-            $error.text('上传失败!');
+            layer.error("上传失败！");
         });
 
         // 不管成功或者失败，文件上传完成时触发。 file： 文件对象

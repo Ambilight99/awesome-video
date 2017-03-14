@@ -13,6 +13,15 @@
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <collection ofType="com.awesome.web.base.domain.Role" property="roles">
+      <id column="role_id" property="id" />
+      <result column="role_name" property="name" />
+      <collection ofType="com.awesome.web.base.domain.Resource" property="resources">
+        <id column="resource_id" property="id" />
+        <result column="resource_name" property="name" />
+        <result column="resource_url" property="url" />
+      </collection>
+    </collection>
   </resultMap>
 
   <!-- type为实体类User，包名已经配置，可以直接写类名 -->
@@ -49,9 +58,12 @@
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    from user
-    where uid = #{uid,jdbcType=INTEGER}
+      u.*
+      ,ro.id role_id, ro.name role_name
+    from user u
+    left join user_role ur on ur.user_id= u.uid
+    left join role ro on ro.id=ur.role_id
+    where u.uid = #{uid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
