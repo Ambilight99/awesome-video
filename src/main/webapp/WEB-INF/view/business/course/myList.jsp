@@ -32,31 +32,33 @@
                     您的浏览器不支持 HTML5 video 标签。
                 </video>
             </div>
-            <span style="height:100px;">
-                <p style="text-align: right;padding-right:5px">
-                    <c:choose>
-                        <c:when test="${course.join}">
-                            <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:choose>
-                        <c:when test="${course.collect}">
-                            <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                        </c:otherwise>
-                    </c:choose>
-                </p>
+            <div  style="background: white;">
+                <span>
+                    <p style="text-align: right;padding-right:5px">
+                        <c:choose>
+                            <c:when test="${course.join}">
+                                <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${course.collect}">
+                                <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
 
-                <p class="video-remark" >
-                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
-                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
-                </p>
-            </span>
+                    <p class="video-remark" >
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
+                    </p>
+                </span>
+            </div>
         </div>
         </c:forEach>
 
