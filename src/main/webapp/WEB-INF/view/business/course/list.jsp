@@ -39,10 +39,10 @@
                 <span>
                     <p style="text-align: right;padding-right:5px">
                         <c:if test="${!course.join}">
-                            <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                            <a id="a_join_${course.id}" class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
                         </c:if>
                          <c:if test="${!course.collect}">
-                            <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                            <a id="a_collect_${course.id}" class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
                          </c:if>
                         <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
                     </p>
@@ -146,6 +146,7 @@
             dataType:"json",
             success:function (data) {
                 layer.msg(data.message);
+                $("#a_join_"+id).hide();
             },
             error:function(data){
                 console.error(data);
@@ -167,6 +168,7 @@
             dataType:"json",
             success:function (data) {
                 layer.msg(data.message);
+                $("#a_collect_"+id).hide();
             },
             error:function(data){
                 console.error(data);
