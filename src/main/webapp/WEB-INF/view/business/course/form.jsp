@@ -73,6 +73,8 @@
                          autocomplete="off" class="layui-input">
                 <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
                        autocomplete="off" class="layui-input">
+                <input type="hidden" id="imageUrl" name="imageUrl" value="${course.imageUrl}"  required  lay-verify="required"
+                       autocomplete="off" class="layui-input">
             </div>
             <div class="progress layui-input-block " style="display:none">
                 <div class="progress-bar" style="float:left;height:15px;background:mediumblue;width: 0%" ></div>
@@ -242,7 +244,9 @@
             var result = JSON.parse(response._raw);
             if(result.status == "success"){
                 layer.msg("上传成功！");
-                $("#videoUrl").val(result.message);
+                var resultData =JSON.parse(result.data);
+                $("#videoUrl").val(resultData.videoUrl);
+                $("#imageUrl").val(resultData.imageUrl);
             }else{
                 layer.error("上传失败！");
             }

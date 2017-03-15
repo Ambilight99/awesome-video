@@ -30,6 +30,8 @@ public class Course {
 
     private String videoUrl;
 
+    private String imageUrl;
+
     private Integer videoType;
 
     private Integer teacher;
@@ -122,6 +124,14 @@ public class Course {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl == null ? null : videoUrl.trim();
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getVideoType() {

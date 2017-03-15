@@ -44,4 +44,23 @@
       </if>
     </trim>
   </insert>
+
+  <update id="update" parameterType="com.awesome.web.business.domain.StudentCourse">
+    update student_course
+    <set >
+    <if test="isCollect != null" >
+      is_collect = #{isCollect,jdbcType=INTEGER},
+    </if>
+    <if test="isJoin != null" >
+      is_join = #{isJoin,jdbcType=INTEGER},
+    </if>
+    </set>
+    where student_id = #{studentId,jdbcType=INTEGER} AND course_id = #{courseId,jdbcType=INTEGER}
+  </update>
+
+  <!--根据学生id和课程id查询唯一关联信息 -->
+  <select id="findByStudentCourse"  parameterType="com.awesome.web.business.domain.StudentCourse" resultMap="BaseResultMap">
+    select * from student_course
+    where student_id = #{studentId,jdbcType=INTEGER} AND course_id = #{courseId,jdbcType=INTEGER}
+  </select>
 </mapper>

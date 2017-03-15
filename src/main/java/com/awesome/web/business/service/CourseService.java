@@ -1,6 +1,7 @@
 package com.awesome.web.business.service;
 
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.StudentCourse;
 
 import java.util.List;
 
@@ -37,4 +38,25 @@ public interface CourseService{
 	 * @return
 	 */
 	Course findById(Integer id);
+
+	/**
+	 * 参与或收藏课程
+	 * @param studentCourse
+	 * @return
+	 */
+	Boolean insert(StudentCourse studentCourse);
+
+	/**
+	 * 查询关联
+	 * @param studentCourse
+	 * @return
+	 */
+	StudentCourse findByStudentCourse(StudentCourse studentCourse);
+
+	/**
+	 * 更新
+	 * @param studentCourse
+	 * @return
+	 */
+	Boolean update(StudentCourse studentCourse);
 }

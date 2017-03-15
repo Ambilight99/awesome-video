@@ -3,12 +3,18 @@ package com.awesome.web.business.controller;
 import com.alibaba.fastjson.JSON;
 import com.awesome.web.base.domain.Pager;
 import com.awesome.web.base.domain.ResultMessage;
+import com.awesome.web.base.domain.User;
 import com.awesome.web.base.service.UserService;
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.StudentCourse;
 import com.awesome.web.business.service.CourseService;
 import com.awesome.web.util.FileUploadUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,9 +25,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -62,6 +72,14 @@ public class CourseController2 {
         return "/business/course/form";
     }
 
+    @RequestMapping("/view")
+    public String view(ModelMap modelMap,Integer id,Pager pager){
+        Course course = courseService.findById(id);
+        modelMap.put("course",JSON.toJSON(course));
+        modelMap.put("pager",JSON.toJSON(pager));
+        return "/business/course/view";
+    }
+
     /**
      * 保存或更新
      * @param course
@@ -94,6 +112,65 @@ public class CourseController2 {
         }
     }
 
+    /**
+     * 参与课程
+     * @param id
+     * @return
+     */
+    @RequestMapping("/join")
+    @ResponseBody
+    public ResultMessage joinCourse(Integer id ){
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        //先判断 是否关联过
+        StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
+        Boolean flag =true;
+        if(studentCourse==null){
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,0,1));
+        }else{
+            studentCourse.setIsJoin(1);
+            flag = courseService.update(studentCourse);
+        }
+        if(flag){
+            return new ResultMessage(ResultMessage.SUCCESS,"参与成功！");
+        }else{
+            return new ResultMessage(ResultMessage.FAIL,"参与失败！");
+        }
+    }
+
+    /**
+     * 收藏课程
+     * @param id
+     * @return
+     */
+    @RequestMapping("/collect")
+    @ResponseBody
+    public ResultMessage collectCourse(Integer id ){
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        //先判断 是否关联过
+        StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
+        Boolean flag =true;
+        if(studentCourse==null){
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,1,0));
+        }else{
+            studentCourse.setIsCollect(1);
+            flag = courseService.update(studentCourse);
+        }
+        if(flag){
+            return new ResultMessage(ResultMessage.SUCCESS,"收藏成功！");
+        }else{
+            return new ResultMessage(ResultMessage.FAIL,"收藏失败！");
+        }
+    }
+
+    /**
+     * 视频上传
+     * @param files
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/videoUpload")
     @ResponseBody
     public ResultMessage videoUpload(@RequestParam("file") MultipartFile[] files,
@@ -146,6 +223,9 @@ public class CourseController2 {
         }
         System.out.println("接收完毕");
 
-        return new ResultMessage(ResultMessage.SUCCESS,currentTime);
+        Map<String,String> data = new HashMap<>();
+        data.put("videoUrl",saveFileName);
+        data.put("imageUrl",currentTime+".jpg");
+        return new ResultMessage(ResultMessage.SUCCESS,currentTime,JSON.toJSONString(data));
     }
 }
