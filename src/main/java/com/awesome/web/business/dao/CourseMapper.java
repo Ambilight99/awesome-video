@@ -1,6 +1,7 @@
 package com.awesome.web.business.dao;
 
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.StudentCourse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,4 +26,6 @@ public interface CourseMapper {
     List<Course> getAll();
 
     Course findById(Integer id);
+
+    List<Course> getAllByStudentCourse(StudentCourse studentCourse);
 }

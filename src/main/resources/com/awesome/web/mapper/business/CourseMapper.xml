@@ -16,6 +16,8 @@
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="video_type" property="videoType" jdbcType="INTEGER" />
     <result column="teacher" property="teacher" jdbcType="INTEGER" />
+    <result column="is_join" property="isJoin" jdbcType="BIT" />
+    <result column="is_collect" property="isCollect" jdbcType="BIT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.awesome.web.business.domain.Course" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -47,7 +49,7 @@
       video_type, teacher,  content)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
       #{profession,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{credit,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER},now(), now(),
      #{videoName,jdbcType=VARCHAR},#{videoUrl,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR},
      #{videoType,jdbcType=INTEGER}, #{teacher,jdbcType=INTEGER},  #{content,jdbcType=LONGVARCHAR})
   </insert>
@@ -75,12 +77,8 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="createDate != null" >
         create_date,
-      </if>
-      <if test="updateDate != null" >
         update_date,
-      </if>
       <if test="videoName != null" >
         video_name,
       </if>
@@ -122,12 +120,7 @@
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateDate != null" >
-        #{updateDate,jdbcType=TIMESTAMP},
-      </if>
+      now(),now(),
       <if test="videoName != null" >
         #{videoName,jdbcType=VARCHAR},
       </if>
@@ -169,12 +162,7 @@
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateDate != null" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
-      </if>
+      update_date =now(),
       <if test="videoName != null" >
         video_name = #{videoName,jdbcType=VARCHAR},
       </if>
@@ -204,8 +192,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       credit = #{credit,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_date =now(),
       video_name = #{videoName,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       image_url = #{imageUrl,jdbcType=VARCHAR},
@@ -222,8 +209,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       credit = #{credit,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_date = now(),
       video_name = #{videoName,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       image_url = #{imageUrl,jdbcType=VARCHAR},
@@ -238,5 +224,19 @@
 
   <select id="findById" resultMap="BaseResultMap" >
     select * from course where id=#{id}
+  </select>
+
+  <select id="getAllByStudentCourse" parameterType="com.awesome.web.business.domain.StudentCourse" resultMap="BaseResultMap">
+      SELECT *,sc.is_join,sc.is_collect FROM course c
+      left join student_course sc
+      on c.id=sc.course_id
+      where sc.student_id=#{studentId,jdbcType=INTEGER}
+      <if test="isJoin != null">
+        and sc.is_join=#{isJoin,jdbcType=INTEGER}
+      </if>
+      <if test="isCollect != null">
+        and sc.is_collect=#{isCollect,jdbcType=INTEGER}
+      </if>
+      order by c.create_date desc
   </select>
 </mapper>

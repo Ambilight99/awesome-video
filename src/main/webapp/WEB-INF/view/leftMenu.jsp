@@ -39,8 +39,9 @@
                         subOpen:true, //子栏目是否展开
                         items: [
                             { name: '我的课程' ,url:"${contextPath}/courseController/courseList"},
-                            { name: 'fxw的课程管理' ,url:"${contextPath}/course/list?pageSize=15"},
-                            { name: '课程上传' ,url:"javascript:;"}
+                            { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=15"},
+                            { name: '我的参与' ,url:"${contextPath}/course/list/join?pageSize=15"},
+                            { name: '我的收藏' ,url:"${contextPath}/course/list/collect?pageSize=15"}
                         ]
                     },
                     {

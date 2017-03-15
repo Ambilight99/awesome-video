@@ -59,4 +59,11 @@ public interface CourseService{
 	 * @return
 	 */
 	Boolean update(StudentCourse studentCourse);
+
+	/**
+	 * 根据studentCourse中的条件获取对应的课程信息
+	 * @param studentCourse
+	 * @return
+	 */
+	List<Course> getAllByStudentCourse(StudentCourse studentCourse);
 }

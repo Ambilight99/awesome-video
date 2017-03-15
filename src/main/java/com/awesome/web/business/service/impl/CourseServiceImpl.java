@@ -8,6 +8,7 @@ import com.awesome.web.business.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,5 +95,24 @@ public class CourseServiceImpl implements CourseService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 根据studentCourse中的条件获取对应的课程信息
+     *
+     * @param studentCourse
+     * @return
+     */
+    @Override
+    public List<Course> getAllByStudentCourse(StudentCourse studentCourse) {
+        List<Course> courseList = new ArrayList<>();
+        try{
+            if(studentCourse!=null){
+                courseList =courseMapper.getAllByStudentCourse(studentCourse);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return courseList;
     }
 }

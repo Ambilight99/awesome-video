@@ -12,9 +12,7 @@ import com.awesome.web.util.FileUploadUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,10 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,22 +115,22 @@ public class CourseController2 {
      */
     @RequestMapping("/join")
     @ResponseBody
-    public ResultMessage joinCourse(Integer id ){
+    public ResultMessage joinCourse(Integer id ,Integer isJoin){
         Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
         User user = (User)currentUser.getPrincipal();
         //先判断 是否关联过
         StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
         Boolean flag =true;
         if(studentCourse==null){
-            flag =courseService.insert(new StudentCourse(user.getUid(),id,0,1));
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,0,isJoin));
         }else{
-            studentCourse.setIsJoin(1);
+            studentCourse.setIsJoin(isJoin);
             flag = courseService.update(studentCourse);
         }
         if(flag){
-            return new ResultMessage(ResultMessage.SUCCESS,"参与成功！");
+            return new ResultMessage(ResultMessage.SUCCESS,(isJoin==1?"":"取消")+"参与成功！");
         }else{
-            return new ResultMessage(ResultMessage.FAIL,"参与失败！");
+            return new ResultMessage(ResultMessage.FAIL,(isJoin==1?"":"取消")+"参与失败！");
         }
     }
 
@@ -145,23 +141,55 @@ public class CourseController2 {
      */
     @RequestMapping("/collect")
     @ResponseBody
-    public ResultMessage collectCourse(Integer id ){
+    public ResultMessage collectCourse(Integer id,Integer isCollect ){
         Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
         User user = (User)currentUser.getPrincipal();
         //先判断 是否关联过
         StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
-        Boolean flag =true;
+        Boolean flag;
         if(studentCourse==null){
-            flag =courseService.insert(new StudentCourse(user.getUid(),id,1,0));
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,isCollect,0));
         }else{
-            studentCourse.setIsCollect(1);
+            studentCourse.setIsCollect(isCollect);
             flag = courseService.update(studentCourse);
         }
         if(flag){
-            return new ResultMessage(ResultMessage.SUCCESS,"收藏成功！");
+            return new ResultMessage(ResultMessage.SUCCESS,(isCollect==1?"":"取消")+"收藏成功！");
         }else{
-            return new ResultMessage(ResultMessage.FAIL,"收藏失败！");
+            return new ResultMessage(ResultMessage.FAIL,(isCollect==1?"":"取消")+"收藏失败！");
         }
+    }
+
+    /**
+     * 我的参与 或取消参与
+     * @param modelMap
+     * @param pager
+     * @return
+     */
+    @RequestMapping("/list/join")
+    public String myJoin(ModelMap modelMap, Pager pager,Integer isJoin){
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
+        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,null,1));
+        modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        return "/business/course/myList";
+    }
+
+    /**
+     * 我的收藏
+     * @param modelMap
+     * @param pager
+     * @return
+     */
+    @RequestMapping("/list/collect")
+    public String myCollect(ModelMap modelMap, Pager pager){
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
+        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,1,null));
+        modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        return "/business/course/myList";
     }
 
     /**
@@ -177,8 +205,8 @@ public class CourseController2 {
                                      HttpServletRequest request, HttpServletResponse response){
         int counter=0;
         String saveFileName="";//保存的文件名
-        String fileName="";    //实际的文件名
-        File tagetFile=null;
+        String fileName;    //实际的文件名
+        File tagetFile;
         String currentTime="";
 
         System.out.println("收到图片!");

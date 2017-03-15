@@ -62,7 +62,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">课程简介</label>
             <div class="layui-input-block">
-                <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required"
+                <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required" maxlength="100"
                        placeholder="请输入课程简介" autocomplete="off" class="layui-input">
             </div>
         </div>

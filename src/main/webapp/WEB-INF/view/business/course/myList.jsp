@@ -20,10 +20,7 @@
 <body>
     <%@include file="/WEB-INF/view/leftMenu.jsp" %>
     <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
-        <div class="layui-btn-group" style="width:100%">
-            <a class="layui-btn layui-btn-radius"  href="${contextPath}/course/add" about="">增加</a>
-            <%--<a class="layui-btn layui-btn-radius layui-btn-danger" >批量删除</a>--%>
-        </div>
+
         <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
         <div class="video-div">
             <h2 class="video-name">${course.name}</h2>
@@ -37,10 +34,24 @@
             </div>
             <span style="height:100px;">
                 <p style="text-align: right;padding-right:5px">
-                    <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                    <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                    <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                    <c:choose>
+                        <c:when test="${course.join}">
+                            <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${course.collect}">
+                            <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                        </c:otherwise>
+                    </c:choose>
                 </p>
+
                 <p class="video-remark" >
                     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
                     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
@@ -120,6 +131,12 @@
             collectOne:function(id){
                 collectCourse(id,1);
             },
+            unJoinOne: function (id) {
+                joinCourse(id,0);
+            },
+            unCollectOne:function(id){
+                collectCourse(id,0);
+            },
             deleteOne: function (id) {
                 deleteCourse(id);
             }
@@ -127,7 +144,7 @@
     });
 
     /**
-     * 参加课程
+     * 参加/取消课程
      */
     function joinCourse(id,isJoin){
         var param = getPager();
@@ -139,7 +156,12 @@
             data:param,
             dataType:"json",
             success:function (data) {
-                layer.msg(data.message);
+                layer.msg(data.message,{
+                    time:1000,
+                    end:function(){
+                        location.href="${contextPath}/course/list/join/?"+$.param(getPager());
+                    }
+                });
             },
             error:function(data){
                 console.error(data);
@@ -148,7 +170,7 @@
     }
 
     /**
-     * 收藏课程
+     * 收藏/取消课程
      */
     function collectCourse(id,isCollect){
         var param = getPager();
@@ -160,7 +182,12 @@
             data:param,
             dataType:"json",
             success:function (data) {
-                layer.msg(data.message);
+                layer.msg(data.message,{
+                    time:1000,
+                    end:function(){
+                        location.href="${contextPath}/course/list/collect/?"+$.param(getPager());
+                    }
+                });
             },
             error:function(data){
                 console.error(data);
@@ -183,7 +210,7 @@
                     layer.msg(data.message,{
                         time:1000,
                         end:function(){
-                            location.href="${contextPath}/course/list?"+$.param(getPager());
+                            location.reload()
                         }
                     });
                 }else{

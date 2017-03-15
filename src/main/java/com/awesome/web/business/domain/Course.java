@@ -38,6 +38,10 @@ public class Course {
 
     private String content;
 
+    private boolean isJoin;
+
+    private boolean isCollect;
+
     public Integer getId() {
         return id;
     }
@@ -156,5 +160,21 @@ public class Course {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public boolean isJoin() {
+        return isJoin;
+    }
+
+    public void setJoin(boolean join) {
+        isJoin = join;
+    }
+
+    public boolean isCollect() {
+        return isCollect;
+    }
+
+    public void setCollect(boolean collect) {
+        isCollect = collect;
     }
 }
