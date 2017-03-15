@@ -23,7 +23,7 @@ public interface CourseMapper {
 
     int updateByPrimaryKey(Course record);
 
-    List<Course> getAll();
+    List<Course> getAll(StudentCourse studentCourse);
 
     Course findById(Integer id);
 

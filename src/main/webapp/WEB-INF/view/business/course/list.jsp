@@ -38,8 +38,12 @@
             <div style="background: white;">
                 <span>
                     <p style="text-align: right;padding-right:5px">
-                        <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                        <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                        <c:if test="${!course.join}">
+                            <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                        </c:if>
+                         <c:if test="${!course.collect}">
+                            <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                         </c:if>
                         <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
                     </p>
                     <p class="video-remark" >

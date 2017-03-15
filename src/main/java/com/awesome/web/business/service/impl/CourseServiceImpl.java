@@ -1,10 +1,13 @@
 package com.awesome.web.business.service.impl;
 
+import com.awesome.web.base.domain.User;
 import com.awesome.web.business.dao.CourseMapper;
 import com.awesome.web.business.dao.StudentCourseMapper;
 import com.awesome.web.business.domain.Course;
 import com.awesome.web.business.domain.StudentCourse;
 import com.awesome.web.business.service.CourseService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> getAll() {
-        return courseMapper.getAll();
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        StudentCourse studentCourse = new StudentCourse();
+        studentCourse.setStudentId(user.getUid());
+        return courseMapper.getAll(studentCourse);
     }
 
     @Override

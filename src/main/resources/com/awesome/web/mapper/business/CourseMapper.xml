@@ -218,8 +218,12 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getAll" resultMap="BaseResultMap" >
-    select * from course order by create_date desc
+  <select id="getAll" parameterType="com.awesome.web.business.domain.StudentCourse" resultMap="BaseResultMap" >
+      SELECT *,sc.is_join,sc.is_collect FROM course c
+      LEFT OUTER join
+        (select * from student_course where student_id=#{studentId,jdbcType=INTEGER} )  as sc
+      on c.id=sc.course_id
+      order by c.create_date desc
   </select>
 
   <select id="findById" resultMap="BaseResultMap" >
