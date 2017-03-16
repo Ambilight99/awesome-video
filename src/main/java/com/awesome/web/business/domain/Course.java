@@ -36,6 +36,8 @@ public class Course {
 
     private Integer teacher;
 
+    private Integer teacherName;
+
     private String content;
 
     private boolean isJoin;
@@ -152,6 +154,14 @@ public class Course {
 
     public void setTeacher(Integer teacher) {
         this.teacher = teacher;
+    }
+
+    public Integer getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(Integer teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getContent() {

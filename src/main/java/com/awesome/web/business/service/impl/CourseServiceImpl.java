@@ -4,6 +4,7 @@ import com.awesome.web.base.domain.User;
 import com.awesome.web.business.dao.CourseMapper;
 import com.awesome.web.business.dao.StudentCourseMapper;
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.CourseSearch;
 import com.awesome.web.business.domain.StudentCourse;
 import com.awesome.web.business.service.CourseService;
 import org.apache.shiro.SecurityUtils;
@@ -28,12 +29,12 @@ public class CourseServiceImpl implements CourseService {
     private StudentCourseMapper studentCourseMapper;
 
     @Override
-    public List<Course> getAll() {
+    public List<Course> getAll(CourseSearch courseSearch) {
         Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
         User user = (User)currentUser.getPrincipal();
         StudentCourse studentCourse = new StudentCourse();
         studentCourse.setStudentId(user.getUid());
-        return courseMapper.getAll(studentCourse);
+        return courseMapper.getAll(studentCourse,courseSearch);
     }
 
     @Override
@@ -111,15 +112,29 @@ public class CourseServiceImpl implements CourseService {
      * @return
      */
     @Override
-    public List<Course> getAllByStudentCourse(StudentCourse studentCourse) {
+    public List<Course> getAllByStudentCourse(StudentCourse studentCourse,CourseSearch courseSearch) {
         List<Course> courseList = new ArrayList<>();
         try{
             if(studentCourse!=null){
-                courseList =courseMapper.getAllByStudentCourse(studentCourse);
+                courseList =courseMapper.getAllByStudentCourse(studentCourse,courseSearch);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         return courseList;
+    }
+
+    /**
+     * 根据课程发布人查询所有信息
+     *
+     * @param teacherIds
+     * @return
+     */
+    @Override
+    public List<Course> getAllByPublisher(List<Integer> teacherIds) {
+        if(teacherIds.isEmpty()){
+            return new ArrayList<>();
+        }
+        return courseMapper.getAllByPublisher(teacherIds);
     }
 }

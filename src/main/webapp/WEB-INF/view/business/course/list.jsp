@@ -20,10 +20,35 @@
 <body>
     <%@include file="/WEB-INF/view/leftMenu.jsp" %>
     <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
-        <div class="layui-btn-group" style="width:100%">
-            <a class="layui-btn layui-btn-radius"  href="${contextPath}/course/add" about="">增加</a>
-            <%--<a class="layui-btn layui-btn-radius layui-btn-danger" >批量删除</a>--%>
-        </div>
+        <form id="form">
+            <div class="layui-form-pane" style="margin-top: 15px;">
+                <div class="layui-input-inline"  >
+                    <input type="text" name="courseName" value="${courseSearch.courseName}"  placeholder="课程名称"
+                           autocomplete="off" class="layui-input" style="float: left" />
+                </div>
+                <div class="layui-input-inline"  style="width:212px;" >
+                    <select name="teacher" style="float: left">
+                        <option value="-1">全部教师</option>
+                        <option value="1">王老师</option>
+                        <option value="2">黄老师</option>
+                        <option value="3">刘老师</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline"  >
+                    <input class="layui-input" placeholder="开始日期" id="startDate" name="startDate" value="${courseSearch.startDate}" style="float:left"/>
+                </div>
+                <div class="layui-input-inline"  >
+                    <input class="layui-input" placeholder="结束日期" id="endDate" name="endDate" value="${courseSearch.endDate}" style=""/>
+                </div>
+                <div class="layui-input-inline"  >
+                    <a class="layui-btn " lay-submit="" onClick="searchCourse()" >查找</a>
+                </div>
+                <div class="layui-input-inline"  >
+                    <a class="layui-btn "  href="${contextPath}/course/add" about="">增加</a>
+                </div>
+            </div>
+        </form>
+        <hr style="background-color: rgba(0, 150, 136, 0.52);">
         <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
         <div class="video-div">
             <h2 class="video-name">${course.name}</h2>
@@ -71,19 +96,38 @@
         <%--pageSize:"${pageInfo.pageSize}"--%>
     <%--};--%>
 
-    layui.use(['laypage', 'layer','form'], function(){
+    layui.use(['laypage', 'layer','form','laydate'], function(){
         var $ = layui.jquery,
             form = layui.form(),
             laypage = layui.laypage,
+            laydate = layui.laydate,
             layer = layui.layer;
-        //全选
-        form.on('checkbox(allChoose)', function(data){
-            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
-            child.each(function(index, item){
-                item.checked = data.elem.checked;
-            });
-            form.render('checkbox');
-        });
+
+        var start = {
+            min: '1099-06-16 23:59:59'
+            ,max: "${courseSearch.endDate}"?"${courseSearch.endDate}":laydate.now()
+            ,istoday: false
+            ,choose: function(datas){
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+        var end = {
+            min: "${courseSearch.startDate}"?"${courseSearch.startDate}":'1099-06-16 23:59:59'
+            ,max: laydate.now()
+            ,istoday: false
+            ,choose: function(datas){
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+        document.getElementById('startDate').onclick = function(){
+            start.elem = this;
+            laydate(start);
+        }
+        document.getElementById('endDate').onclick = function(){
+            end.elem = this
+            laydate(end);
+        }
 
         //分页插件
         laypage({
@@ -105,7 +149,7 @@
         });
     });
 
-    var form = new Vue({
+    var courseList = new Vue({
         el: '#course-list',
 //        data: {
 //            name: 'Vue.js'
@@ -131,6 +175,13 @@
             }
         }
     });
+
+    /**
+     * 搜索
+     */
+    function searchCourse(){
+        location.href="${contextPath}/course/list?"+decodeURIComponent($("#form").serialize()+"&"+$.param(getPager()));
+    }
 
     /**
      * 参加课程

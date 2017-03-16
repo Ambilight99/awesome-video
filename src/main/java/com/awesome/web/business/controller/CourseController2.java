@@ -6,6 +6,7 @@ import com.awesome.web.base.domain.ResultMessage;
 import com.awesome.web.base.domain.User;
 import com.awesome.web.base.service.UserService;
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.CourseSearch;
 import com.awesome.web.business.domain.StudentCourse;
 import com.awesome.web.business.service.CourseService;
 import com.awesome.web.util.FileUploadUtils;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +48,11 @@ public class CourseController2 {
     private CourseService courseService;
 
     @RequestMapping("/list")
-    public String list(ModelMap modelMap, Pager pager){
+    public String list(ModelMap modelMap, CourseSearch courseSearch, Pager pager){
         PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
-        List<Course> courses = courseService.getAll();
+        List<Course> courses = courseService.getAll(courseSearch);
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        modelMap.put("courseSearch", courseSearch );
         return "/business/course/list";
     }
 
@@ -161,18 +164,20 @@ public class CourseController2 {
     }
 
     /**
-     * 我的参与 或取消参与
+     * 我的参与
      * @param modelMap
      * @param pager
      * @return
      */
     @RequestMapping("/list/join")
-    public String myJoin(ModelMap modelMap, Pager pager,Integer isJoin){
+    public String myJoin(ModelMap modelMap, CourseSearch courseSearch, Pager pager){
         Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
         User user = (User)currentUser.getPrincipal();
         PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
-        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,null,1));
+        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,null,1),courseSearch);
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        modelMap.put("isJoinOrCollect", "join" );
+        modelMap.put("courseSearch", courseSearch );
         return "/business/course/myList";
     }
 
@@ -183,14 +188,33 @@ public class CourseController2 {
      * @return
      */
     @RequestMapping("/list/collect")
-    public String myCollect(ModelMap modelMap, Pager pager){
+    public String myCollect(ModelMap modelMap, CourseSearch courseSearch, Pager pager){
         Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
         User user = (User)currentUser.getPrincipal();
         PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
-        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,1,null));
+        List<Course> courses = courseService.getAllByStudentCourse(new StudentCourse(user.getUid(),null,1,null),courseSearch);
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        modelMap.put("isJoinOrCollect", "collect" );
+        modelMap.put("courseSearch", courseSearch );
         return "/business/course/myList";
     }
+
+    /**
+     * 我的课程（发布课程）
+     * @param modelMap
+     * @param pager
+     * @return
+     */
+    @RequestMapping("/list/release")
+    public String release(ModelMap modelMap, Pager pager){
+        Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+        User user = (User)currentUser.getPrincipal();
+        PageHelper.startPage(pager.getPageNum(), pager.getPageSize());      //分页
+        List<Course> courses = courseService.getAllByPublisher(new ArrayList<Integer>(){{add(user.getUid());}});
+        modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
+        return "/business/course/list";
+    }
+
 
     /**
      * 视频上传

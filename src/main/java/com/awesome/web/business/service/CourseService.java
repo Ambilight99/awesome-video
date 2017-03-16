@@ -1,6 +1,7 @@
 package com.awesome.web.business.service;
 
 import com.awesome.web.business.domain.Course;
+import com.awesome.web.business.domain.CourseSearch;
 import com.awesome.web.business.domain.StudentCourse;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface CourseService{
 	 * 查询所有课程信息
 	 * @return
 	 */
-	List<Course> getAll();
+	List<Course> getAll(CourseSearch courseSearch);
 
 	/**
 	 * 保存课程信息
@@ -65,5 +66,12 @@ public interface CourseService{
 	 * @param studentCourse
 	 * @return
 	 */
-	List<Course> getAllByStudentCourse(StudentCourse studentCourse);
+	List<Course> getAllByStudentCourse(StudentCourse studentCourse,CourseSearch courseSearch);
+
+	/**
+	 * 根据课程发布人查询所有信息
+	 * @return
+	 */
+    List<Course> getAllByPublisher(List<Integer> teacherIds);
+
 }

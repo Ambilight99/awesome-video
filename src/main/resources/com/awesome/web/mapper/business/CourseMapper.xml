@@ -16,6 +16,7 @@
     <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="video_type" property="videoType" jdbcType="INTEGER" />
     <result column="teacher" property="teacher" jdbcType="INTEGER" />
+    <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
     <result column="is_join" property="isJoin" jdbcType="BIT" />
     <result column="is_collect" property="isCollect" jdbcType="BIT" />
   </resultMap>
@@ -218,11 +219,34 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getAll" parameterType="com.awesome.web.business.domain.StudentCourse" resultMap="BaseResultMap" >
+  <select id="getAll"  resultMap="BaseResultMap" >
       SELECT *,sc.is_join,sc.is_collect FROM course c
       LEFT OUTER join
-        (select * from student_course where student_id=#{studentId,jdbcType=INTEGER} )  as sc
+      <choose>
+        <when test="studentCourse==null">
+          ( select 0 as is_isjoin, 0 as is_collect  )  as sc
+        </when>
+        <otherwise>
+          (select * from student_course where student_id=#{studentCourse.studentId,jdbcType=INTEGER} )  as sc
+        </otherwise>
+      </choose>
       on c.id=sc.course_id
+      <if test="courseSearch != null">
+        <where>
+          <if test="courseSearch.courseName != null">
+            c.name like concat('%', #{courseSearch.courseName},'%')
+          </if>
+          <if test="courseSearch.teacher != null">
+            and c.teacher = #{courseSearch.teacher}
+          </if>
+          <if test="courseSearch.startDate != null">
+            and c.create_date &gt;= #{courseSearch.startDate}
+          </if>
+          <if test="courseSearch.endDate != null">
+            and c.create_date &lt;= #{courseSearch.endDate}
+          </if>
+        </where>
+      </if>
       order by c.create_date desc
   </select>
 
@@ -230,17 +254,42 @@
     select * from course where id=#{id}
   </select>
 
-  <select id="getAllByStudentCourse" parameterType="com.awesome.web.business.domain.StudentCourse" resultMap="BaseResultMap">
+  <select id="getAllByStudentCourse"  resultMap="BaseResultMap">
       SELECT *,sc.is_join,sc.is_collect FROM course c
       left join student_course sc
       on c.id=sc.course_id
-      where sc.student_id=#{studentId,jdbcType=INTEGER}
-      <if test="isJoin != null">
-        and sc.is_join=#{isJoin,jdbcType=INTEGER}
+      where sc.student_id=#{studentCourse.studentId,jdbcType=INTEGER}
+      <if test="studentCourse.isJoin != null">
+        and sc.is_join=#{studentCourse.isJoin,jdbcType=INTEGER}
       </if>
-      <if test="isCollect != null">
-        and sc.is_collect=#{isCollect,jdbcType=INTEGER}
+      <if test="studentCourse.isCollect != null">
+        and sc.is_collect=#{studentCourse.isCollect,jdbcType=INTEGER}
+      </if>
+      <if test="courseSearch != null">
+          <if test="courseSearch.courseName != null">
+            and c.name like concat('%', #{courseSearch.courseName},'%')
+          </if>
+          <if test="courseSearch.teacher != null">
+            and c.teacher = #{courseSearch.teacher}
+          </if>
+          <if test="courseSearch.startDate != null">
+            and DATE_FORMAT(c.create_date,"%Y-%m-%d") &gt;= #{courseSearch.startDate}
+          </if>
+          <if test="courseSearch.endDate != null">
+            and DATE_FORMAT(c.create_date,"%Y-%m-%d") &lt;= #{courseSearch.endDate}
+          </if>
       </if>
       order by c.create_date desc
+  </select>
+
+  <select id="getAllByPublisher" parameterType="java.util.List" resultMap="BaseResultMap" >
+    SELECT *,u.name teacher_name FROM course c
+    left join user u
+    on c.teacher= u.uid
+    where u.uid in
+    <foreach collection="list" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+    order by c.create_date desc
   </select>
 </mapper>
