@@ -23,85 +23,88 @@
     </style>
 </head>
 <body>
-<%@include file="/WEB-INF/view/leftMenu.jsp" %>
-<div class="layui-body layui-tab-content site-demo site-demo-body">
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-        <legend>课程添加</legend>
-    </fieldset>
-    <form id="form" class="layui-form" action="">
-        <input type="hidden" name="id" value="${course.id}" >
-        <div class="layui-form-item">
-            <label class="layui-form-label">课程名</label>
-            <div class="layui-input-block">
-                <input type="text" name="name" value="${course.name}"  required  lay-verify="required"
-                       placeholder="请输入账号" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">课程代号</label>
-            <div class="layui-input-inline">
-                <input type="text" name="code" value="${course.code}"  required lay-verify="required"
-                       placeholder="请输入课程代号" autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">辅助文字</div>
-        </div>
+    <div class="layui-layout layui-layout-admin">
+        <%@include file="/WEB-INF/view/header.jsp" %>
+        <%@include file="/WEB-INF/view/leftMenu.jsp" %>
+        <div class="layui-body layui-tab-content site-demo site-demo-body">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>课程添加</legend>
+            </fieldset>
+            <form id="form" class="layui-form" action="">
+                <input type="hidden" name="id" value="${course.id}" >
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课程名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" value="${course.name}"  required  lay-verify="required"
+                               placeholder="请输入账号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课程代号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="code" value="${course.code}"  required lay-verify="required"
+                               placeholder="请输入课程代号" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">所属专业</label>
-            <div class="layui-input-block">
-                <select name="profession" lay-verify="required" value="${course.profession}">
-                    <option value=""></option>
-                    <option value="理学" ${course.profession=='理学'?'selected':''} >理学</option>
-                    <option value="工学" ${course.profession=='工学'?'selected':''} >工学</option>
-                    <option value="农学" ${course.profession=='农学'?'selected':''} >农学</option>
-                    <option value="医学" ${course.profession=='医学'?'selected':''} >医学</option>
-                    <option value="艺术学" ${course.profession=='艺术学'?'selected':''} >艺术学</option>
-                </select>
-            </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属专业</label>
+                    <div class="layui-input-block">
+                        <select name="profession" lay-verify="required" value="${course.profession}">
+                            <option value=""></option>
+                            <option value="理学" ${course.profession=='理学'?'selected':''} >理学</option>
+                            <option value="工学" ${course.profession=='工学'?'selected':''} >工学</option>
+                            <option value="农学" ${course.profession=='农学'?'selected':''} >农学</option>
+                            <option value="医学" ${course.profession=='医学'?'selected':''} >医学</option>
+                            <option value="艺术学" ${course.profession=='艺术学'?'selected':''} >艺术学</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">课程简介</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required" maxlength="100"
+                               placeholder="请输入课程简介" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div>
+                    <label class="layui-form-label">视频上传</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="required"
+                                 autocomplete="off" class="layui-input">
+                        <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                        <input type="hidden" id="imageUrl" name="imageUrl" value="${course.imageUrl}"  required  lay-verify="required"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="progress layui-input-block " style="display:none">
+                        <div class="progress-bar" style="float:left;height:5px;border-radius:10px;background:rgba(255, 87, 34, 0.91);width: 0%" ></div>
+                        <div style="float:left"></div>
+                    </div>
+                    <!--dom结构部分-->
+                    <div class="layui-input-block">
+                        <div id="upInfo" ></div>
+                        <a class="layui-btn layui-btn-normal layui-btn-radius" id="filePicker">选择文件</a>
+                        <a class="layui-btn layui-btn-normal layui-btn-radius"  id="btn" style="display:none">开始上传</a>
+                    </div>
+                </div>
+                <br/>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">课程内容</label>
+                    <div class="layui-input-block">
+                        <textarea name="content"  placeholder="请输入内容" class="layui-textarea">${course.content}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a class="layui-btn" v-on:click="submit" >立即提交</a>
+                        <a class="layui-btn layui-btn-primary"  v-on:click="reset">重置</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">课程简介</label>
-            <div class="layui-input-block">
-                <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required" maxlength="100"
-                       placeholder="请输入课程简介" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div>
-            <label class="layui-form-label">视频上传</label>
-            <div class="layui-input-block">
-                <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="required"
-                         autocomplete="off" class="layui-input">
-                <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
-                       autocomplete="off" class="layui-input">
-                <input type="hidden" id="imageUrl" name="imageUrl" value="${course.imageUrl}"  required  lay-verify="required"
-                       autocomplete="off" class="layui-input">
-            </div>
-            <div class="progress layui-input-block " style="display:none">
-                <div class="progress-bar" style="float:left;height:15px;background:mediumblue;width: 0%" ></div>
-                <div style="float:left"></div>
-            </div>
-            <!--dom结构部分-->
-            <div class="layui-input-block">
-                <div id="upInfo" ></div>
-                <a class="layui-btn layui-btn-normal layui-btn-radius" id="filePicker">选择文件</a>
-                <a class="layui-btn layui-btn-normal layui-btn-radius"  id="btn">开始上传</a>
-            </div>
-        </div>
-        <br/>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">课程内容</label>
-            <div class="layui-input-block">
-                <textarea name="content"  placeholder="请输入内容" class="layui-textarea">${course.content}</textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <a class="layui-btn" v-on:click="submit" >立即提交</a>
-                <a class="layui-btn layui-btn-primary"  v-on:click="reset">重置</a>
-            </div>
-        </div>
-    </form>
-</div>
+    </div>
 </body>
 <script src="${contextPath}/static/jquery/jquery-1.11.3.js" charset="utf-8"></script>
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
@@ -216,6 +219,7 @@
         // 当有文件添加进来的时候，创建img显示缩略图使用
         uploader.on( 'fileQueued', function( file ) {
             $("#videoName").val(file.name);
+            $("#btn").show();
         });
 
         // 文件上传过程中创建进度条实时显示。    uploadProgress事件：上传过程中触发，携带上传进度。 file文件对象 percentage传输进度 Nuber类型
@@ -238,7 +242,6 @@
 
         // 文件上传成功时候触发，给item添加成功class, 用样式标记上传成功。 file：文件对象，    response：服务器返回数据
         uploader.on( 'uploadSuccess', function( file,response) {
-            console.log(response);
             $( '#'+file.id ).addClass('upload-state-done');
             //console.info(response);
             var result = JSON.parse(response._raw);
@@ -260,6 +263,7 @@
         // 不管成功或者失败，文件上传完成时触发。 file： 文件对象
         uploader.on( 'uploadComplete', function( file ) {
             $( '#'+file.id ).find('.progress').remove();
+            $("#btn").hide();
         });
 
         //绑定提交事件

@@ -18,77 +18,80 @@
     <link rel="stylesheet" href="${contextPath}/static/base/css/course/course.css"  media="all">
 </head>
 <body>
-    <%@include file="/WEB-INF/view/leftMenu.jsp" %>
-    <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
+    <div class="layui-layout layui-layout-admin">
+        <%@include file="/WEB-INF/view/header.jsp" %>
+        <%@include file="/WEB-INF/view/leftMenu.jsp" %>
+        <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
 
-        <form id="form">
-            <div class="layui-form-pane" style="margin-top: 15px;">
-                <div class="layui-input-inline"  >
-                    <input type="text" name="courseName" value="${courseSearch.courseName}"  placeholder="课程名称"
-                           autocomplete="off" class="layui-input" style="float: left" />
+            <form id="form">
+                <div class="layui-form-pane" style="margin-top: 15px;">
+                    <div class="layui-input-inline"  >
+                        <input type="text" name="courseName" value="${courseSearch.courseName}"  placeholder="课程名称"
+                               autocomplete="off" class="layui-input" style="float: left" />
+                    </div>
+                    <div class="layui-input-inline"  style="width:212px;" >
+                        <select name="teacher" style="float: left">
+                            <option value="-1">全部教师</option>
+                            <option value="1">王老师</option>
+                            <option value="2">黄老师</option>
+                            <option value="3">刘老师</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-inline"  >
+                        <input class="layui-input" placeholder="开始日期" id="startDate" name="startDate" value="${courseSearch.startDate}" style="float:left"/>
+                    </div>
+                    <div class="layui-input-inline"  >
+                        <input class="layui-input" placeholder="结束日期" id="endDate" name="endDate" value="${courseSearch.endDate}" style=""/>
+                    </div>
+                    <div class="layui-input-inline"  >
+                        <a class="layui-btn" lay-submit="" onClick="searchCourse()" >查找</a>
+                    </div>
                 </div>
-                <div class="layui-input-inline"  style="width:212px;" >
-                    <select name="teacher" style="float: left">
-                        <option value="-1">全部教师</option>
-                        <option value="1">王老师</option>
-                        <option value="2">黄老师</option>
-                        <option value="3">刘老师</option>
-                    </select>
+            </form>
+            <hr style="background-color: rgba(0, 150, 136, 0.52);">
+            <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
+            <div class="video-div">
+                <h2 class="video-name">${course.name}</h2>
+                <p class="video-date"><fmt:formatDate type="date" value="${course.createDate}" /></p>
+                <div>
+                    <video style="width:100%; object-fit: fill"  controls >
+                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
+                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
+                        您的浏览器不支持 HTML5 video 标签。
+                    </video>
                 </div>
-                <div class="layui-input-inline"  >
-                    <input class="layui-input" placeholder="开始日期" id="startDate" name="startDate" value="${courseSearch.startDate}" style="float:left"/>
-                </div>
-                <div class="layui-input-inline"  >
-                    <input class="layui-input" placeholder="结束日期" id="endDate" name="endDate" value="${courseSearch.endDate}" style=""/>
-                </div>
-                <div class="layui-input-inline"  >
-                    <a class="layui-btn" lay-submit="" onClick="searchCourse()" >查找</a>
-                </div>
-            </div>
-        </form>
-        <hr style="background-color: rgba(0, 150, 136, 0.52);">
-        <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
-        <div class="video-div">
-            <h2 class="video-name">${course.name}</h2>
-            <p class="video-date"><fmt:formatDate type="date" value="${course.createDate}" /></p>
-            <div>
-                <video style="width:100%; object-fit: fill"  controls >
-                    <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
-                    <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
-                    您的浏览器不支持 HTML5 video 标签。
-                </video>
-            </div>
-            <div  style="background: white;">
-                <span>
-                    <p style="text-align: right;padding-right:5px">
-                        <c:choose>
-                            <c:when test="${course.join}">
-                                <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${course.collect}">
-                                <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </p>
+                <div  style="background: white;">
+                    <span>
+                        <p style="text-align: right;padding-right:5px">
+                            <c:choose>
+                                <c:when test="${course.join}">
+                                    <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${course.collect}">
+                                    <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
 
-                    <p class="video-remark" >
-                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
-                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
-                    </p>
-                </span>
+                        <p class="video-remark" >
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
+                        </p>
+                    </span>
+                </div>
             </div>
+            </c:forEach>
+
+            <div id="pager"></div>
         </div>
-        </c:forEach>
-
-        <div id="pager"></div>
     </div>
 </body>
 <script src="${contextPath}/static/jquery/jquery-1.11.3.js" charset="utf-8"></script>

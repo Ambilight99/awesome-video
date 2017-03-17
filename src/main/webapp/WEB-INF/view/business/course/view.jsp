@@ -15,29 +15,32 @@
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
 </head>
 <body>
-    <%@include file="/WEB-INF/view/leftMenu.jsp" %>
-    <div class="layui-body layui-tab-content site-demo site-demo-body">
-        <h1>${course.name}</h1>
-        <div>
-            <span>课程代号：${course.code}</span>
-            <span>所属专业：${course.profession}</span>
-        </div>
-        <div>
-            <span>所属教师：${course.teacher}</span>
-            <span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分：${course.credit}</span>
-        </div>
-        <div>
-            <span>简介：${course.remark}</span>
-        </div>
-        <div style="margin:2px 150px">
-            <video style="width:100%; object-fit: fill"  controls>
-                <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
-                <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
-                您的浏览器不支持 HTML5 video 标签。
-            </video>
-        </div>
-        <div>
-            <p>详情:${course.content}</p>
+    <div class="layui-layout layui-layout-admin">
+        <%@include file="/WEB-INF/view/header.jsp" %>
+        <%@include file="/WEB-INF/view/leftMenu.jsp" %>
+        <div class="layui-body layui-tab-content site-demo site-demo-body">
+            <h1>${course.name}</h1>
+            <div>
+                <span>课程代号：${course.code}</span>
+                <span>所属专业：${course.profession}</span>
+            </div>
+            <div>
+                <span>所属教师：${course.teacher}</span>
+                <span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分：${course.credit}</span>
+            </div>
+            <div>
+                <span>简介：${course.remark}</span>
+            </div>
+            <div style="margin:2px 150px">
+                <video style="width:100%; object-fit: fill"  controls>
+                    <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
+                    <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
+                    您的浏览器不支持 HTML5 video 标签。
+                </video>
+            </div>
+            <div>
+                <p>详情:${course.content}</p>
+            </div>
         </div>
     </div>
 </body>
