@@ -10,6 +10,7 @@
 	<meta http-equiv="content-type" content="text/html">
 	<meta charset="UTF-8">
 	<title>登录页</title>
+    <link rel = "shortcut Icon" href="${contextPath}/static/image/video_camera.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/base/css/login.css">
 </head>
 <body class="login-body">
@@ -19,7 +20,7 @@
         <form>
             <input type="text"  id="username" placeholder="用户名"/>
             <input type="password"  id="password" placeholder="密码"/>
-            <input type="button" value="登录" onclick="userLogin()"/>
+            <input type="button" value="登录" onclick="userLogin()" style="font-size:20px;font-weight:800;cursor: pointer;"  />
         </form>
     </div>
     <ul>
@@ -63,9 +64,17 @@
             error:function(){
                 alert("error")
             }
-
         });
-
     }
+
+    /**
+     * 触法事件
+     */
+    $("#password").keydown(function(e){
+        if(e.keyCode ==13){//触发键盘事件enter 防止冒泡产生
+            userLogin();
+            return false;
+        }
+    });
 </script>
 </html>

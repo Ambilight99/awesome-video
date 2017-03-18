@@ -89,4 +89,14 @@ public class UserController {
             return new ResultMessage(ResultMessage.FAIL,"删除失败！");
         }
     }
+
+    /**
+     * 获取老师
+     * @return
+     */
+    @RequestMapping("/getTeacher")
+    @ResponseBody
+    public List<User> getTeacher(){
+        return userService.getUserByRoleId(2);
+    }
 }

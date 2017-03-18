@@ -13,6 +13,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel = "shortcut Icon" href="${contextPath}/static/image/video_camera.ico" type="image/x-icon">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/global.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/base/css/course/course.css"  media="all">
@@ -24,7 +25,7 @@
         <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
 
             <form id="form">
-                <div class="layui-form-pane" style="margin-top: 15px;">
+                <div class="layui-form-pane search-div">
                     <div class="layui-input-inline"  >
                         <input type="text" name="courseName" value="${courseSearch.courseName}"  placeholder="课程名称"
                                autocomplete="off" class="layui-input" style="float: left" />
@@ -98,7 +99,7 @@
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
-
+<script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo=${pageInfo};
     <%--var pageInfo={--%>

@@ -62,4 +62,11 @@ public interface UserService {
      * @return
      */
     Set<Role> getRolesListByUid(Integer uid);
+
+    /**
+     * 根据角色id获取用户
+     * @param roleId
+     * @return
+     */
+    List<User> getUserByRoleId(Integer roleId);
 }

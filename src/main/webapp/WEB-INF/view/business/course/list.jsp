@@ -13,6 +13,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel = "shortcut Icon" href="${contextPath}/static/image/video_camera.ico" type="image/x-icon">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/global.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/base/css/course/course.css"  media="all">
@@ -23,17 +24,17 @@
         <%@include file="/WEB-INF/view/leftMenu.jsp" %>
         <div id="course-list" class="layui-body layui-form layui-tab-content site-demo site-demo-body" style="background-color: rgba(0, 150, 136, 0.12);">
             <form id="form">
-                <div class="layui-form-pane" style="margin-top: 15px;">
+                <div class="layui-form-pane search-div">
                     <div class="layui-input-inline"  >
                         <input type="text" name="courseName" value="${courseSearch.courseName}"  placeholder="课程名称"
                                autocomplete="off" class="layui-input" style="float: left" />
                     </div>
                     <div class="layui-input-inline"  style="width:212px;" >
-                        <select name="teacher" style="float: left">
+                        <select id="teacher" name="teacher" style="float: left">
                             <option value="-1">全部教师</option>
-                            <option value="1">王老师</option>
-                            <option value="2">黄老师</option>
-                            <option value="3">刘老师</option>
+                            <c:forEach items="${teacherList}" var="teacher">
+                                <option value="${teacher.uid}" ${courseSearch.teacher==teacher.uid?"selected":""}  >${teacher.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="layui-input-inline"  >
@@ -54,7 +55,7 @@
             <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
             <div class="video-div">
                 <h2 class="video-name">${course.name}</h2>
-                <p class="video-date"><fmt:formatDate type="date" value="${course.createDate}" /></p>
+                <p class="video-date" style="">${course.teacherName}<em><fmt:formatDate type="date" value="${course.createDate}" /></em></p>
                 <div>
                     <video style="width:100%; object-fit: fill"  controls >
                         <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
@@ -90,7 +91,7 @@
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
-
+<script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo=${pageInfo};
     <%--var pageInfo={--%>

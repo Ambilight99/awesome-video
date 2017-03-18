@@ -5,7 +5,7 @@
 %>
 <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css" media="all">
 
-<div class="layui-side layui-bg-black">
+<div id="left-menu" class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
         <ul id="menu-ul" class="layui-nav layui-nav-tree" lay-filter="demo" >
             <li v-for="(subItem,index) in items" class="layui-nav-item layui-nav-itemed">
@@ -38,7 +38,7 @@
                         url:"javascriot:;",
                         subOpen:true, //子栏目是否展开
                         items: [
-                            { name: '我的课程' ,url:"${contextPath}/course/list/release?pageSize=15"},
+                          //  { name: '我的课程' ,url:"${contextPath}/course/list/release?pageSize=15"},
                             { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=15"},
                             { name: '我的参与' ,url:"${contextPath}/course/list/join?pageSize=15"},
                             { name: '我的收藏' ,url:"${contextPath}/course/list/collect?pageSize=15"}
@@ -50,15 +50,11 @@
                         subOpen:true, //子栏目是否展开
                         items: [
                             { name: '用户管理' ,url:"${contextPath}/user/list"},
-                            { name: '角色管理' ,url:"${contextPath}/role/list"},
-                            { name: '权限管理' ,url:"${contextPath}/resource/list"},
-                            { name: '文件上传' ,url:"${contextPath}/upload/view"},
-                            { name: '视频播放' ,url:"${contextPath}/upload/videoShow"}
+                            <%--{ name: '角色管理' ,url:"${contextPath}/role/list"},--%>
+                            <%--{ name: '权限管理' ,url:"${contextPath}/resource/list"},--%>
+                            <%--{ name: '文件上传' ,url:"${contextPath}/upload/view"},--%>
+                            <%--{ name: '视频播放' ,url:"${contextPath}/upload/videoShow"}--%>
                         ]
-                    },
-                    {
-                        name:"退出",
-                        url:"${contextPath}/logout"
                     }
             ]
     };

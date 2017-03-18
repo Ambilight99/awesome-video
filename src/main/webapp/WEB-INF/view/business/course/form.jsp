@@ -12,7 +12,9 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel = "shortcut Icon" href="${contextPath}/static/image/video_camera.ico" type="image/x-icon">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="${contextPath}/static/layui/css/global.css"  media="all">
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/webuploader-0.1.5/webuploader.css" />
     <style>
         .webuploader-pick{
@@ -111,6 +113,7 @@
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
 <script src="${contextPath}/static/webuploader-0.1.5/webuploader.js"></script>
+<script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pager = ${pager};
     var user =${course};

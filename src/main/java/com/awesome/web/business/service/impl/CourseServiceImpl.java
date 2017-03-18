@@ -44,6 +44,9 @@ public class CourseServiceImpl implements CourseService {
         }
         Integer id = course.getId();
         if(id==null || id==0){
+            Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+            User user = (User)currentUser.getPrincipal();
+            course.setTeacher(user.getUid());
             return courseMapper.insertSelective(course);
         }else{
             return courseMapper.updateByPrimaryKeySelective(course);

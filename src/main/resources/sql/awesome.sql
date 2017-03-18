@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50632
 File Encoding         : 65001
 
-Date: 2017-03-14 22:50:52
+Date: 2017-03-18 13:21:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(11) unsigned NOT NULL COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '课程名',
   `code` varchar(32) DEFAULT NULL COMMENT '课程代号',
   `profession` varchar(32) DEFAULT NULL COMMENT '所属专业',
@@ -28,19 +28,38 @@ CREATE TABLE `course` (
   `content` text COMMENT '课程内容',
   `credit` int(11) DEFAULT NULL COMMENT '学分',
   `status` int(1) DEFAULT '1' COMMENT '状态 0禁用1启用',
-  `create_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `video_url` varchar(255) DEFAULT NULL COMMENT '视频路径',
+  `create_date` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_date` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   `video_name` varchar(255) DEFAULT NULL COMMENT '视频名称',
+  `video_url` varchar(255) DEFAULT NULL COMMENT '视频路径',
+  `image_url` varchar(255) DEFAULT '' COMMENT '视频图片路径',
   `video_type` int(1) DEFAULT NULL COMMENT '视频类型（1、本地上传视频 2、在线视频）',
   `teacher` int(11) DEFAULT NULL COMMENT '所属教师',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of course
 -- ----------------------------
-INSERT INTO `course` VALUES ('1', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-14 22:36:15', '2017-03-14 22:36:15', '1489502123190', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', null, null);
+INSERT INTO `course` VALUES ('1', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('2', '英语', '222', '医学', '大家在前端Javascript开发中会遇到处理日期时间的问题，经常会拿来一大堆处理函数才能完成一个简单    的日期时间显示效果。今天我给大家介绍，使用它可以轻松解决前端开发中遇到的种种日期时间问题。', '大家在前端Javascript开发中会遇到处理日期时间的问题，经常会拿来一大堆处理函数才能完成一个简单的日期时间显示效果。今天我给大家介绍一个轻量级的Javascript日期处理类库：moment.js，使用它可以轻松解决前端开发中遇到的种种日期时间问题。', null, '1', '2017-03-18 12:35:58', '2017-03-18 12:35:58', '1489502123190.mp4', '1489586809783.mp4', '1489541931163.jpg', null, '5');
+INSERT INTO `course` VALUES ('3', '计算机科学与技术', '222', '理学', '计算机专业涵盖软件工程专业，主要培养具有良好的科学素养，系统地、较好地掌握计算机科学与技术包括计算机硬件、软件与应用的基本理论、基本知识和基本技能与方法，能在科研部..', '计算机专业涵盖软件工程专业，主要培养具有良好的科学素养，系统地、较好地掌握计算机科学与技术包括计算机硬件、软件与应用的基本理论、基本知识和基本技能与方法，能在科研部..', null, '1', '2017-03-18 12:36:46', '2017-03-18 12:36:46', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489545247016.jpg', null, '2');
+INSERT INTO `course` VALUES ('4', '测试', '22', '农学', '本届晚会主题为“用责任汇聚诚信的力量”，继续发挥“维护市场经济秩序，打假维权”的主要任务，扶优逐劣，净化消优逐劣，净化消优逐劣，净化消优逐费市场，弘扬新国货，提振消费信心，为供给侧改革的推进保驾护航。', '本届晚会主题为“用责任汇聚诚信的力量”，继续发挥“维护市场经济秩序，打假维权”的主要任务，扶优逐劣，净化消费市场，弘扬新国货，提振消费信心，为供给侧改革的推进保驾护航。', null, '1', '2017-03-18 12:35:59', '2017-03-18 12:35:59', '2222222222.mp4', '1489586809783.mp4', '', null, '5');
+INSERT INTO `course` VALUES ('5', '英语课', '222', '艺术学', '本届晚会主题为“用责任汇聚诚信的力量”，继续发挥“维护市场经济秩序，打假维权”的主要任务，扶优逐劣，净化消费市场，弘扬新国货，提振消费信心，为供给侧改革的推进保驾护航。', '本届晚会主题为“用责任汇聚诚信的力量”，继续发挥“维护市场经济秩序，打假维权”的主要任务，扶优逐劣，净化消费市场，弘扬新国货，提振消费信心，为供给侧改革的推进保驾护航。', null, '1', '2017-03-18 12:51:45', '2017-03-18 12:51:45', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489585921385.jpg', null, '2');
+INSERT INTO `course` VALUES ('6', '地理课', '111', '农学', '一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十', 'where 元素知道只有在一个以上的if条件有值的情况下才去插入“WHERE”子句。而且，若最后的内容是“AND”或“OR”开头的，where 元素也知道如何将他们去除。\n\n如果 where 元素没有按正常套路出牌，我们还是可以通过自定义 trim 元素来定制我们想要的功能。比如，和 where 元素等价的自定义 trim 元素为：', null, '1', '2017-03-18 12:36:02', '2017-03-18 12:36:02', '2222222222.mp4', '1489586809783.mp4', '1489586809783.jpg', null, '5');
+INSERT INTO `course` VALUES ('7', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('8', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('9', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('10', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('11', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('12', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('13', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('14', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('15', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('16', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('17', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('18', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('19', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
 
 -- ----------------------------
 -- Table structure for resource
@@ -116,6 +135,13 @@ CREATE TABLE `student_course` (
 -- ----------------------------
 -- Records of student_course
 -- ----------------------------
+INSERT INTO `student_course` VALUES ('1', '1', '0', '0');
+INSERT INTO `student_course` VALUES ('1', '2', '0', '0');
+INSERT INTO `student_course` VALUES ('1', '3', '1', '1');
+INSERT INTO `student_course` VALUES ('1', '4', '0', '1');
+INSERT INTO `student_course` VALUES ('1', '5', '1', '1');
+INSERT INTO `student_course` VALUES ('1', '6', '0', '1');
+INSERT INTO `student_course` VALUES ('2', '1', '0', '1');
 
 -- ----------------------------
 -- Table structure for user

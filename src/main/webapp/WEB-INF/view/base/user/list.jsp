@@ -86,6 +86,7 @@
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
+<script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo={
         pages:"${pageInfo.pages}",

@@ -36,7 +36,7 @@ public class Course {
 
     private Integer teacher;
 
-    private Integer teacherName;
+    private String teacherName;
 
     private String content;
 
@@ -156,11 +156,11 @@ public class Course {
         this.teacher = teacher;
     }
 
-    public Integer getTeacherName() {
+    public String getTeacherName() {
         return teacherName;
     }
 
-    public void setTeacherName(Integer teacherName) {
+    public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
     }
 

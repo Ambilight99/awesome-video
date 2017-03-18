@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -101,5 +102,19 @@ public class UserServiceImpl implements UserService {
     public Set<Role> getRolesListByUid(Integer uid) {
         Set<Role> roles = roleMapper.getRolesListByUid(uid);
         return roles;
+    }
+
+    /**
+     * 根据角色id获取用户
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<User> getUserByRoleId(Integer roleId) {
+        if(roleId==null){
+            return new ArrayList<>();
+        }
+        return userMapper.getUserByRoleId(roleId);
     }
 }

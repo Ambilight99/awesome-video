@@ -34,4 +34,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     int deleteByPrimaryKey(@Param("uid") int uid);
+
+    @Select(" select * from user u left join user_role ur on u.uid=ur.user_id where  ur.role_id= #{roleId} ")
+    List<User> getUserByRoleId(@Param("roleId") Integer roleId);
 }

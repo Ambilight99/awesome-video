@@ -220,17 +220,19 @@
   </update>
 
   <select id="getAll"  resultMap="BaseResultMap" >
-      SELECT *,sc.is_join,sc.is_collect FROM course c
+      SELECT c.*,t.name teacher_name,sc.is_join,sc.is_collect FROM course c
+      left join user t on c.teacher=t.uid
       LEFT OUTER join
       <choose>
         <when test="studentCourse==null">
-          ( select 0 as is_isjoin, 0 as is_collect  )  as sc
+          ( select 0 as is_join, 0 as is_collect  )  as sc
+          on 1=1
         </when>
         <otherwise>
           (select * from student_course where student_id=#{studentCourse.studentId,jdbcType=INTEGER} )  as sc
+          on c.id=sc.course_id
         </otherwise>
       </choose>
-      on c.id=sc.course_id
       <if test="courseSearch != null">
         <where>
           <if test="courseSearch.courseName != null">
@@ -255,7 +257,8 @@
   </select>
 
   <select id="getAllByStudentCourse"  resultMap="BaseResultMap">
-      SELECT *,sc.is_join,sc.is_collect FROM course c
+      SELECT c.*,t.name teacher_name,sc.is_join,sc.is_collect FROM course c
+      left join user t on c.teacher=t.uid
       left join student_course sc
       on c.id=sc.course_id
       where sc.student_id=#{studentCourse.studentId,jdbcType=INTEGER}

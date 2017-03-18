@@ -2,17 +2,25 @@
     width:100%;
 }
 .video-div{
-    float:left; width:32%; margin:2px 5px 30px 5px;background-color:#ffffff;
+    float:left; width:32%; margin:12px 5px 10px 5px;background-color:#ffffff;
 }
 .video-name{
     font-size: 17px;font-weight: 600; text-align: center;background-color: rgba(0, 150, 136, 0.12);
 }
 .video-date{
-    text-align: right;padding-right:5px;background-color: rgba(0, 150, 136, 0.12);
+     text-align: right;padding-right:5px;background-color: rgba(0, 150, 136, 0.12);color: #009e94;height:23px;
+ }
+.video-date > em{
+   margin-left:10px;
 }
 .video-btn{
     color:blue;cursor:pointer;
 }
 .video-remark{
-    height:75px;font-family:arial;color: #666;font-size: 10px;line-height: 1.54;word-wrap: break-word;
+    height:85px;font-family:arial;color: #666;font-size: 10px;line-height: 1.54;word-wrap: break-word;
+}
+
+
+.search-div{
+    margin: 15px 0px 0px 15px;
 }

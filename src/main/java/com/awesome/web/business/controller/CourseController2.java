@@ -53,6 +53,7 @@ public class CourseController2 {
         List<Course> courses = courseService.getAll(courseSearch);
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
         modelMap.put("courseSearch", courseSearch );
+        modelMap.put("teacherList", userService.getUserByRoleId(2) ); //老师信息
         return "/business/course/list";
     }
 
@@ -178,6 +179,7 @@ public class CourseController2 {
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
         modelMap.put("isJoinOrCollect", "join" );
         modelMap.put("courseSearch", courseSearch );
+        modelMap.put("teacherList", userService.getUserByRoleId(2) ); //老师信息
         return "/business/course/myList";
     }
 
@@ -196,6 +198,7 @@ public class CourseController2 {
         modelMap.put("pageInfo", JSON.toJSON(new PageInfo(courses)) );        //返回分页结果
         modelMap.put("isJoinOrCollect", "collect" );
         modelMap.put("courseSearch", courseSearch );
+        modelMap.put("teacherList", userService.getUserByRoleId(2) ); //老师信息
         return "/business/course/myList";
     }
 

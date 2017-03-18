@@ -73,7 +73,8 @@ public class LoginContoller {
      */
     @RequestMapping(value="index")
     public String index() {
-        return "index";
+        return "redirect:/course/list?pageSize=15";
+//        return "index";
     }
 
     /**
