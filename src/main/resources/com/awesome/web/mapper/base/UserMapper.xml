@@ -29,6 +29,7 @@
     <id column="uid" property="uid" />
     <result column="username" property="username" />
     <result column="password" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <collection ofType="com.awesome.web.base.domain.Role" property="roles">
       <id column="role_id" property="id" />
       <result column="role_name" property="name" />

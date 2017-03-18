@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50632
 File Encoding         : 65001
 
-Date: 2017-03-18 13:21:15
+Date: 2017-03-18 22:12:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -166,7 +166,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'root', '123', null, null, null, null, null, '理学', '0', '1');
+INSERT INTO `user` VALUES ('1', 'root', '123', '王老师', null, null, null, null, '理学', '0', '1');
 INSERT INTO `user` VALUES ('2', 'admin', '222', '管理员', '18553269860', null, '654316301@qq.com', null, '工学', '0', '1');
 INSERT INTO `user` VALUES ('5', 'fxw', '111', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1');
 INSERT INTO `user` VALUES ('6', 'fxw2', '111111111111111', 'ambilight1111111', '185532698601111', null, '342323@qq.com', null, '医学', '0', '1');

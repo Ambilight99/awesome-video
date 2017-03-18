@@ -5,6 +5,9 @@
         <div class="logo" style="font-size: 20px;color: #009688;top:0px" >
             在线课程<img src="${contextPath}/static/image/video_camera.png"  style="width: 40px;"/>
         </div>
+        <div style="float:right;font-size: 15px;color: #009688;right:100px;position: absolute;">
+           欢迎你,【${ sessionScope.user.name}】
+        </div>
         <div style="float:right;margin-right: 50px;" title="退出">
             <a href="${contextPath}/logout" style="height:100%">
                 <img src="${contextPath}/static/image/shutdown.png"  />
