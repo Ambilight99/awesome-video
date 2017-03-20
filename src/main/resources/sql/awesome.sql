@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50632
 File Encoding         : 65001
 
-Date: 2017-03-18 22:12:00
+Date: 2017-03-20 19:42:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
-  `id` int(11) unsigned NOT NULL COMMENT '主键',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '课程名',
   `code` varchar(32) DEFAULT NULL COMMENT '课程代号',
   `profession` varchar(32) DEFAULT NULL COMMENT '所属专业',
@@ -36,7 +36,7 @@ CREATE TABLE `course` (
   `video_type` int(1) DEFAULT NULL COMMENT '视频类型（1、本地上传视频 2、在线视频）',
   `teacher` int(11) DEFAULT NULL COMMENT '所属教师',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of course
@@ -60,6 +60,7 @@ INSERT INTO `course` VALUES ('16', '课程2', '22', '工学', '英语学习', '�
 INSERT INTO `course` VALUES ('17', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
 INSERT INTO `course` VALUES ('18', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
 INSERT INTO `course` VALUES ('19', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
+INSERT INTO `course` VALUES ('20', '1213', '111111', '理学', '1212', '', null, '1', '2017-03-20 19:42:31', '2017-03-20 19:42:31', 'sadfljwl.mp4', '1490010067155.mp4', '1490010067155.jpg', null, '1');
 
 -- ----------------------------
 -- Table structure for resource

@@ -19,7 +19,7 @@
         </ul>
     </div>
 </div>
-
+<script src="${contextPath}/static/jquery/jquery-1.11.3.js" charset="utf-8"></script>
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script>
@@ -49,7 +49,7 @@
                         url:"javascriot:;",
                         subOpen:true, //子栏目是否展开
                         items: [
-                            { name: '用户管理' ,url:"${contextPath}/user/list"},
+                            { name: '用户管理' ,url:"${contextPath}/user/list?pageNum=1"},
                             <%--{ name: '角色管理' ,url:"${contextPath}/role/list"},--%>
                             <%--{ name: '权限管理' ,url:"${contextPath}/resource/list"},--%>
                             <%--{ name: '文件上传' ,url:"${contextPath}/upload/view"},--%>
@@ -65,4 +65,17 @@
         el: '#menu-ul',
         data: menuData
     })
+
+
+    $(function(){
+        var url = window.location.href;
+        url =url.substring(url.indexOf("awesome"),url.indexOf("?")+1);
+        console.log(  url)
+        $(".layui-nav-child>dd>a").each(function(){
+            if( $(this).attr("href").indexOf(url)!=-1 ){
+                $(this).parent().addClass("layui-this");
+            }
+        });
+
+    });
 </script>

@@ -34,11 +34,10 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">密码</label>
-                    <div class="layui-input-inline">
+                    <div class="layui-input-block">
                         <input type="password" name="password" value="${user.password}"  lay-verify="password"
                                placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">姓名</label>
@@ -141,14 +140,26 @@
         //自定义验证规则
         form.verify({
             username: function(value){
-                if(value.length < 5){
-                    return '用户名至少得5个字符啊';
+                if(value.length < 4){
+                    return '用户名至少得4个字符啊';
                 }
             }
             ,password: [/(.+){6,12}$/, '密码必须6到12位']
-            ,content: function(value){
-
+            ,desc: function(value){
+                if(value.length >200  ){
+                    return '个人说明最多200个字符';
+                }
             }
+            ,name: function(value){
+                if(value.length ==0  ){
+                    return '姓名不为空';
+                }
+                if(value.length>10){
+                    return '姓名最多10个字符';
+                }
+            }
+            ,mobile: [/^1[3|4|5|7|8]\d{9}$/, '手机必须11位，只能是数字！']
+            ,email: [/^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\d{9}$/, '邮箱格式不对']
         });
     });
 

@@ -37,17 +37,16 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" value="${course.name}"  required  lay-verify="required"
-                               placeholder="请输入账号" autocomplete="off" class="layui-input">
+                        <input type="text" name="name" value="${course.name}"  required  lay-verify="name"
+                               placeholder="请输入课程名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程代号</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="code" value="${course.code}"  required lay-verify="required"
+                    <div class="layui-input-block">
+                        <input type="text" name="code" value="${course.code}"  required lay-verify="code"
                                placeholder="请输入课程代号" autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
                 </div>
 
                 <div class="layui-form-item">
@@ -66,14 +65,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程简介</label>
                     <div class="layui-input-block">
-                        <input type="text" name="remark" value="${course.remark}"  required  lay-verify="required" maxlength="100"
+                        <input type="text" name="remark" value="${course.remark}"  required  lay-verify="remark" maxlength="100"
                                placeholder="请输入课程简介" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div>
                     <label class="layui-form-label">视频上传</label>
                     <div class="layui-input-block">
-                        <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="required"
+                        <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="videoName"
                                  autocomplete="off" class="layui-input">
                         <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
                                autocomplete="off" class="layui-input">
@@ -100,7 +99,7 @@
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <a class="layui-btn" v-on:click="submit" >立即提交</a>
+                        <a class="layui-btn"  lay-submit=""  v-on:click="submit" >立即提交</a>
                         <a class="layui-btn layui-btn-primary"  v-on:click="reset">重置</a>
                     </div>
                 </div>
@@ -126,12 +125,28 @@
 
         //自定义验证规则
         form.verify({
-            username: function(value){
-                if(value.length < 5){
-                    return '用户名至少得5个字符啊';
+            name: function(value){
+                if(value.length < 2){
+                    return '课程名至少得2个字符啊';
                 }
             }
-            ,password: [/(.+){6,12}$/, '密码必须6到12位']
+            ,code: [/(.+){6}$/, '课程代号必须6位']
+            ,remark: function(value){
+                if(value.length == 0  ){
+                    return '课程简介不能为空';
+                }
+                if(value.length >200  ){
+                    return '课程简介最多100个字符';
+                }
+            }
+            ,videoName:function(value){
+                if(value.length >200  ){
+                    return '视频名称最多100个字符';
+                }
+                if($("#videoUrl").val().length == 0){
+                    return '请上传视频';
+                }
+            }
             ,content: function(value){
 
             }
@@ -145,9 +160,11 @@
         // 在 `methods` 对象中定义方法
         methods: {
             submit: function (event) {
-                $(":submit",this).attr("disabled","disabled");
-                formSubmit();
-                $(":submit",this).removeAttr("disabled");
+                setTimeout(function(){
+                    if($(".layui-form-danger").length==0){
+                        formSubmit();
+                    }
+                },100);
             }
             ,reset:function(){
                 document.getElementById("form").reset();
