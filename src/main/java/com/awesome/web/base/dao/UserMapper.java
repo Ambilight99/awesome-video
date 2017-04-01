@@ -29,6 +29,9 @@ public interface UserMapper {
 
     User selectByPrimaryKey(@Param("uid") Integer uid);
 
+    @Select(" select * from user where uid=#{uid} ")
+    User findByUid(@Param("uid") Integer uid);
+
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);

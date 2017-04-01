@@ -9,6 +9,8 @@ import com.awesome.web.base.service.UserService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,6 +58,18 @@ public class UserController {
         modelMap.put("user", JSON.toJSON(user));
         modelMap.put("pager",JSON.toJSON(pager));
         return "/base/user/form";
+    }
+
+    @RequestMapping("/view")
+    public String edit(ModelMap modelMap, Integer uid){
+        User user=null;
+        if(uid==null){
+            Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
+            user = (User)currentUser.getPrincipal();
+            user = userService.findByUid(user.getUid());
+        }
+        modelMap.put("user", JSON.toJSON(user));
+        return "/base/user/view";
     }
 
     /**

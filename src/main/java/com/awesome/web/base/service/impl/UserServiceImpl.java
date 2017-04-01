@@ -72,6 +72,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User findByUid(Integer id) {
+        if(id==null || id<=0){
+            return null;
+        }else{
+            return userMapper.findByUid(id);
+        }
+    }
+
     @Transactional
     @Override
     public int saveOrUpdate(User user, Set<Integer> roleIds) {
@@ -80,8 +89,9 @@ public class UserServiceImpl implements UserService {
         }
         Integer uid = user.getUid();
         if(uid==null || uid==0){
-            roleIds.forEach(roleId ->userRoleMapper.insert(new UserRole(uid,roleId)));
-            return userMapper.insertSelective(user);
+            int count =userMapper.insertSelective(user);
+            roleIds.forEach(roleId ->userRoleMapper.insert(new UserRole(user.getUid(),roleId)));
+            return count;
         }else{
             Set<Integer> roleIdsInDb = userRoleMapper.selectRoleIdByUserId(uid);
             Map<String,Set<Integer>> map =new CompareUtils<Integer>().diffSet(roleIds,roleIdsInDb);

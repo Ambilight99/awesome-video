@@ -21,6 +21,7 @@
             <input type="text"  id="username" placeholder="用户名"/>
             <input type="password"  id="password" placeholder="密码"/>
             <input type="button" value="登录" onclick="userLogin()" style="font-size:20px;font-weight:800;cursor: pointer;"  />
+            <input type="button" value="注册" onclick="register()" style="font-size:20px;font-weight:800;cursor: pointer;"  />
         </form>
     </div>
     <ul>
@@ -76,5 +77,12 @@
             return false;
         }
     });
+
+    /**
+     * 注册
+     */
+    function register(){
+        location.href="${contextPath}/register/form";
+    }
 </script>
 </html>

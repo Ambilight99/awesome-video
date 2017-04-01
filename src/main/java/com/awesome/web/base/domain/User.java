@@ -33,6 +33,8 @@ public class User implements Serializable{
 
     private Integer status;
 
+    private String description;
+
     private Set<Role> roles = new HashSet<>();
 
     public Integer getUid() {
@@ -121,6 +123,14 @@ public class User implements Serializable{
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<Role> getRoles() {

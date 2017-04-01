@@ -22,6 +22,7 @@
 <script src="${contextPath}/static/jquery/jquery-1.11.3.js" charset="utf-8"></script>
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
+
 <script>
     layui.use('element', function(){
         var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
@@ -30,7 +31,6 @@
             layer.msg(elem.text());
         });
     });
-
     var menuData={
             items:[
                     {
@@ -58,7 +58,9 @@
                     }
             ]
     };
-
+    <shiro:hasRole name="学生">
+        menuData.items= menuData.items.splice(0,1);
+    </shiro:hasRole>
 
 
     var menu = new Vue({

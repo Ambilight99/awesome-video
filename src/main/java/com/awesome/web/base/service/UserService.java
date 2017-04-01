@@ -50,6 +50,13 @@ public interface UserService {
     User findById(Integer id);
 
     /**
+     * 根据uid查找用户
+     * @param uid
+     * @return
+     */
+    User findByUid(Integer uid);
+
+    /**
      * 保存用户 及 角色
      * @param user
      * @return

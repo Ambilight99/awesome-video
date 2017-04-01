@@ -2,6 +2,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
     pageContext.setAttribute("contextPath", request.getContextPath());//page域
 %>
@@ -46,9 +47,11 @@
                     <div class="layui-input-inline"  >
                         <a class="layui-btn " lay-submit="" onClick="searchCourse()" >查找</a>
                     </div>
-                    <div class="layui-input-inline"  >
-                        <a class="layui-btn "  href="${contextPath}/course/add" about="">增加</a>
-                    </div>
+                    <shiro:hasAnyRoles name="管理员,教师">
+                        <div class="layui-input-inline"  >
+                            <a class="layui-btn "  href="${contextPath}/course/add" about="">增加</a>
+                        </div>
+                    </shiro:hasAnyRoles>
                 </div>
             </form>
             <hr style="background-color: rgba(0, 150, 136, 0.52);">
@@ -72,7 +75,9 @@
                              <c:if test="${!course.collect}">
                                 <a id="a_collect_${course.id}" class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
                              </c:if>
-                            <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                            <shiro:hasAnyRoles name="管理员,教师">
+                                <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                            </shiro:hasAnyRoles>
                         </p>
                         <p class="video-remark" >
                             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}

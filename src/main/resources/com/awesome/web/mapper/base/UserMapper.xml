@@ -13,6 +13,7 @@
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="description" jdbcType="INTEGER" property="description" />
     <collection ofType="com.awesome.web.base.domain.Role" property="roles">
       <id column="role_id" property="id" />
       <result column="role_name" property="name" />
@@ -42,7 +43,7 @@
   </resultMap>
 
   <sql id="Base_Column_List">
-    uid, username, password, name, mobile, office_phone, email, depart, major, sex, status
+    uid, username, password, name, mobile, office_phone, email, depart, major, sex, status,description
   </sql>
 
   <!-- 根据username查询用户信息 -->
@@ -74,13 +75,13 @@
     insert into user (uid, username, password, 
       name, mobile, office_phone, 
       email, depart, major, 
-      sex, status)
+      sex, status, description)
     values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{office_phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{depart,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+      #{sex,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR} )
   </insert>
-  <insert id="insertSelective" parameterType="com.awesome.web.base.domain.User">
+  <insert id="insertSelective" parameterType="com.awesome.web.base.domain.User" useGeneratedKeys="true" keyProperty="uid">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
@@ -115,6 +116,9 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="description != null">
+        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -151,6 +155,9 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.awesome.web.base.domain.User">
@@ -186,6 +193,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
     </set>
     where uid = #{uid,jdbcType=INTEGER}
   </update>
@@ -201,6 +211,7 @@
       major = #{major,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
+      description = #{description,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=INTEGER}
   </update>
 </mapper>

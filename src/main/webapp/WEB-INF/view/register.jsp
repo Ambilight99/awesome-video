@@ -8,20 +8,25 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>用户管理</title>
+    <title>注册</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/layui.css"  media="all">
     <link rel="stylesheet" href="${contextPath}/static/layui/css/global.css"  media="all">
+    <style>
+        .layui-body{
+            left: 0px!important;
+            top:0px!important;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="layui-layout layui-layout-admin">
-        <%@include file="/WEB-INF/view/header.jsp" %>
-        <%@include file="/WEB-INF/view/leftMenu.jsp" %>
+    <div >
         <div class="layui-body layui-tab-content site-demo site-demo-body">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-                <legend>用户添加</legend>
+                <legend>用户注册</legend>
             </fieldset>
             <form id="form" class="layui-form" action="">
                 <input type="hidden" name="uid" value="${user.uid}" >
@@ -73,22 +78,6 @@
                         </select>
                     </div>
                 </div>
-                <!--
-                <div class="layui-form-item">
-                    <label class="layui-form-label">复选框</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="like[write]" title="写作">
-                        <input type="checkbox" name="like[read]" title="阅读" checked>
-                        <input type="checkbox" name="like[dai]" title="发呆">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开关</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="switch" lay-skin="switch">
-                    </div>
-                </div>
-                -->
                 <div class="layui-form-item">
                     <label class="layui-form-label">性别</label>
                     <div class="layui-input-block">
@@ -96,18 +85,22 @@
                         <input type="radio" name="sex" value="1" title="女" ${user.sex!=0?'checked':''} />
                     </div>
                 </div>
+                <%--
                 <div class="layui-form-item" pane="">
                     <label class="layui-form-label">角色</label>
                     <div class="layui-input-block">
+                        <!--
                         <input type="checkbox" name="roleIds" value="1" lay-skin="primary" title="管理员" />
+                        -->
                         <input type="checkbox" name="roleIds" value="2" lay-skin="primary" title="老师" />
                         <input type="checkbox" name="roleIds" value="3" lay-skin="primary" title="学生" />
                     </div>
                 </div>
+                --%>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">个人说明</label>
                     <div class="layui-input-block">
-                        <textarea name="description" value="" placeholder="请输入内容" class="layui-textarea" lay-verify="desc" >${user.description}</textarea>
+                        <textarea name="desc" value="" placeholder="请输入内容" class="layui-textarea" lay-verify="desc" ></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -187,8 +180,8 @@
      */
     function formSubmit() {
         $("#form").ajaxSubmit({
-            url:"${contextPath}/user/saveOrUpdate",
-            type:"post",
+            url:"${contextPath}/register/save",
+            type:"get",
             dataType:"json",
             beforeSubmit:function(data){
                 console.log(data);
@@ -198,7 +191,8 @@
                     layer.msg(data.message,{
                         time:1000,
                         end:function(){
-                            location.href="${contextPath}/user/list?"+$.param(pager);
+                            alert(111)
+                            location.href="${contextPath}/login";
                         }
                     });
                 }else{

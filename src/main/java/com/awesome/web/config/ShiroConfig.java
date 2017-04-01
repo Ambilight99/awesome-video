@@ -3,6 +3,7 @@ package com.awesome.web.config;
 import com.awesome.web.shiro.AuthRealm;
 import com.awesome.web.shiro.CredentialsMatcher;
 import com.awesome.web.shiro.filter.UrlAuthorizeFilter;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -47,6 +48,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/logout","anon");
 		filterChainDefinitionMap.put("/static/**","anon");
 		filterChainDefinitionMap.put("/upload/**","anon");
+		filterChainDefinitionMap.put("/register/**","anon");
 		filterChainDefinitionMap.put("/**", "authc");//表示需要认证才可以访问
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
@@ -55,10 +57,11 @@ public class ShiroConfig {
 
 	//配置核心安全事务管理器
 	@Bean(name="securityManager")
-	public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm) {
+	public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm,@Qualifier("ehCacheManager") EhCacheManager ehCacheManager) {
 		System.err.println("--------------shiro已经加载----------------");
 		DefaultWebSecurityManager manager=new DefaultWebSecurityManager();
 		manager.setRealm(authRealm);
+		manager.setCacheManager(ehCacheManager);//设置缓存
 		return manager;
 	}
 
@@ -73,6 +76,18 @@ public class ShiroConfig {
 	@Bean(name="credentialsMatcher")
 	public CredentialsMatcher credentialsMatcher() {
 		return new CredentialsMatcher();
+	}
+
+	/**
+	 * 缓存管理
+	 * @return
+	 */
+	@Bean(name="ehCacheManager")
+	public EhCacheManager ehCacheManager(){
+		System.out.println("ShiroConfiguration.getEhCacheManager()");
+		EhCacheManager cacheManager = new EhCacheManager();
+		cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+		return cacheManager;
 	}
 
 	@Bean

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50632
 File Encoding         : 65001
 
-Date: 2017-03-20 19:42:53
+Date: 2017-04-01 16:28:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `course` (
   `video_type` int(1) DEFAULT NULL COMMENT '视频类型（1、本地上传视频 2、在线视频）',
   `teacher` int(11) DEFAULT NULL COMMENT '所属教师',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of course
@@ -61,6 +61,7 @@ INSERT INTO `course` VALUES ('17', '课程2', '22', '工学', '英语学习', '�
 INSERT INTO `course` VALUES ('18', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
 INSERT INTO `course` VALUES ('19', '课程2', '22', '工学', '英语学习', '英语学习', null, '1', '2017-03-09 13:01:03', '2017-03-18 13:01:03', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1489586809783.mp4', '1489502123190.jpg', null, '2');
 INSERT INTO `course` VALUES ('20', '1213', '111111', '理学', '1212', '', null, '1', '2017-03-20 19:42:31', '2017-03-20 19:42:31', 'sadfljwl.mp4', '1490010067155.mp4', '1490010067155.jpg', null, '1');
+INSERT INTO `course` VALUES ('21', '物理课', '123345', '农学', '1231111111111111111111111111111111111111111111', '阿斯顿发生的发的发', null, '1', '2017-03-26 19:39:20', '2017-03-26 19:39:20', '多模块的 Spring MVC + Spring + Mybatis 讲解（基于 IntelliJ IDEA）.mp4', '1490528352642.mp4', '1490528352642.jpg', null, '1');
 
 -- ----------------------------
 -- Table structure for resource
@@ -142,7 +143,9 @@ INSERT INTO `student_course` VALUES ('1', '3', '1', '1');
 INSERT INTO `student_course` VALUES ('1', '4', '0', '1');
 INSERT INTO `student_course` VALUES ('1', '5', '1', '1');
 INSERT INTO `student_course` VALUES ('1', '6', '0', '1');
+INSERT INTO `student_course` VALUES ('1', '21', '0', '0');
 INSERT INTO `student_course` VALUES ('2', '1', '0', '1');
+INSERT INTO `student_course` VALUES ('19', '21', '0', '1');
 
 -- ----------------------------
 -- Table structure for user
@@ -160,26 +163,28 @@ CREATE TABLE `user` (
   `major` varchar(32) DEFAULT NULL COMMENT '专业',
   `sex` int(1) DEFAULT '0' COMMENT '姓名 男0女1',
   `status` int(1) DEFAULT '1' COMMENT '状态 0禁用 1启用',
+  `description` text COMMENT '描述',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `index_username` (`username`) USING BTREE COMMENT '用户名唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'root', '123', '王老师', null, null, null, null, '理学', '0', '1');
-INSERT INTO `user` VALUES ('2', 'admin', '222', '管理员', '18553269860', null, '654316301@qq.com', null, '工学', '0', '1');
-INSERT INTO `user` VALUES ('5', 'fxw', '111', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1');
-INSERT INTO `user` VALUES ('6', 'fxw2', '111111111111111', 'ambilight1111111', '185532698601111', null, '342323@qq.com', null, '医学', '0', '1');
-INSERT INTO `user` VALUES ('7', 'fxw3', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
-INSERT INTO `user` VALUES ('8', 'fxw4', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1');
-INSERT INTO `user` VALUES ('9', 'fxw5', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
-INSERT INTO `user` VALUES ('10', 'fxw6', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
-INSERT INTO `user` VALUES ('11', 'fxw7', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '', '1', '1');
-INSERT INTO `user` VALUES ('12', 'fxw123456', '123456', '', '18522211', null, '342323@qq.com', null, '工学', '1', '1');
-INSERT INTO `user` VALUES ('13', 'fxw9', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1');
-INSERT INTO `user` VALUES ('14', 'fxw10', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '艺术学', '1', '1');
-INSERT INTO `user` VALUES ('16', 'asfdas', '1231', '1231311', '11', null, '1112', null, '农学', '0', '1');
+INSERT INTO `user` VALUES ('1', 'root', '123456', '王老师', null, null, null, null, '理学', '0', '1', null);
+INSERT INTO `user` VALUES ('2', 'admin', '123456', '管理员', '18553269860', null, '654316301@qq.com', null, '工学', '0', '1', null);
+INSERT INTO `user` VALUES ('5', 'fxw', '111', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1', null);
+INSERT INTO `user` VALUES ('6', 'fxw2', '111111111111111', 'ambilight1111111', '185532698601111', null, '342323@qq.com', null, '医学', '0', '1', null);
+INSERT INTO `user` VALUES ('7', 'fxw3', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1', null);
+INSERT INTO `user` VALUES ('8', 'fxw4', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '农学', '1', '1', null);
+INSERT INTO `user` VALUES ('9', 'fxw5', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1', null);
+INSERT INTO `user` VALUES ('10', 'fxw6', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1', null);
+INSERT INTO `user` VALUES ('11', 'fxw7', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '', '1', '1', null);
+INSERT INTO `user` VALUES ('12', 'fxw123456', '123456', '', '18522211', null, '342323@qq.com', null, '工学', '1', '1', null);
+INSERT INTO `user` VALUES ('13', 'fxw9', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '1', '1', '1', null);
+INSERT INTO `user` VALUES ('14', 'fxw10', '123', 'ambilight', '18522211', null, '342323@qq.com', null, '艺术学', '1', '1', null);
+INSERT INTO `user` VALUES ('16', 'asfdas', '1231', '1231311', '11', null, '1112', null, '农学', '0', '1', null);
+INSERT INTO `user` VALUES ('19', 'admin1', '123456', '123', '18553269860', null, '654316301@qq.com', null, '工学', '0', '1', null);
 
 -- ----------------------------
 -- Table structure for user_role
@@ -198,8 +203,9 @@ CREATE TABLE `user_role` (
 -- Records of user_role
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('1', '1');
-INSERT INTO `user_role` VALUES ('2', '2');
 INSERT INTO `user_role` VALUES ('5', '1');
 INSERT INTO `user_role` VALUES ('5', '2');
 INSERT INTO `user_role` VALUES ('11', '3');
 INSERT INTO `user_role` VALUES ('12', '2');
+INSERT INTO `user_role` VALUES ('2', '1');
+INSERT INTO `user_role` VALUES ('19', '3');

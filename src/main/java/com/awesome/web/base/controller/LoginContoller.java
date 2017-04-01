@@ -1,16 +1,25 @@
 package com.awesome.web.base.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.awesome.web.base.domain.Pager;
+import com.awesome.web.base.domain.ResultMessage;
 import com.awesome.web.base.domain.User;
+import com.awesome.web.base.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author adam
@@ -20,6 +29,8 @@ import java.util.Map;
  */
 @Controller
 public class LoginContoller {
+    @Autowired
+    private UserService userService;
 
     /**
      * 跳转到登录页面
@@ -85,4 +96,41 @@ public class LoginContoller {
     public String noAuth(){
         return "403";
     }
+
+    /**
+     * 注册
+     * @return
+     */
+    @RequestMapping(value="register/form")
+    public String register(ModelMap modelMap){
+        modelMap.put("user", JSON.toJSON(new User()));
+        modelMap.put("pager",JSON.toJSON(new Pager()));
+        return "/register";
+    }
+
+    /**
+     * 注册保存
+     * @param user
+     * @return
+     */
+    @RequestMapping(value="register/save")
+    @ResponseBody
+    public ResultMessage registerSave(User user){
+        Set<Integer>  roleIds= new HashSet<Integer>(){{
+           add(3);//学生
+        }};
+        try {
+            int count =userService.saveOrUpdate(user,roleIds);
+            if(count>0){
+                return new ResultMessage(ResultMessage.SUCCESS,"注册成功！");
+            }else{
+                return new ResultMessage(ResultMessage.FAIL,"注册失败！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultMessage(ResultMessage.FAIL,"账号已存在！");
+        }
+
+    }
+
 }
