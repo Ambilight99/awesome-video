@@ -31,7 +31,7 @@ public interface CourseMapper {
 
     List<Course> getAllByStudentCourse(@Param("studentCourse") StudentCourse studentCourse,@Param("courseSearch") CourseSearch courseSearch);
 
-    @Select(" SELECT u.*,sc.total_time  FROM student_course sc , user u WHERE sc.student_id =u.uid AND sc.is_join=1 AND sc.course_id =#{courseId} " )
+    @Select(" SELECT u.*,sc.total_time  FROM student_course sc , user u WHERE sc.student_id =u.uid AND sc.is_join=1 AND sc.course_id =#{courseId} order by sc.total_time desc " )
     @Results({
             @Result(id=true ,property = "uid", column = "id"),
             @Result(property = "name", column = "name"),
