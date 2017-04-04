@@ -84,7 +84,7 @@ public class LoginContoller {
      */
     @RequestMapping(value="index")
     public String index() {
-        return "redirect:/course/list?pageSize=15";
+        return "redirect:/course/list?pageSize=6";
 //        return "index";
     }
 
@@ -122,13 +122,13 @@ public class LoginContoller {
         try {
             int count =userService.saveOrUpdate(user,roleIds);
             if(count>0){
-                return new ResultMessage(ResultMessage.SUCCESS,"注册成功！");
+                return ResultMessage.success("注册成功！");
             }else{
-                return new ResultMessage(ResultMessage.FAIL,"注册失败！");
+                return ResultMessage.fail("注册失败！");
             }
         }catch (Exception e){
             e.printStackTrace();
-            return new ResultMessage(ResultMessage.FAIL,"账号已存在！");
+            return ResultMessage.fail("账号已存在！");
         }
 
     }

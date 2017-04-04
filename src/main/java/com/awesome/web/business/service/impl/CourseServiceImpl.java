@@ -1,12 +1,15 @@
 package com.awesome.web.business.service.impl;
 
+import com.awesome.web.base.dao.UserMapper;
 import com.awesome.web.base.domain.User;
 import com.awesome.web.business.dao.CourseMapper;
 import com.awesome.web.business.dao.StudentCourseMapper;
 import com.awesome.web.business.domain.Course;
 import com.awesome.web.business.domain.CourseSearch;
 import com.awesome.web.business.domain.StudentCourse;
+import com.awesome.web.business.domain.UserOfCourse;
 import com.awesome.web.business.service.CourseService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
     @Autowired
     private StudentCourseMapper studentCourseMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public List<Course> getAll(CourseSearch courseSearch) {
@@ -47,7 +52,24 @@ public class CourseServiceImpl implements CourseService {
             Subject currentUser = SecurityUtils.getSubject(); //当前“用户”主体
             User user = (User)currentUser.getPrincipal();
             course.setTeacher(user.getUid());
-            return courseMapper.insertSelective(course);
+            int count = courseMapper.insertSelective(course);
+            //关联所有专业的学生
+            if(count>0){
+                int courseId = course.getId();
+                String profession = course.getProfession();
+                if(StringUtils.isNotBlank(profession)){
+                    List<User> userList = userMapper.findByMajor(profession);
+                    StudentCourse studentCourse;
+                    for(User student : userList){
+                        studentCourse = new StudentCourse();
+                        studentCourse.setStudentId(student.getUid());
+                        studentCourse.setCourseId(courseId);
+                        studentCourse.setIsJoin(1);
+                        studentCourseMapper.insert(studentCourse);
+                    }
+                }
+            }
+            return count;
         }else{
             return courseMapper.updateByPrimaryKeySelective(course);
         }
@@ -55,7 +77,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public int delete(Integer id) {
-        return 0;
+        return courseMapper.deleteByPrimaryKey(id);
     }
 
     @Override
@@ -140,4 +162,52 @@ public class CourseServiceImpl implements CourseService {
         }
         return courseMapper.getAllByPublisher(teacherIds);
     }
+
+    /**
+     * 根据课程id获取所有参与的人员
+     *
+     * @param courseId
+     * @return
+     */
+    @Override
+    public List<UserOfCourse> getJoinStudentByCourseId(Integer courseId) {
+        if(courseId==null){
+            return  new ArrayList<>();
+        }
+        return courseMapper.getJoinStudentByCourseId(courseId);
+    }
+
+    /**
+     * 根据学生id和课程id 获取学生课程关系
+     *
+     * @param studentId
+     * @param courseId
+     * @return
+     */
+    @Override
+    public StudentCourse getStudentCourseByStudentIdAndCourseId(Integer studentId, Integer courseId) {
+        if(studentId==null || courseId ==null){
+            return null;
+        }
+        StudentCourse sc = new StudentCourse();
+        sc.setStudentId(studentId);
+        sc.setCourseId(courseId);
+        return studentCourseMapper.findByStudentCourse(sc);
+    }
+
+    /**
+     * 更新学生和课程关系表
+     *
+     * @param sc
+     * @return
+     */
+    @Override
+    public int updateTotalTime(StudentCourse sc) {
+        if(sc == null || sc.getStudentId()==null || sc.getCourseId()==null){
+            return 0;
+        }
+        return studentCourseMapper.updateTotalTime(sc);
+    }
+
+
 }

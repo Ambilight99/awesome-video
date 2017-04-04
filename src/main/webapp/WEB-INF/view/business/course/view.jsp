@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: center">
-                        <video style="width:100%; object-fit: fill"  controls>
+                        <video id="myVideo" style="width:100%; object-fit: fill"  controls >
                             <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
                             <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
                             您的浏览器不支持 HTML5 video 标签。
@@ -67,5 +67,32 @@
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
+    var myVideo = document.getElementById('myVideo')//获取video元素
+        ,tol = 0
+        ;
+    myVideo.addEventListener("loadedmetadata", function(){
+        tol = myVideo.duration;//获取总时长 (单位秒)
+    });
+
+    /**
+     * 一分钟记录一下观看时间
+     */
+    var totalTime =0;
+    var interval = setInterval(function () {
+        $.ajax({
+            url:"${contextPath}/course/addTotalTime",
+            data:{
+                step:1, //每次记录一分钟
+                courseId:"${course.id}"
+            },
+            success:function (data) {
+                if(totalTime++ > tol/60){
+                    clearInterval(interval);
+                }
+            }
+        });
+    },6*1000)
+
+
 </script>
 </html>

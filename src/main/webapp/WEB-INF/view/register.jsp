@@ -191,7 +191,6 @@
                     layer.msg(data.message,{
                         time:1000,
                         end:function(){
-                            alert(111)
                             location.href="${contextPath}/login";
                         }
                     });

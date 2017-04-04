@@ -14,6 +14,8 @@ public class StudentCourse {
     private Integer isCollect;
     /** 是否参与 1是0否 */
     private Integer isJoin;
+    /** 观看的总时间(分钟为单位) */
+    private Integer totalTime;
 
     public StudentCourse() {
     }
@@ -55,5 +57,13 @@ public class StudentCourse {
 
     public void setIsJoin(Integer isJoin) {
         this.isJoin = isJoin;
+    }
+
+    public Integer getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(Integer totalTime) {
+        this.totalTime = totalTime==null?0:totalTime;
     }
 }

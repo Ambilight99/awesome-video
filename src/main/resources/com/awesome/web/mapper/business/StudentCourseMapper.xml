@@ -6,12 +6,13 @@
     <result column="course_id" property="courseId" jdbcType="INTEGER" />
     <result column="is_collect" property="isCollect" jdbcType="INTEGER" />
     <result column="is_join" property="isJoin" jdbcType="INTEGER" />
+    <result column="total_time" property="totalTime" jdbcType="INTEGER" />
   </resultMap>
   <insert id="insert" parameterType="com.awesome.web.business.domain.StudentCourse" >
     insert into student_course (student_id, course_id, is_collect, 
-      is_join)
+      is_join,total_time)
     values (#{studentId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{isCollect,jdbcType=INTEGER}, 
-      #{isJoin,jdbcType=INTEGER})
+      #{isJoin,jdbcType=INTEGER}, #{totalTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.awesome.web.business.domain.StudentCourse" >
     insert into student_course
@@ -28,6 +29,9 @@
       <if test="isJoin != null" >
         is_join,
       </if>
+      <if test="totalTime != null" >
+        total_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="studentId != null" >
@@ -42,6 +46,9 @@
       <if test="isJoin != null" >
         #{isJoin,jdbcType=INTEGER},
       </if>
+      <if test="totalTime != null" >
+        #{totalTime,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
 
@@ -53,6 +60,9 @@
     </if>
     <if test="isJoin != null" >
       is_join = #{isJoin,jdbcType=INTEGER},
+    </if>
+    <if test="totalTime != null" >
+      total_time = #{totalTime,jdbcType=INTEGER},
     </if>
     </set>
     where student_id = #{studentId,jdbcType=INTEGER} AND course_id = #{courseId,jdbcType=INTEGER}

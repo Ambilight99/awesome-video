@@ -38,10 +38,9 @@
                         url:"javascriot:;",
                         subOpen:true, //子栏目是否展开
                         items: [
-                          //  { name: '我的课程' ,url:"${contextPath}/course/list/release?pageSize=15"},
-                            { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=15"},
-                            { name: '我的参与' ,url:"${contextPath}/course/list/join?pageSize=15"},
-                            { name: '我的收藏' ,url:"${contextPath}/course/list/collect?pageSize=15"}
+                            { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=6"},
+                            { name: '我的参与' ,url:"${contextPath}/course/list/join?pageSize=6"},
+                            { name: '我的收藏' ,url:"${contextPath}/course/list/collect?pageSize=6"}
                         ]
                     },
                     {
@@ -59,7 +58,34 @@
             ]
     };
     <shiro:hasRole name="学生">
-        menuData.items= menuData.items.splice(0,1);
+    menuData={
+        items:[
+            {
+                name:"课程管理",
+                url:"javascriot:;",
+                subOpen:true, //子栏目是否展开
+                items: [
+                    { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=6"},
+                    { name: '我的参与' ,url:"${contextPath}/course/list/join?pageSize=6"},
+                    { name: '我的收藏' ,url:"${contextPath}/course/list/collect?pageSize=6"}
+                ]
+            }
+        ]
+    };
+    </shiro:hasRole>
+    <shiro:hasRole name="教师">
+    menuData={
+        items:[
+            {
+                name:"课程管理",
+                url:"javascriot:;",
+                subOpen:true, //子栏目是否展开
+                items: [
+                    { name: '所有课程' ,url:"${contextPath}/course/list?pageSize=6"}
+                ]
+            },
+        ]
+    };
     </shiro:hasRole>
 
 

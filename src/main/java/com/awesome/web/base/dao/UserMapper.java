@@ -40,4 +40,7 @@ public interface UserMapper {
 
     @Select(" select * from user u left join user_role ur on u.uid=ur.user_id where  ur.role_id= #{roleId} ")
     List<User> getUserByRoleId(@Param("roleId") Integer roleId);
+
+    @Select(" select * from user where major = #{major} ")
+    List<User> findByMajor(String major);
 }

@@ -65,11 +65,17 @@
                     <div class="layui-input-block">
                         <select name="major" lay-verify="required" value="${user.major}">
                             <option value=""></option>
+                            <option value="哲学" ${user.major=='哲学'?'selected':''} >哲学</option>
+                            <option value="经济学" ${user.major=='经济学'?'selected':''} >经济学</option>
+                            <option value="法学" ${user.major=='法学'?'selected':''} >法学</option>
+                            <option value="教育学" ${user.major=='教育学'?'selected':''} >教育学</option>
+                            <option value="文学" ${user.major=='文学'?'selected':''} >文学</option>
+                            <option value="历史学" ${user.major=='历史学'?'selected':''} >历史学</option>
                             <option value="理学" ${user.major=='理学'?'selected':''} >理学</option>
                             <option value="工学" ${user.major=='工学'?'selected':''} >工学</option>
                             <option value="农学" ${user.major=='农学'?'selected':''} >农学</option>
-                            <option value="医学" ${user.major=='医学'?'selected':''} >医学</option>
-                            <option value="艺术学" ${user.major=='艺术学'?'selected':''} >艺术学</option>
+                            <option value="军事学" ${user.major=='军事学'?'selected':''} >军事学</option>
+                            <option value="管理学" ${user.major=='管理学'?'selected':''} >管理学</option>
                         </select>
                     </div>
                 </div>

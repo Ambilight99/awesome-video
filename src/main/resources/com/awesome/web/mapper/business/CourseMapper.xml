@@ -54,7 +54,7 @@
      #{videoName,jdbcType=VARCHAR},#{videoUrl,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR},
      #{videoType,jdbcType=INTEGER}, #{teacher,jdbcType=INTEGER},  #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.awesome.web.business.domain.Course" >
+  <insert id="insertSelective" parameterType="com.awesome.web.business.domain.Course" useGeneratedKeys="true" keyProperty="id" >
     insert into course
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

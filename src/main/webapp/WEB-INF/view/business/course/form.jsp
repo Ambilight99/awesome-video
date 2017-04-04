@@ -54,11 +54,17 @@
                     <div class="layui-input-block">
                         <select name="profession" lay-verify="required" value="${course.profession}">
                             <option value=""></option>
+                            <option value="哲学" ${course.profession=='哲学'?'selected':''} >哲学</option>
+                            <option value="经济学" ${course.profession=='经济学'?'selected':''} >经济学</option>
+                            <option value="法学" ${course.profession=='法学'?'selected':''} >法学</option>
+                            <option value="教育学" ${course.profession=='教育学'?'selected':''} >教育学</option>
+                            <option value="文学" ${course.profession=='文学'?'selected':''} >文学</option>
+                            <option value="历史学" ${course.profession=='历史学'?'selected':''} >历史学</option>
                             <option value="理学" ${course.profession=='理学'?'selected':''} >理学</option>
                             <option value="工学" ${course.profession=='工学'?'selected':''} >工学</option>
                             <option value="农学" ${course.profession=='农学'?'selected':''} >农学</option>
-                            <option value="医学" ${course.profession=='医学'?'selected':''} >医学</option>
-                            <option value="艺术学" ${course.profession=='艺术学'?'selected':''} >艺术学</option>
+                            <option value="军事学" ${course.profession=='军事学'?'selected':''} >军事学</option>
+                            <option value="管理学" ${course.profession=='管理学'?'selected':''} >管理学</option>
                         </select>
                     </div>
                 </div>
@@ -174,7 +180,7 @@
 
 
     /**
-     * 表单提交
+     * 表单提交  保存
      */
     function formSubmit() {
         $("#form").ajaxSubmit({
@@ -189,7 +195,7 @@
                     layer.msg(data.message,{
                         time:1000,
                         end:function(){
-                            location.href="${contextPath}/course/list?"+$.param(pager);
+                            location.href="${contextPath}/course/list?"+$.param(pager);  //保存成功后跳转到列表页面
                         }
                     });
                 }else{
@@ -266,7 +272,7 @@
             //console.info(response);
             var result = JSON.parse(response._raw);
             if(result.status == "success"){
-                layer.msg("上传成功！");
+               // layer.msg("上传成功！");
                 var resultData =JSON.parse(result.data);
                 $("#videoUrl").val(resultData.videoUrl);
                 $("#imageUrl").val(resultData.imageUrl);

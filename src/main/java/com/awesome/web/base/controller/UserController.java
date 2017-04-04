@@ -82,9 +82,9 @@ public class UserController {
     public ResultMessage saveOrUpdate(User user, @RequestParam("roleIds") Set<Integer> roleIds){
         int count =userService.saveOrUpdate(user,roleIds);
         if(count>0){
-            return new ResultMessage(ResultMessage.SUCCESS,"保存成功！");
+            return ResultMessage.success("保存成功！");
         }else{
-            return new ResultMessage(ResultMessage.FAIL,"保存失败！");
+            return ResultMessage.fail("保存失败！");
         }
     }
 
@@ -98,9 +98,9 @@ public class UserController {
     public ResultMessage delete(Integer id){
         int count = userService.delete(id);
         if(count>0){
-            return new ResultMessage(ResultMessage.SUCCESS,"删除成功！");
+            return ResultMessage.success("删除成功！");
         }else{
-            return new ResultMessage(ResultMessage.FAIL,"删除失败！");
+            return ResultMessage.fail("删除失败！");
         }
     }
 

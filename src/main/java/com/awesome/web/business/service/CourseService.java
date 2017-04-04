@@ -1,8 +1,10 @@
 package com.awesome.web.business.service;
 
+import com.awesome.web.base.domain.User;
 import com.awesome.web.business.domain.Course;
 import com.awesome.web.business.domain.CourseSearch;
 import com.awesome.web.business.domain.StudentCourse;
+import com.awesome.web.business.domain.UserOfCourse;
 
 import java.util.List;
 
@@ -74,4 +76,24 @@ public interface CourseService{
 	 */
     List<Course> getAllByPublisher(List<Integer> teacherIds);
 
+	/**
+	 * 根据课程id获取所有参与的人员
+	 * @param courseId
+	 * @return
+	 */
+	List<UserOfCourse> getJoinStudentByCourseId(Integer courseId);
+
+	/**
+	 * 根据学生id和课程id 获取学生课程关系
+	 * @param courseId
+	 * @return
+	 */
+	StudentCourse getStudentCourseByStudentIdAndCourseId(Integer studentId,Integer courseId);
+
+	/**
+	 * 更新学生和课程关系表
+	 * @param sc
+	 * @return
+	 */
+	int updateTotalTime(StudentCourse sc);
 }

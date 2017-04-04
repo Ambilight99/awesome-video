@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>用户管理</title>
+    <title>课程管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -69,15 +69,34 @@
                 <div style="background: white;">
                     <span>
                         <p style="text-align: right;padding-right:5px">
-                            <c:if test="${!course.join}">
-                                <a id="a_join_${course.id}" class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                            </c:if>
-                             <c:if test="${!course.collect}">
-                                <a id="a_collect_${course.id}" class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                             </c:if>
-                            <shiro:hasAnyRoles name="管理员,教师">
-                                <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                            <!-- 学生有参与和收藏的权限 -->
+                            <shiro:hasAnyRoles name="学生">
+                                <c:if test="${!course.join}">
+                                    <a id="a_join_${course.id}" class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
+                                </c:if>
+                                <c:if test="${course.join}">
+                                    <a  class="video-btn" style="cursor: default;color: green;">【已参与】</a>
+                                </c:if>
+                                 <c:if test="${!course.collect}">
+                                    <a id="a_collect_${course.id}" class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
+                                 </c:if>
+                                <c:if test="${course.collect}">
+                                    <a class="video-btn" style="cursor: default;color: green;">【已收藏】</a>
+                                 </c:if>
                             </shiro:hasAnyRoles>
+                            <a class="video-btn" v-on:click="studentList('${course.id}','${course.name}')" >【学生列表】</a>
+                            <!-- 老师可以编辑和删除自己的课程 -->
+                            <c:if test="${course.teacher == user.uid}">
+                                <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                                <a class="video-btn" v-on:click="deleteOne('${course.id}')" >【删除】</a>
+                            </c:if>
+                            <c:if test="${course.teacher != user.uid}">
+                                <!-- 管理员可以编辑和删除 -->
+                                <shiro:hasAnyRoles name="管理员">
+                                    <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
+                                    <a class="video-btn" v-on:click="deleteOne('${course.id}')" >【删除】</a>
+                                </shiro:hasAnyRoles>
+                            </c:if>
                         </p>
                         <p class="video-remark" >
                             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
@@ -180,7 +199,17 @@
                 collectCourse(id,1);
             },
             deleteOne: function (id) {
-                deleteCourse(id);
+                layer.confirm('确定删除该课程吗？', {
+                    btn: ['确定', '取消']
+                }, function(index, layero){
+                    //确定
+                    deleteCourse(id);
+                }, function(index){
+                    //取消
+                });
+            },
+            studentList:function(id,name){
+                studentList(id,name);
             }
         }
     });
@@ -259,6 +288,28 @@
                 }
             }
         });
+    }
+
+    /**
+     *  参与学生
+     */
+    function studentList(id,name){
+        var content = "";
+        $.getJSON("${contextPath}/course/students",{ id:id}, function(userList){
+            for(var i in userList){
+                var user =userList[i];
+                content +='<tr><td>'+user.name+'</td><td>'+user.mobile+'</td><td>'+user.totalTime+'分钟</td></tr>';;
+            }
+            content='<table class="layui-table"><thead><tr><th>姓名</th><th>手机号</th><th>观看总时间</th></tr></thead><tbody>'+content+'</tbody></table>';
+            layer.open({
+                type: 1,
+                title: '课程《'+name+'》的学生列表',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '550px'], //宽高
+                content: content
+            });
+        });
+
     }
 
     /**
