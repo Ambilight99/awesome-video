@@ -8,6 +8,8 @@ import com.awesome.web.base.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +31,7 @@ import java.util.Set;
  */
 @Controller
 public class LoginContoller {
+    private final static Logger logger = LoggerFactory.getLogger(LoginContoller.class);
     @Autowired
     private UserService userService;
 
@@ -38,6 +41,8 @@ public class LoginContoller {
      */
     @RequestMapping("/login")
     public String login() {
+        logger.info("跳转到登陆页面===========");
+        System.out.println("跳转到登陆页面===========");
         return "login";
     }
 

@@ -59,6 +59,7 @@ public class UserServiceImpl implements UserService {
         if(id==null || id<=0){
             return 0;
         }else{
+            userRoleMapper.deleteByUserId(id);
             return  userMapper.deleteByPrimaryKey(id);
         }
     }

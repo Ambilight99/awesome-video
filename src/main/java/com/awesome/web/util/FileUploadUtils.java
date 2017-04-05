@@ -1,7 +1,5 @@
 package com.awesome.web.util;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-
 import java.io.File;
 import java.util.List;
 
