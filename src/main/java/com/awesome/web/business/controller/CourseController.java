@@ -130,7 +130,7 @@ public class CourseController {
         StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
         Boolean flag =true;
         if(studentCourse==null){
-            flag =courseService.insert(new StudentCourse(user.getUid(),id,0,isJoin));
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,0,isJoin,0));
         }else{
             studentCourse.setIsJoin(isJoin);
             flag = courseService.update(studentCourse);
@@ -156,7 +156,7 @@ public class CourseController {
         StudentCourse studentCourse = courseService.findByStudentCourse(new StudentCourse(user.getUid(),id,null,null));
         Boolean flag;
         if(studentCourse==null){
-            flag =courseService.insert(new StudentCourse(user.getUid(),id,isCollect,0));
+            flag =courseService.insert(new StudentCourse(user.getUid(),id,isCollect,0,0));
         }else{
             studentCourse.setIsCollect(isCollect);
             flag = courseService.update(studentCourse);

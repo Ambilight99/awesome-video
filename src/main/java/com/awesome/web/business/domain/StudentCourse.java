@@ -27,6 +27,14 @@ public class StudentCourse {
         this.isJoin = isJoin;
     }
 
+    public StudentCourse(Integer studentId, Integer courseId, Integer isCollect, Integer isJoin,Integer totalTime) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.isCollect = isCollect;
+        this.isJoin = isJoin;
+        this.totalTime = totalTime;
+    }
+
     public Integer getStudentId() {
         return studentId;
     }
