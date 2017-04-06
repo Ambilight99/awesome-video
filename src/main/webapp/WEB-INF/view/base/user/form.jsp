@@ -24,46 +24,46 @@
                 <legend>用户添加</legend>
             </fieldset>
             <form id="form" class="layui-form" action="">
-                <input type="hidden" name="uid" value="${user.uid}" >
+                <input type="hidden" name="uid" :value="user.uid" >
                 <div class="layui-form-item">
                     <label class="layui-form-label">账号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="username" value="${user.username}" lay-verify="username"
+                        <input type="text" name="username" :value="user.username" lay-verify="username"
                                placeholder="请输入账号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">密码</label>
                     <div class="layui-input-block">
-                        <input type="password" name="password" value="${user.password}"  lay-verify="password"
+                        <input type="password" name="password" :value="user.password"  lay-verify="password"
                                placeholder="请输入密码" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" value="${user.name}" lay-verify="name"
+                        <input type="text" name="name" :value="user.name" lay-verify="name"
                                placeholder="请输入姓名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">手机号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="mobile" value="${user.mobile}"  lay-verify="mobile"
+                        <input type="text" name="mobile" :value="user.mobile"  lay-verify="mobile"
                                placeholder="请输入手机号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">邮箱</label>
                     <div class="layui-input-block">
-                        <input type="text" name="email" value="${user.email}" lay-verify="email"
+                        <input type="text" name="email" :value="user.email" lay-verify="email"
                                placeholder="请输入邮箱" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">专业</label>
                     <div class="layui-input-block">
-                        <select name="major" lay-verify="required" value="${user.major}">
+                        <select name="major" lay-verify="required" :value="user.major">
                             <option value=""></option>
                             <option value="哲学" ${user.major=='哲学'?'selected':''} >哲学</option>
                             <option value="经济学" ${user.major=='经济学'?'selected':''} >经济学</option>
@@ -79,22 +79,6 @@
                         </select>
                     </div>
                 </div>
-                <!--
-                <div class="layui-form-item">
-                    <label class="layui-form-label">复选框</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="like[write]" title="写作">
-                        <input type="checkbox" name="like[read]" title="阅读" checked>
-                        <input type="checkbox" name="like[dai]" title="发呆">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">开关</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="switch" lay-skin="switch">
-                    </div>
-                </div>
-                -->
                 <div class="layui-form-item">
                     <label class="layui-form-label">性别</label>
                     <div class="layui-input-block">
@@ -113,7 +97,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">个人说明</label>
                     <div class="layui-input-block">
-                        <textarea name="description" value="" placeholder="请输入内容" class="layui-textarea" lay-verify="desc" >${user.description}</textarea>
+                        <textarea name="description" value="" placeholder="请输入内容" class="layui-textarea" lay-verify="desc" >{{user.description}}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -169,9 +153,11 @@
         });
     });
 
-    var form = new Vue({
+    var formVue = new Vue({
         el: '#form',
-        //data: user,
+        data: {
+            user:${user}
+        },
         // 在 `methods` 对象中定义方法
         methods: {
             submit: function (event) {

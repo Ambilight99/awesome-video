@@ -33,18 +33,18 @@
                 <legend>课程添加</legend>
             </fieldset>
             <form id="form" class="layui-form" action="">
-                <input type="hidden" name="id" value="${course.id}" >
+                <input type="hidden" name="id" :value="course.id" >
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" value="${course.name}"  required  lay-verify="name"
+                        <input type="text" name="name" :value="course.name"  required  lay-verify="name"
                                placeholder="请输入课程名" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程代号</label>
                     <div class="layui-input-block">
-                        <input type="text" name="code" value="${course.code}"  required lay-verify="code"
+                        <input type="text" name="code" :value="course.code"  required lay-verify="code"
                                placeholder="请输入课程代号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属专业</label>
                     <div class="layui-input-block">
-                        <select name="profession" lay-verify="required" value="${course.profession}">
+                        <select name="profession" lay-verify="required" :value="course.profession">
                             <option value=""></option>
                             <option value="哲学" ${course.profession=='哲学'?'selected':''} >哲学</option>
                             <option value="经济学" ${course.profession=='经济学'?'selected':''} >经济学</option>
@@ -71,18 +71,18 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程简介</label>
                     <div class="layui-input-block">
-                        <input type="text" name="remark" value="${course.remark}"  required  lay-verify="remark" maxlength="100"
+                        <input type="text" name="remark" :value="course.remark"  required  lay-verify="remark" maxlength="100"
                                placeholder="请输入课程简介" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div>
                     <label class="layui-form-label">视频上传</label>
                     <div class="layui-input-block">
-                        <input type="text" id="videoName" name="videoName" value="${course.videoName}"  required  lay-verify="videoName"
+                        <input type="text" id="videoName" name="videoName" :value="course.videoName"  required  lay-verify="videoName"
                                  autocomplete="off" class="layui-input">
-                        <input type="hidden" id="videoUrl" name="videoUrl" value="${course.videoUrl}"  required  lay-verify="required"
+                        <input type="hidden" id="videoUrl" name="videoUrl" :value="course.videoUrl"  required  lay-verify="required"
                                autocomplete="off" class="layui-input">
-                        <input type="hidden" id="imageUrl" name="imageUrl" value="${course.imageUrl}"  required  lay-verify="required"
+                        <input type="hidden" id="imageUrl" name="imageUrl" :value="course.imageUrl"  required  lay-verify="required"
                                autocomplete="off" class="layui-input">
                     </div>
                     <div class="progress layui-input-block " style="display:none">
@@ -100,7 +100,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课程内容</label>
                     <div class="layui-input-block">
-                        <textarea name="content"  placeholder="请输入内容" class="layui-textarea">${course.content}</textarea>
+                        <textarea name="content"  placeholder="请输入内容" class="layui-textarea">{{course.content}}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -160,9 +160,11 @@
     });
 
 
-    var form = new Vue({
+    var formVue = new Vue({
         el: '#form',
-        //data: user,
+        data:{
+            course:${course}
+        },
         // 在 `methods` 对象中定义方法
         methods: {
             submit: function (event) {
