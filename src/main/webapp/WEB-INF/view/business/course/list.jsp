@@ -61,8 +61,8 @@
                 <p class="video-date" style="">{{course.teacherName}}<em>{{course.createDate | parseDate}}</em></p>
                 <div>
                     <video style="width:100%; object-fit: fill"  controls >
-                        <source src="${contextPath}/upload/video/{{course.videoUrl}}" type="video/mp4">
-                        <source src="${contextPath}/upload/video/{{course.videoUrl}}" type="video/ogg">
+                        <source :src="course.videoUrl | sourceLoad" type="video/mp4">
+                        <source :src="course.videoUrl | sourceLoad" type="video/ogg">
                         您的浏览器不支持 HTML5 video 标签。
                     </video>
                 </div>
@@ -177,6 +177,9 @@
         filters: {
             parseDate:function(value){   //日期格式转换
                 return moment(value).format("YYYY-MM-DD");
+            },
+            sourceLoad: function(value){
+                return "${contextPath}/upload/video/"+value ;
             }
         },
         methods: {
