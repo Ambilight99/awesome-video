@@ -51,31 +51,31 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <c:forEach items="${pageInfo.list}" var="user" varStatus="idx" >
-                    <tr id="tr_${user.uid}">
+                <tbody  v-for="(user,index) in userList " >
+                    <tr>
                         <td><input type="checkbox" name="" lay-skin="primary"></td>
-                        <td>${idx.index + 1 + (pageInfo.pageNum-1) * pageInfo.pageSize}</td>
-                        <td>${user.username}</td>
-                        <td>${user.name}</td>
-                        <td>${user.major}</td>
-                        <td>${user.sex==0?'男':'女'}</td>
-                        <td>${user.mobile}</td>
-                        <td>${user.email}</td>
+                        <td>{{index + 1 + (pageInfo.pageNum-1) * pageInfo.pageSize}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.major}}</td>
+                        <td>{{user.sex==0?'男':'女'}}</td>
+                        <td>{{user.mobile}}</td>
+                        <td>{{user.email}}</td>
                         <td>
-                            <c:forEach items="${user.roles}" var="role" varStatus="roleStatus">
-                                <c:choose>
-                                    <c:when test="${roleStatus.index==0}">${role.name}</c:when>
-                                    <c:otherwise>、${role.name}</c:otherwise>
-                                </c:choose>
-                            </c:forEach>
+                            <span v-for="(role,index) in user.roles ">
+                                <span v-if="index==0?true:false">
+                                {{role.name}}
+                                </span>
+                                <span v-else>
+                                    、{{role.name}}
+                                </span>
+                            </span>
                         </td>
                         <td>
-                            <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-warm" v-on:click="editOne('${user.uid}')" >编辑</a>
-                            <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-danger" v-on:click="deleteOne('${user.uid}')" >删除</a>
+                            <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-warm" v-on:click="editOne(user.uid)" >编辑</a>
+                            <a class="layui-btn layui-btn-mini layui-btn-radius layui-btn-danger" v-on:click="deleteOne(user.uid)" >删除</a>
                         </td>
                     </tr>
-                </c:forEach>
                 </tbody>
             </table>
             <div id="pager"></div>
@@ -127,11 +127,14 @@
         });
     });
 
-    var form = new Vue({
+    var formVue = new Vue({
         el: '#user-list',
-//        data: {
-//            name: 'Vue.js'
-//        },
+        data: {
+            userList: ${pageInfo.list},
+            pageInfo: ${pageInfo}
+        },
+        filters:{
+        },
         // 在 `methods` 对象中定义方法
         methods: {
             editOne:function(uid){
