@@ -71,10 +71,10 @@
                         <p style="text-align: right;padding-right:5px">
                             <!-- 学生有参与和收藏的权限 -->
                             <shiro:hasAnyRoles name="学生">
-                                    <a v-if="!course.join" id="a_join_id(course.id)" class="video-btn" v-on:click="joinOne(course.id,index)">【参与】</a>
-                                    <a v-if="course.join" class="video-btn" style="cursor: default;color: green;">【已参与】</a>
-                                    <a v-if="!course.collect" id="a_collect_{{course.id}}" class="video-btn"  v-on:click="collectOne(course.id,index)" >【收藏】</a>
-                                    <a v-if="course.collect" class="video-btn" style="cursor: default;color: green;">【已收藏】</a>
+                                    <a v-if="!course.join" class="video-btn" v-on:click="joinOne(course.id,index)">【参与】</a>
+                                    <a v-if="course.join"  class="video-btn" style="cursor: default;color: green;">【已参与】</a>
+                                    <a v-if="!course.collect" class="video-btn"  v-on:click="collectOne(course.id,index)" >【收藏】</a>
+                                    <a v-if="course.collect"  class="video-btn" style="cursor: default;color: green;">【已收藏】</a>
                             </shiro:hasAnyRoles>
                             <a class="video-btn" v-on:click="studentList(course.id,course.name)" >【学生列表】</a>
                             <!-- 老师可以编辑和删除自己的课程 -->
@@ -91,7 +91,7 @@
                             </span>
                         <p class="video-remark" >
                             &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{course.remark}}
-                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id={{course.id}}" style="color:blue;text-decoration: underline;">更多信息</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" v-on:click="more(course.id)" style="color:blue;text-decoration: underline;">更多信息</a>
                         </p>
                     </span>
                 </div>
@@ -175,12 +175,12 @@
         },
         // 在 `methods` 对象中定义方法
         filters: {
-            parseDate:function(value){
+            parseDate:function(value){   //日期格式转换
                 return moment(value).format("YYYY-MM-DD");
             }
         },
         methods: {
-            isTeacher:function(teacher){
+            isTeacher:function(teacher){   //判断是否为教师角色
                 return teacher === currentUserId ? true:false;
             },
             editOne:function(id){
@@ -209,6 +209,9 @@
             },
             studentList:function(id,name){
                 studentList(id,name);
+            },
+            more:function(id){
+                location.href="${contextPath}/course/view?id="+id;
             }
         }
     });
