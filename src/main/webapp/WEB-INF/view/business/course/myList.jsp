@@ -96,11 +96,6 @@
 <script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo=${pageInfo};
-    <%--var pageInfo={--%>
-        <%--pages:"${pageInfo.pages}",--%>
-        <%--pageNum:"${pageInfo.pageNum}",--%>
-        <%--pageSize:"${pageInfo.pageSize}"--%>
-    <%--};--%>
 
     layui.use(['laypage', 'layer','form','laydate'], function(){
         var $ = layui.jquery,

@@ -108,11 +108,6 @@
 <script>
     var pageInfo=${pageInfo};
     var currentUserId = ${user.uid};
-    <%--var pageInfo={--%>
-        <%--pages:"${pageInfo.pages}",--%>
-        <%--pageNum:"${pageInfo.pageNum}",--%>
-        <%--pageSize:"${pageInfo.pageSize}"--%>
-    <%--};--%>
 
     layui.use(['laypage', 'layer','form','laydate'], function(){
         var $ = layui.jquery,
