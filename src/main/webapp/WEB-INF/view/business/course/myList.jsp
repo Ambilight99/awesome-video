@@ -31,11 +31,11 @@
                                autocomplete="off" class="layui-input" style="float: left" />
                     </div>
                     <div class="layui-input-inline"  style="width:212px;" >
-                        <select name="teacher" style="float: left">
+                        <select id="teacher" name="teacher" style="float: left">
                             <option value="-1">全部教师</option>
-                            <option value="1">王老师</option>
-                            <option value="2">黄老师</option>
-                            <option value="3">刘老师</option>
+                            <c:forEach items="${teacherList}" var="teacher">
+                                <option value="${teacher.uid}" ${courseSearch.teacher==teacher.uid?"selected":""}  >${teacher.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="layui-input-inline"  >
@@ -50,47 +50,40 @@
                 </div>
             </form>
             <hr style="background-color: rgba(0, 150, 136, 0.52);">
-            <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
-            <div class="video-div">
-                <h2 class="video-name">${course.name}</h2>
-                <p class="video-date"><fmt:formatDate type="date" value="${course.createDate}" /></p>
+            <div class="video-div"  v-for="(course,index) in courseList " >
+                <h2 class="video-name">{{course.name}}</h2>
+                <p class="video-date" style="">{{course.teacherName}}<em>{{course.createDate | parseDate}}</em></p>
                 <div>
                     <video style="width:100%; object-fit: fill"  controls >
-                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
-                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
+                        <source :src="course.videoUrl | sourceLoad" type="video/mp4">
+                        <source :src="course.videoUrl | sourceLoad" type="video/ogg">
                         您的浏览器不支持 HTML5 video 标签。
                     </video>
                 </div>
                 <div  style="background: white;">
                     <span>
                         <p style="text-align: right;padding-right:5px">
-                            <c:choose>
-                                <c:when test="${course.join}">
-                                    <a class="video-btn" v-on:click="unJoinOne('${course.id}')">【取消参与】</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${course.collect}">
-                                    <a class="video-btn" v-on:click="unCollectOne('${course.id}')" >【取消收藏】</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                                </c:otherwise>
-                            </c:choose>
+                            <span v-if="course.join">
+                                <a class="video-btn" v-on:click="unJoinOne(course.id)">【取消参与】</a>
+                            </span>
+                            <span v-else>
+                                <a class="video-btn" v-on:click="joinOne(course.id)">【参与】</a>
+                            </span>
+                            <span v-if="course.collect">
+                                  <a class="video-btn" v-on:click="unCollectOne(course.id)" >【取消收藏】</a>
+                            </span>
+                            <span v-else>
+                                <a class="video-btn" v-on:click="collectOne(course.id)" >【收藏】</a>
+                            </span>
                         </p>
 
                         <p class="video-remark" >
-                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
-                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{course.remark}}
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="#" v-on:click="more(course.id)" style="color:blue;text-decoration: underline;">更多信息</a>
                         </p>
                     </span>
                 </div>
             </div>
-            </c:forEach>
-
             <div id="pager"></div>
         </div>
     </div>
@@ -99,6 +92,7 @@
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
+<script src="${contextPath}/static/jquery/moment.min.js" charset="utf-8"></script>
 <script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo=${pageInfo};
@@ -161,11 +155,19 @@
         });
     });
 
-    var courseList = new Vue({
+    var courseVue = new Vue({
         el: '#course-list',
-//        data: {
-//            name: 'Vue.js'
-//        },
+        data: {
+            courseList: ${pageInfo.list}
+        },
+        filters:{
+            parseDate:function(value){   //日期格式转换
+                return moment(value).format("YYYY-MM-DD");
+            },
+            sourceLoad: function(value){
+                return "${contextPath}/upload/video/"+value ;
+            }
+        },
         // 在 `methods` 对象中定义方法
         methods: {
             editOne:function(id){
@@ -190,6 +192,9 @@
             },
             deleteOne: function (id) {
                 deleteCourse(id);
+            },
+            more:function(id){
+                location.href="${contextPath}/course/view?id="+id;
             }
         }
     });

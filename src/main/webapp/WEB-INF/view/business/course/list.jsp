@@ -57,7 +57,6 @@
             <hr style="background-color: rgba(0, 150, 136, 0.52);">
             <div class="video-div" v-for="(course,index) in courseList">
                 <h2 class="video-name">{{course.name}}</h2>
-                <%--<p class="video-date" style="">{{course.teacherName}}<em><fmt:formatDate type="date" value="{{course.createDate}}" /></em></p>--%>
                 <p class="video-date" style="">{{course.teacherName}}<em>{{course.createDate | parseDate}}</em></p>
                 <div>
                     <video style="width:100%; object-fit: fill"  controls >
