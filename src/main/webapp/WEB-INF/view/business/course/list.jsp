@@ -55,14 +55,14 @@
                 </div>
             </form>
             <hr style="background-color: rgba(0, 150, 136, 0.52);">
-            <c:forEach items="${pageInfo.list}" var="course" varStatus="idx" >
-            <div class="video-div">
-                <h2 class="video-name">${course.name}</h2>
-                <p class="video-date" style="">${course.teacherName}<em><fmt:formatDate type="date" value="${course.createDate}" /></em></p>
+            <div class="video-div" v-for="(course,index) in courseList">
+                <h2 class="video-name">{{course.name}}</h2>
+                <%--<p class="video-date" style="">{{course.teacherName}}<em><fmt:formatDate type="date" value="{{course.createDate}}" /></em></p>--%>
+                <p class="video-date" style="">{{course.teacherName}}<em>{{course.createDate | parseDate}}</em></p>
                 <div>
                     <video style="width:100%; object-fit: fill"  controls >
-                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/mp4">
-                        <source src="${contextPath}/upload/video/${course.videoUrl}" type="video/ogg">
+                        <source src="${contextPath}/upload/video/{{course.videoUrl}}" type="video/mp4">
+                        <source src="${contextPath}/upload/video/{{course.videoUrl}}" type="video/ogg">
                         您的浏览器不支持 HTML5 video 标签。
                     </video>
                 </div>
@@ -71,42 +71,31 @@
                         <p style="text-align: right;padding-right:5px">
                             <!-- 学生有参与和收藏的权限 -->
                             <shiro:hasAnyRoles name="学生">
-                                <c:if test="${!course.join}">
-                                    <a id="a_join_${course.id}" class="video-btn" v-on:click="joinOne('${course.id}')">【参与】</a>
-                                </c:if>
-                                <c:if test="${course.join}">
-                                    <a  class="video-btn" style="cursor: default;color: green;">【已参与】</a>
-                                </c:if>
-                                 <c:if test="${!course.collect}">
-                                    <a id="a_collect_${course.id}" class="video-btn" v-on:click="collectOne('${course.id}')" >【收藏】</a>
-                                 </c:if>
-                                <c:if test="${course.collect}">
-                                    <a class="video-btn" style="cursor: default;color: green;">【已收藏】</a>
-                                 </c:if>
+                                    <a v-if="!course.join" id="a_join_id(course.id)" class="video-btn" v-on:click="joinOne(course.id,index)">【参与】</a>
+                                    <a v-if="course.join" class="video-btn" style="cursor: default;color: green;">【已参与】</a>
+                                    <a v-if="!course.collect" id="a_collect_{{course.id}}" class="video-btn"  v-on:click="collectOne(course.id,index)" >【收藏】</a>
+                                    <a v-if="course.collect" class="video-btn" style="cursor: default;color: green;">【已收藏】</a>
                             </shiro:hasAnyRoles>
-                            <a class="video-btn" v-on:click="studentList('${course.id}','${course.name}')" >【学生列表】</a>
+                            <a class="video-btn" v-on:click="studentList(course.id,course.name)" >【学生列表】</a>
                             <!-- 老师可以编辑和删除自己的课程 -->
-                            <c:if test="${course.teacher == user.uid}">
-                                <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
-                                <a class="video-btn" v-on:click="deleteOne('${course.id}')" >【删除】</a>
-                            </c:if>
-                            <c:if test="${course.teacher != user.uid}">
+                             <span v-if="isTeacher(course.teacher)">
+                                <a class="video-btn" v-on:click="editOne(course.id)" >【编辑】</a>
+                                <a class="video-btn" v-on:click="deleteOne(course.id)" >【删除】</a>
+                             </span>
+                             <span v-else>
                                 <!-- 管理员可以编辑和删除 -->
                                 <shiro:hasAnyRoles name="管理员">
-                                    <a class="video-btn" v-on:click="editOne('${course.id}')" >【编辑】</a>
-                                    <a class="video-btn" v-on:click="deleteOne('${course.id}')" >【删除】</a>
+                                    <a class="video-btn" v-on:click="editOne(course.id)" >【编辑】</a>
+                                    <a class="video-btn" v-on:click="deleteOne(course.id)" >【删除】</a>
                                 </shiro:hasAnyRoles>
-                            </c:if>
-                        </p>
+                            </span>
                         <p class="video-remark" >
-                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;${course.remark}
-                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id=${course.id}" style="color:blue;text-decoration: underline;">更多信息</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{course.remark}}
+                            &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<a href="${contextPath}/course/view?id={{course.id}}" style="color:blue;text-decoration: underline;">更多信息</a>
                         </p>
                     </span>
                 </div>
             </div>
-            </c:forEach>
-
             <div id="pager"></div>
         </div>
     </div>
@@ -115,9 +104,11 @@
 <script src="${contextPath}/static/layui/layui.js" charset="utf-8"></script>
 <script src="${contextPath}/static/vue/vue.js" charset="utf-8" ></script>
 <script src="${contextPath}/static/jquery/jquery.form-3.51.0.js" charset="utf-8"></script>
+<script src="${contextPath}/static/jquery/moment.min.js" charset="utf-8"></script>
 <script src="${contextPath}/static/base/common.js" charset="utf-8"></script>
 <script>
     var pageInfo=${pageInfo};
+    var currentUserId = ${user.uid};
     <%--var pageInfo={--%>
         <%--pages:"${pageInfo.pages}",--%>
         <%--pageNum:"${pageInfo.pageNum}",--%>
@@ -177,13 +168,21 @@
         });
     });
 
-    var courseList = new Vue({
+    var courseVue = new Vue({
         el: '#course-list',
-//        data: {
-//            name: 'Vue.js'
-//        },
+        data: {
+            courseList: ${pageInfo.list}
+        },
         // 在 `methods` 对象中定义方法
+        filters: {
+            parseDate:function(value){
+                return moment(value).format("YYYY-MM-DD");
+            }
+        },
         methods: {
+            isTeacher:function(teacher){
+                return teacher === currentUserId ? true:false;
+            },
             editOne:function(id){
                 var param={
                     pageNum:pageInfo.pageNum,
@@ -192,11 +191,11 @@
                 }
                 location.href ="${contextPath}/course/edit?"+$.param(param);
             },
-            joinOne:function(id){
-                joinCourse(id,1);
+            joinOne:function(id,index){
+                joinCourse(id,index,1);
             },
-            collectOne:function(id){
-                collectCourse(id,1);
+            collectOne:function(id,index){
+                collectCourse(id,index,1);
             },
             deleteOne: function (id) {
                 layer.confirm('确定删除该课程吗？', {
@@ -224,7 +223,7 @@
     /**
      * 参加课程
      */
-    function joinCourse(id,isJoin){
+    function joinCourse(id,index,isJoin){
         var param = getPager();
         param.id=id;
         param.isJoin =isJoin;
@@ -235,7 +234,7 @@
             dataType:"json",
             success:function (data) {
                 layer.msg(data.message);
-                $("#a_join_"+id).hide();
+                courseVue.$data.courseList[index].join =1;
             },
             error:function(data){
                 console.error(data);
@@ -246,7 +245,7 @@
     /**
      * 收藏课程
      */
-    function collectCourse(id,isCollect){
+    function collectCourse(id,index,isCollect){
         var param = getPager();
         param.id=id;
         param.isCollect =isCollect;
@@ -257,7 +256,7 @@
             dataType:"json",
             success:function (data) {
                 layer.msg(data.message);
-                $("#a_collect_"+id).hide();
+                courseVue.$data.courseList[index].collect =1;
             },
             error:function(data){
                 console.error(data);
